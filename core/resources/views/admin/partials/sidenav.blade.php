@@ -50,7 +50,7 @@
             </li>
 
             {{-- PRODUCT MANAGEMENT --}}
-            <li class="nav-item {{ sidenav_active('admin.manage-pin') }}{{ sidenav_active('admin.used-pin') }}">
+            <li class="nav-item {{ sidenav_active('admin.products.index') }}{{ sidenav_active('admin.products.index') }}">
                 <a data-default-url="{{ route('admin.report.transaction') }}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-gift text-facebook"></i></span>
                     <span class="menu-title">Manage Products</span>
@@ -58,8 +58,8 @@
                 </a>
 
                 <ul class="sub-menu">
-                    <li class="nav-item {{ sidenav_active('admin.manage-pin') }}">
-                        <a class="nav-link" href="{{ route('admin.manage-pin') }}">
+                    <li class="nav-item {{ sidenav_active('admin.products.index') }}">
+                        <a class="nav-link" href="{{ route('admin.products.index') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
                             <span class="menu-title">List Product</span>
                         </a>
