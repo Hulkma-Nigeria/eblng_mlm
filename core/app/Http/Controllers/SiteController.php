@@ -6,6 +6,7 @@ use App\Frontend;
 use App\GeneralSetting;
 use App\Language;
 use App\Plan;
+use App\Product;
 use App\Subscriber;
 use App\User;
 use Illuminate\Http\Request;
@@ -43,13 +44,18 @@ class SiteController extends Controller
 
 
     }
+    public function products() {
+        $products = Product::all();
+        $data['page_title'] = "Products";
+        $data['products'] = $products;
+        return view(activeTemplate() . 'products', $data);
+    }
 
     public function faq()
     {
         $data['page_title'] = "faq";
         $data['faqs'] = Frontend::where('key', 'faq.post')->get();
         return view(activeTemplate() . 'faq', $data);
-
     }
 
     public function contact()
