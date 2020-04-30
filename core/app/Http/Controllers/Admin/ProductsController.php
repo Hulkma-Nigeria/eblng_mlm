@@ -53,17 +53,7 @@ class ProductsController extends Controller
         // dd($request->all());
 
         // dd(public_path(config('constants.product_image_path')));
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|string|min:3',
-                'stock' =>  'required|integer',
-                'price' =>  'required|integer',
-                'stock_alert'   =>  'integer',
-                'description'   =>  'string',
-                'image' =>  'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-            ]
-        );
+        $validator = $this->validateRequest($request);
 
         if ($validator->fails()) {
             return redirect()
@@ -116,15 +106,24 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = $this->validateRequest($request, true);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $product = $this->productModel->findOrFail($id);
         $data = $request->except('_method', '_token', 'image', 'status');
         $data['status'] = $request->status == 'on' ? 1 : 0;
         if ($request->hasFile('image')) {
             $data['images'] = uniqid() . time() . '.' . $request->file('image')->clientExtension();
             $request->file('image')->move(config('constants.product_image_path'), $data['images']);
-            if (file_exists(get_image(config('constants.product_image_path') . '/' . $product->images))) {
-                unlink(get_image(config('constants.product_image_path') . '/' . $product->images));
-            };
+            if (file_exists(config('constants.product_image_path') . '/' . $product->images)) {
+                unlink(config('constants.product_image_path') . '/' . $product->images);
+            }
         }
 
         $product->update($data);
@@ -142,7 +141,7 @@ class ProductsController extends Controller
     {
         $product = $this->productModel->findOrFail($id);
         if (file_exists(get_image(config('constants.product_image_path') . '/' . $product->images))) {
-            unlink(get_image(config('constants.product_image_path') . '/' . $product->images));
+            unlink(config('constants.product_image_path') . '/' . $product->images);
         }
         $product->delete();
         return redirect()->route('admin.products.index');
@@ -155,5 +154,22 @@ class ProductsController extends Controller
             rand(rand(0, 9), rand(0, 9)) .
             rand(rand(0, 9), rand(0, 9)) .
             rand(rand(0, 9), rand(0, 9));
+    }
+
+    private function validateRequest($request, $image_optional = false)
+    {
+
+        $rule = $image_optional == true ? 'sometimes|' : '';
+        return Validator::make(
+            $request->all(),
+            [
+                'name' => 'required|string|min:3',
+                'stock' =>  'required|integer',
+                'price' =>  'required|integer',
+                'stock_alert'   =>  'integer',
+                'description'   =>  'string',
+                'image' => $rule . 'required|dimensions:width=680,height=680|image|mimes:jpeg,png,jpg|max:2048'
+            ]
+        );
     }
 }
