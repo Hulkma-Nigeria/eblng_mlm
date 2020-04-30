@@ -15,6 +15,9 @@ Route::get('clear', function () {
     Artisan::call('cache:clear');
 });
 
+Route::get('product', 'UserProductController@index');
+Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
+
 
 
 Route::post('ipn/g101', 'Gateway\g101\ProcessController@ipn')->name('ipn.g101'); // paypal
@@ -118,6 +121,8 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('level-commission-log', 'UserController@level_com_log')->name('level.com');
 
             Route::get('balance-transfer-log', 'UserController@balance_tf_log')->name('balance.tf.log');
+
+
 
             // Support ticket
             Route::get('ticket', 'TicketController@index')->name('ticket');

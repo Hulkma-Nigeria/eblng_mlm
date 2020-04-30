@@ -72,6 +72,9 @@
                     <li>
                         <a href="{{url('/')}}">@lang('Home')</a>
                     </li>
+                     <li>
+                        <a href="{{url('/product')}}">@lang('Product')</a>
+                    </li>
 
                     <li><a @if(request()->path() == '/') href="#about"
                            @else href="{{url('/')}}#about" @endif>@lang('About')</a></li>
