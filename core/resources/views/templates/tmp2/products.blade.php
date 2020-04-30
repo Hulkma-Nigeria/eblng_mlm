@@ -1,11 +1,11 @@
 @extends(activeTemplate() .'layouts.master')
 
 @section('content')
-<style>
-    .product-image{
-        max-width: 200px;
-    }
-</style>
+{{--<style>--}}
+    {{--.product-image{--}}
+        {{--max-width: 200px;--}}
+    {{--}--}}
+{{--</style>--}}
 <section>
     <br><br><br><br>
     <div class="d-flex justify-content-center p-3">

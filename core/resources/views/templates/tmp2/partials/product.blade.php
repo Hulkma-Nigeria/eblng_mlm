@@ -4,20 +4,7 @@
     </div>
     <div class="product-name">{{$product->name}}</div>
     <form method="post" action="">
-        <div class="form-group">
-            <input type="text"
-                   class="form-control"
-                   name="quantity"
-                   id="quantity"
-                   placeholder="Quantity"
-                   value="{{ old('quantity') }}" />
-            <input type="hidden" name="product" value="{{ $product->id }}" />
-        </div>
-        <div class="form-group">
-            <button class="btn btn-success btn-xs w-100">
-                Add to cart
-            </button>
-        </div>
+        <cart-button-component :product="{{$product}}"></cart-button-component>
     </form>
     <div class="add-to-cart">{{$product->description}}</div>
 </div>
