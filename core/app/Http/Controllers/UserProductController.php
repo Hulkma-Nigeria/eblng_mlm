@@ -24,11 +24,15 @@ class UserProductController extends Controller
     public function index()
     {
         $products = $this->productModel->where('status', 1)->orderBy('id', 'desc')->get();
+        $cartTotal=0;
+        $balance = 0;
         if (auth()->check()) {
+            $balance = auth()->user()->balance;
             $cart = $this->cartService->cart();
             $map = [];
             $mapKeys = [];
-            $cart->cartItems()->get()->each(function ($item) use(&$map, &$mapKeys) {
+            $cart->cartItems()->get()->each(function ($item) use(&$map, &$mapKeys, &$cartTotal) {
+                $cartTotal+= ceil($item->quantity * $item->price);
                 $map[$item->product_id] = $item->quantity;
                 $mapKeys[] = $item->product_id;
             });
@@ -49,7 +53,7 @@ class UserProductController extends Controller
         }
 
         $page_title = "Products";
-        return view('products.index', compact('page_title', 'products'));
+        return view('products.index', compact('page_title', 'products', 'cartTotal', 'balance'));
     }
 
     /**
@@ -70,6 +74,11 @@ class UserProductController extends Controller
             $notify[] = ['error', 'Please login to add to cart'];
             Session::put('add-to-cart', true);
             return redirect()->route('user.login')->withNotify($notify);
+        }
+        if (!auth()->user()->my_level()->first()){
+            $notify[] = ['error', 'Please subscribe to a plan to buy products'];
+            Session::put('subscribe-before-add-to-cart', true);
+            return redirect()->route('user.plan.purchase')->withNotify($notify);
         }
         $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);
         $notify[] = ['success', 'Cart updated successfully'];
