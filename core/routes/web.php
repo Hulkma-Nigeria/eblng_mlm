@@ -16,6 +16,7 @@ Route::get('clear', function () {
 });
 
 Route::get('product', 'UserProductController@index');
+Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
 Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 
 

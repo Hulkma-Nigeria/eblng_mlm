@@ -24,7 +24,11 @@
                                         <h3 class="title"><a href="{{route('get_product',$product->id)}}">{{$product->name}}</a></h3>
                                         <div class="price">{{ $general->cur_sym .' '. $product->price}}</div>
                                         <div class="add-to-cart-wrapper">
-                                            <a href="#" class="add-to-cart">Add to Cart</a>
+                                            <form action="{{ route('handle-cart-update') }}" class="form-inline" method="post">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="product_id" value={{$product->id}} />
+                                                <cart-button-component :product="{{$product}}"></cart-button-component>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

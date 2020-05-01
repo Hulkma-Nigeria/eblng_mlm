@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Utils\CartService;
 use App\Product;
 use Illuminate\Http\Request;
 
 class UserProductController extends Controller
 {
     public $productModel;
-
-    public function __construct(Product $product)
+    public $cartService;
+    public function __construct(Product $product, CartService $cartService)
     {
         $this->productModel = $product;
+        $this->cartService = $cartService;
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +23,23 @@ class UserProductController extends Controller
     public function index()
     {
         $products = $this->productModel->where('status', 1)->orderBy('id', 'desc')->get();
-        // dd($products);
+        if (auth()->check()) {
+            $cart = $this->cartService->cart();
+            $map = [];
+            $mapKeys = [];
+            $cart->cartItems()->get()->each(function ($item) use(&$map, &$mapKeys) {
+                $map[$item->product_id] = $item->quantity;
+                $mapKeys[] = $item->product_id;
+            });
+            $products = $products->map(function ($item) use ($mapKeys, $map) {
+                $item->quantity = 0;
+                if(in_array($item->id, $mapKeys)) {
+                    $item->quantity = $map[$item->id];
+                }
+                return $item;
+            });
+        }
+
         $page_title = "Products";
         return view('products.index', compact('page_title', 'products'));
     }
@@ -38,15 +56,15 @@ class UserProductController extends Controller
         return view('products.single-product', compact('page_title', 'product'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+
+    public function handleCartUpdate(Request $request) {
+        if (!auth()->check()) {
+            $notify[] = ['error', 'Please login to add to cart'];
+            return redirect()->route('user.login')->withNotify($notify);
+        }
+        $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);
+        $notify[] = ['success', 'Cart updated successfully'];
+        return back()->withNotify($notify);
     }
 
     /**
