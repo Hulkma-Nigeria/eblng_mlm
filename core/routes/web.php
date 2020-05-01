@@ -15,7 +15,7 @@ Route::get('clear', function () {
     Artisan::call('cache:clear');
 });
 
-Route::get('product', 'UserProductController@index');
+Route::get('product', 'UserProductController@index')->name('product');
 Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
 Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 

@@ -6849,6 +6849,7 @@ blockquote::before {
     border-radius: 50px;
     display: inline-block;
     opacity: 1;
+    width: 100%;
     transition: all .4s ease-in;
 }
 .product-grid .add-to-cart:hover{

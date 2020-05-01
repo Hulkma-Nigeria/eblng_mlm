@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Utils\CartService;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserProductController extends Controller
 {
@@ -36,6 +37,13 @@ class UserProductController extends Controller
                 if(in_array($item->id, $mapKeys)) {
                     $item->quantity = $map[$item->id];
                 }
+                $item->cartPrice = ceil(($item->quantity?$item->quantity: 1) * $item->price);
+                return $item;
+            });
+        } else {
+            $products = $products->map(function ($item) {
+                $item->quantity = 0;
+                $item->cartPrice = ceil($item->price);
                 return $item;
             });
         }
@@ -60,6 +68,7 @@ class UserProductController extends Controller
     public function handleCartUpdate(Request $request) {
         if (!auth()->check()) {
             $notify[] = ['error', 'Please login to add to cart'];
+            Session::put('add-to-cart', true);
             return redirect()->route('user.login')->withNotify($notify);
         }
         $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);

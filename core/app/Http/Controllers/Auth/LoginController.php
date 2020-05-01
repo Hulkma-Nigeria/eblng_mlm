@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Socialite;
 
 
@@ -205,6 +206,10 @@ class LoginController extends Controller
         $ul['os'] = $os_platform;
         $ul['country'] = $country;
         UserLogin::create($ul);
+        if (Session::get('add-to-cart')) {
+            Session::remove('add-to-cart');
+            return redirect()->route('product');
+        }
         return redirect()->route('user.home');
 
     }
