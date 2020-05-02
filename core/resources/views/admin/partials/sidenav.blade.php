@@ -75,7 +75,35 @@
             {{-- /PRODUCT MANAGEMENT --}}
 
 
-
+            {{-- ORDER MANAGEMENT --}}
+            <li class="nav-item {{ sidenav_active('admin.orders*') }}">
+                <a href="#" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-credit-card text-primary"></i></span>
+                    <span class="menu-title">@lang('Manage Orders')</span>
+                    <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item {{ sidenav_active('admin.orders-pending') }}">
+                        <a class="nav-link" href="{{ route('admin.orders-pending') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Pending orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('admin.orders-completed') }}">
+                        <a class="nav-link" href="{{ route('admin.orders-completed') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Completed orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('admin.orders-failed') }}">
+                        <a class="nav-link" href="{{ route('admin.orders-failed') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Failed orders')</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {{-- /ORDER MANAGEMENT --}}
 
 
 

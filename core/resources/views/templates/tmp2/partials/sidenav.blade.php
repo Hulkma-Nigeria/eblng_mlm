@@ -88,6 +88,33 @@
                     <span class="menu-title">@lang('My Matrix')</span>
                 </a>
             </li>
+            <li class="nav-item {{ sidenav_active('user.orders*') }}">
+                <a href="#" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-credit-card text-primary"></i></span>
+                    <span class="menu-title">@lang('Orders')</span>
+                    <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="nav-item {{ sidenav_active('user.orders-pending') }}">
+                        <a class="nav-link" href="{{ route('user.orders-pending') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Pending orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('user.orders-completed') }}">
+                        <a class="nav-link" href="{{ route('user.orders-completed') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Completed orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('user.orders-failed') }}">
+                        <a class="nav-link" href="{{ route('user.orders-failed') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Failed orders')</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="nav-item {{ sidenav_active('user.ref.index') }}">
                 <a href="{{route('user.ref.index')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-users text-facebook"></i></span>

@@ -126,7 +126,12 @@ Route::name('user.')->prefix('user')->group(function () {
             // checkout
             Route::post('checkout', 'UserProductController@checkout')->name('checkout');
 
+            // orders
+            Route::get('orders-pending', 'UserController@orders')->name('orders-pending');
+            Route::get('orders-completed', 'UserController@orders')->name('orders-completed');
+            Route::get('orders-failed', 'UserController@orders')->name('orders-failed');
 
+            Route::get('order/{cart}', 'UserController@order')->name('orders.order');
             // Support ticket
             Route::get('ticket', 'TicketController@index')->name('ticket');
             Route::post('ticket/new', 'TicketController@new')->name('ticket.new');
@@ -301,6 +306,15 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('withdraw/method/edit/{id}', 'WithdrawMethodController@update')->name('withdraw.method.update');
         Route::post('withdraw/method/activate', 'WithdrawMethodController@activate')->name('withdraw.method.activate');
         Route::post('withdraw/method/deactivate', 'WithdrawMethodController@deactivate')->name('withdraw.method.deactivate');
+
+        //ORDER MANAGEMENT SYSTEM
+        // orders
+        Route::get('orders-pending', 'OrderController@orders')->name('orders-pending');
+        Route::get('orders-completed', 'OrderController@orders')->name('orders-completed');
+        Route::get('orders-failed', 'OrderController@orders')->name('orders-failed');
+        Route::get('order/{cart}', 'OrderController@order')->name('orders.order');
+        Route::post('order/{cart}/update', 'OrderController@update')->name('orders.update');
+        Route::post('order/{cart}/update/{cartItem}', 'OrderController@updateCartItem')->name('orders.item.update');
 
         // DEPOSIT SYSTEM
         Route::get('deposit', 'DepositController@deposit')->name('deposit.list');
