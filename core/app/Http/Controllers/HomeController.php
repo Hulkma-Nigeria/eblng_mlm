@@ -14,6 +14,7 @@ use App\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -98,7 +99,11 @@ class HomeController extends Controller
                         'price' => $plan->price . ' ' . $gnl->cur_text,
                         'balance_now' => $user->balance,
                     ]);
-
+                    if (Session::get('subscribe-before-add-to-cart')) {
+                        Session::remove('subscribe-before-add-to-cart');
+                        $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
+                        return redirect()->route('product');
+                    }
                     $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
                     return redirect()->route('user.home')->withNotify($notify);
 

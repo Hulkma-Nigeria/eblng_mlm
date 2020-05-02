@@ -20,6 +20,7 @@ class CreateCartItemsTable extends Migration
             $table->unsignedInteger('quantity');
             $table->double('price')->default(0);
             $table->double('weight')->default(0);
+            $table->integer('status')->default(0);
             $table->foreign('cart_id')->references('id')
                 ->on('carts')->onDelete('cascade');
             $table->foreign('product_id')->references('id')

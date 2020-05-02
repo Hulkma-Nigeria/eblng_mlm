@@ -19,7 +19,8 @@ class CreateCartsTable extends Migration
             $table->double('total')->default(0);
             $table->double('shipping')->default(0);
             $table->double('weight')->default(0);
-            $table->double('items')->default(0);
+            $table->double('address')->default('');
+            $table->double('other_info')->default('');
             $table->integer('status')->default(0);
             $table->foreign('user_id')->references('id')
                 ->on('users')->onDelete('cascade');

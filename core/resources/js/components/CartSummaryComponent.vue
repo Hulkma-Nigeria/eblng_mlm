@@ -8,20 +8,20 @@
             </div>
             <div class="form-group">
                 <label for="info">Other Info</label>
-                <textarea name="info" id="info">
+                <textarea name="other_info" id="info">
                 </textarea>
             </div>
             <div class="pt-1 pb-4">
                 <p>Account: {{bl}}</p>
                 <p>Cart total: {{ct}}</p>
-                <p>Balance: {{netBalance}}</p>
+                <p>Estimated Balance: {{netBalance}}</p>
             </div>
-            <button class="add-to-cart" v-if="netBalance">
+            <button class="add-to-cart" v-if="netBalance" :disabled="ct <= 0">
                 Checkout
             </button>
-            <button class="add-to-cart" v-if="!netBalance">
+            <a href="user/deposit" class="add-to-cart text-center" v-if="!netBalance">
                 Fund your account
-            </button>
+            </a>
         </div>
 </template>
 

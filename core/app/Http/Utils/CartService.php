@@ -67,4 +67,46 @@ class CartService
         $cI = $cart->cartItems()->save($cartItem);
         return !!$cI;
     }
+    public function getCartMetaData() {
+        $cart = $this->cart();
+        $cartTotal=0;
+        $map = [];
+        $mapKeys = [];
+        $cart->cartItems()->get()->each(function ($item) use(&$map, &$mapKeys, &$cartTotal) {
+            $cartTotal+= ceil($item->quantity * $item->price);
+            $map[$item->product_id] = $item->quantity;
+            $mapKeys[] = $item->product_id;
+        });
+        return [$mapKeys, $map, $cartTotal];
+    }
+    public function syncProductsWithCartQuantity($products, $map, $mapKeys) {
+        $products->map(function ($item) use ($mapKeys, $map) {
+            $item->quantity = 0;
+            if(in_array($item->id, $mapKeys)) {
+                $item->quantity = $map[$item->id];
+            }
+            $item->cartPrice = ceil(($item->quantity?$item->quantity: 1) * $item->price);
+            return $item;
+        });
+        return $products;
+    }
+    public function getProductsAndCartTotal($products) {
+        [$mapKeys, $map, $cartTotal] = $this->getCartMetaData();
+        $products = $this->syncProductsWithCartQuantity($products, $map, $mapKeys);
+        return [$products, $cartTotal];
+    }
+    public function checkout($address, $other_info) {
+        $cart = $this->cart();
+        $user = auth()->user();
+        [, , $cartTotal] = $this->getCartMetaData();
+        if($cartTotal > $user->balance) {
+            $notify[] = ['error', 'Insufficient balance'];
+            return back()->withErrors($notify);
+        }
+        $user->update(['balance' => $user->balance - $cartTotal]);
+        $data = ['status' => 1, 'address' => $address, 'other_info' => $other_info];
+        $cart->update($data);
+        $notify[] = ['success','Order initiated successfully'];
+        return back()->withNotify($notify);
+    }
 }

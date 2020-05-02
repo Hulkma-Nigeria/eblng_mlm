@@ -28,22 +28,7 @@ class UserProductController extends Controller
         $balance = 0;
         if (auth()->check()) {
             $balance = auth()->user()->balance;
-            $cart = $this->cartService->cart();
-            $map = [];
-            $mapKeys = [];
-            $cart->cartItems()->get()->each(function ($item) use(&$map, &$mapKeys, &$cartTotal) {
-                $cartTotal+= ceil($item->quantity * $item->price);
-                $map[$item->product_id] = $item->quantity;
-                $mapKeys[] = $item->product_id;
-            });
-            $products = $products->map(function ($item) use ($mapKeys, $map) {
-                $item->quantity = 0;
-                if(in_array($item->id, $mapKeys)) {
-                    $item->quantity = $map[$item->id];
-                }
-                $item->cartPrice = ceil(($item->quantity?$item->quantity: 1) * $item->price);
-                return $item;
-            });
+            [$products, $cartTotal] = $this->cartService->getProductsAndCartTotal($products);
         } else {
             $products = $products->map(function ($item) {
                 $item->quantity = 0;
@@ -75,7 +60,13 @@ class UserProductController extends Controller
             Session::put('add-to-cart', true);
             return redirect()->route('user.login')->withNotify($notify);
         }
-        if (!auth()->user()->my_level()->first()){
+        $user = auth()->user();
+        if ($user->balance <= 1){
+            $notify[] = ['error', 'Please deposit into your account'];
+            Session::put('deposit-before-add-to-cart', true);
+            return redirect()->route('user.deposit')->withNotify($notify);
+        }
+        if (!$user->my_level()->first()){
             $notify[] = ['error', 'Please subscribe to a plan to buy products'];
             Session::put('subscribe-before-add-to-cart', true);
             return redirect()->route('user.plan.purchase')->withNotify($notify);
@@ -85,48 +76,12 @@ class UserProductController extends Controller
         return back()->withNotify($notify);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function checkout(Request $request)
     {
-        //
+        $request->validate([
+            'address' => 'required',
+            'other_info' => 'required'
+        ]);
+        return $this->cartService->checkout($request->address, $request->other_info);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-}

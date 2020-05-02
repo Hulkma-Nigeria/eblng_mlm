@@ -45,7 +45,6 @@ Route::post('ipn/g506', 'Gateway\g506\ProcessController@ipn')->name('ipn.g506');
 
 Route::get('/', 'SiteController@home')->name('home');
 Route::get('/faq', 'SiteController@faq')->name('faq');
-Route::get('/products', 'SiteController@products')->name('products');
 Route::get('/contact', 'SiteController@contact')->name('contact');
 Route::post('/contact', 'SiteController@sendEmailContact')->name('send.mail.contact');
 Route::get('/change-lang/{lang}', 'SiteController@changeLang')->name('lang');
@@ -124,6 +123,8 @@ Route::name('user.')->prefix('user')->group(function () {
 
             Route::get('balance-transfer-log', 'UserController@balance_tf_log')->name('balance.tf.log');
 
+            // checkout
+            Route::post('checkout', 'UserProductController@checkout')->name('checkout');
 
 
             // Support ticket

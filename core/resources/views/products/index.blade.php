@@ -36,10 +36,11 @@
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-2">
-                            <form action="{{ route('handle-cart-update') }}" class="" method="post">
-                                    <cart-summary-component
-                                        :balance="'{{$balance}}'"
-                                        :cart-total="'{{$cartTotal}}'"
+                            <form action="{{ route('user.checkout') }}" class="" method="post">
+                                {{ csrf_field() }}
+                                <cart-summary-component
+                                    :balance="'{{$balance}}'"
+                                    :cart-total="'{{$cartTotal}}'"
                                  ></cart-summary-component>
                             </form>
                         </div>

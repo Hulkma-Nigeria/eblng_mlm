@@ -44,15 +44,6 @@ class SiteController extends Controller
 
 
     }
-    public function products() {
-        $products = Product::all();
-        $data['page_title'] = "Products";
-        $data['products'] = $products->map(function ($item) {
-                $item->quantity = 230;
-                return $item;
-            });
-        return view(activeTemplate() . 'products', $data);
-    }
 
     public function faq()
     {
