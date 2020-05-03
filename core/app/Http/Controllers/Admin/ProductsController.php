@@ -65,10 +65,8 @@ class ProductsController extends Controller
         $data = $request->except('image', '_token', 'status');
 
         $data['status'] = $request->status == 'on' ? 1 : 0;
-//        $data['images'] = uniqid() . time() . '.' . $request->file('image')->clientExtension();
-        $data['images'] = '09OKOI9';
-
-//        $request->file('image')->move(config('constants.product_image_path'), $data['images']);
+        $data['images'] = uniqid() . time() . '.' . $request->file('image')->clientExtension();
+        $request->file('image')->move(config('constants.product_image_path'), $data['images']);
         $data['sku'] = $this->generateSku($request->name);
         $this->productModel->create($data);
         session()->flash('notify', [['success', 'Product created!']]);
