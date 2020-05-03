@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Deposit;
 use App\GeneralSetting;
+use App\Http\Utils\CartService;
 use App\Lib\GoogleAuthenticator;
 use App\Rules\FileTypeValidate;
 use App\SupportTicket;
@@ -20,6 +22,12 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    protected $cartService;
+    public function __construct(CartService $cartService)
+    {
+        $this->cartService = $cartService;
+    }
+
     public function home()
     {
         $page_title = 'Dashboard';
@@ -424,5 +432,22 @@ class UserController extends Controller
         $data['page_title'] = "Login History";
         $data['history'] = UserLogin::where('user_id', Auth::id())->latest()->paginate(config('constants.table.default'));
         return view(activeTemplate() . '.user.login_history', $data);
+    }
+    function orders()
+    {
+        $data['page_title'] = "My orders";
+        $routeName = explode('/',request()->path());
+        $route = $routeName[sizeof($routeName) - 1];
+        $key = $this->cartService->convertRouteToCartFilterKey($route);
+        $data['carts'] =  $this->cartService->getUserCarts($key);
+        $data['general'] = GeneralSetting::first();
+        return view('orders.list', $data);
+    }
+    function order(Cart $cart)
+    {
+        $data['page_title'] = "Order items";
+        $data['cart'] =  $cart;
+        $data['cartItems'] = $cart->cartItems()->get();
+        return view('orders.order', $data);
     }
 }

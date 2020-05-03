@@ -50,10 +50,10 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
 
         // dd(public_path(config('constants.product_image_path')));
         $validator = $this->validateRequest($request);
+//        dd($request->all());
 
         if ($validator->fails()) {
             return redirect()
@@ -63,11 +63,11 @@ class ProductsController extends Controller
         }
 
         $data = $request->except('image', '_token', 'status');
+
         $data['status'] = $request->status == 'on' ? 1 : 0;
         $data['images'] = uniqid() . time() . '.' . $request->file('image')->clientExtension();
         $request->file('image')->move(config('constants.product_image_path'), $data['images']);
         $data['sku'] = $this->generateSku($request->name);
-
         $this->productModel->create($data);
         session()->flash('notify', [['success', 'Product created!']]);
         return redirect()->route('admin.products.index');
@@ -168,7 +168,7 @@ class ProductsController extends Controller
                 'price' =>  'required|integer',
                 'stock_alert'   =>  'integer',
                 'description'   =>  'string',
-                'image' => $rule . 'required|dimensions:width=680,height=680|image|mimes:jpeg,png,jpg|max:2048'
+//                'image' => $rule . 'required|dimensions:width=680,height=680|image|mimes:jpeg,png,jpg|max:2048'
             ]
         );
     }

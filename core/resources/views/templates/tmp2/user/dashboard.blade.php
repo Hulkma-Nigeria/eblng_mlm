@@ -20,6 +20,20 @@
         </div>
 
         <div class="col-xl-4 col-lg-6 col-sm-6">
+            <div class="dashboard-w2 slice bg-warning border-radius-5"  data-bg="2ecc71" data-before="27ae60"
+                 style="background: #2ecc71; --before-bg-color:#27ae60;">
+                <div class="details">
+                    <h2 class="amount mb-2 font-weight-bold">{{Auth::user()->point_value}} </h2>
+                    <h4 class="mb-3">@lang('Product Point Value')</h4>
+                    <a href="{{route('user.orders-completed')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-history"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-6 col-sm-6">
             <div class="dashboard-w2 slice bg-primary border-radius-5">
                 <div class="details">
                     <h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_deposit)}} </h2>

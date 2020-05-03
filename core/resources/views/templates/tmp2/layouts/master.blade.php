@@ -132,8 +132,9 @@
 
 
 
-    @yield('content')
-
+  <div id="app">
+      @yield('content')
+  </div>
 
 
 <footer class="dark-bg bg_img" data-paroller-factor="0.5" data-paroller-type="background"
@@ -171,7 +172,7 @@
     <div class="right banner-shape shape04"></div>
 </footer>
 
-
+<script src="{{asset(activeTemplate(true) .'js/app.js')}}"></script>
 <script src="{{asset(activeTemplate(true) .'front/js/jquery-3.3.1.min.js')}}"></script>
 <script src="{{asset(activeTemplate(true) .'front/js/modernizr-3.6.0.min.js')}}"></script>
 <script src="{{asset(activeTemplate(true) .'front/js/plugins.js')}}"></script>

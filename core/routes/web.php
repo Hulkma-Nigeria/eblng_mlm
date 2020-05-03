@@ -15,7 +15,8 @@ Route::get('clear', function () {
     Artisan::call('cache:clear');
 });
 
-Route::get('product', 'UserProductController@index');
+Route::get('product', 'UserProductController@index')->name('product');
+Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
 Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 
 
@@ -122,8 +123,18 @@ Route::name('user.')->prefix('user')->group(function () {
 
             Route::get('balance-transfer-log', 'UserController@balance_tf_log')->name('balance.tf.log');
 
+            // checkout
+            Route::post('checkout', 'UserProductController@checkout')->name('checkout');
 
+            // orders
+            Route::get('orders-pending', 'UserController@orders')->name('orders-pending');
+            Route::get('orders-processing', 'UserController@orders')->name('orders-processing');
+            Route::get('orders-intransit', 'UserController@orders')->name('orders-intransit');
+            Route::get('orders-completed', 'UserController@orders')->name('orders-completed');
+            Route::get('orders-failed', 'UserController@orders')->name('orders-failed');
+            Route::get('orders-all', 'UserController@orders')->name('orders-all');
 
+            Route::get('order/{cart}', 'UserController@order')->name('orders.order');
             // Support ticket
             Route::get('ticket', 'TicketController@index')->name('ticket');
             Route::post('ticket/new', 'TicketController@new')->name('ticket.new');
@@ -298,6 +309,18 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('withdraw/method/edit/{id}', 'WithdrawMethodController@update')->name('withdraw.method.update');
         Route::post('withdraw/method/activate', 'WithdrawMethodController@activate')->name('withdraw.method.activate');
         Route::post('withdraw/method/deactivate', 'WithdrawMethodController@deactivate')->name('withdraw.method.deactivate');
+
+        //ORDER MANAGEMENT SYSTEM
+        // orders
+        Route::get('orders-pending', 'OrderController@orders')->name('orders-pending');
+        Route::get('orders-processing', 'OrderController@orders')->name('orders-processing');
+        Route::get('orders-intransit', 'OrderController@orders')->name('orders-intransit');
+        Route::get('orders-completed', 'OrderController@orders')->name('orders-completed');
+        Route::get('orders-failed', 'OrderController@orders')->name('orders-failed');
+        Route::get('orders-all', 'OrderController@orders')->name('orders-all');
+        Route::get('order/{cart}', 'OrderController@order')->name('orders.order');
+        Route::post('order/{cart}/update', 'OrderController@update')->name('orders.update');
+        Route::post('order/{cart}/update/{cartItem}', 'OrderController@updateCartItem')->name('orders.item.update');
 
         // DEPOSIT SYSTEM
         Route::get('deposit', 'DepositController@deposit')->name('deposit.list');

@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Utils\CartService;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class UserProductController extends Controller
 {
     public $productModel;
-
-    public function __construct(Product $product)
+    public $cartService;
+    public function __construct(Product $product, CartService $cartService)
     {
         $this->productModel = $product;
+        $this->cartService = $cartService;
     }
     /**
      * Display a listing of the resource.
@@ -21,9 +24,21 @@ class UserProductController extends Controller
     public function index()
     {
         $products = $this->productModel->where('status', 1)->orderBy('id', 'desc')->get();
-        // dd($products);
+        $cartTotal=0;
+        $pointValue=0;
+        $balance=0;
+        if (auth()->check()) {
+            $balance = auth()->user()->balance;
+            [$products, $cartTotal, $pointValue] = $this->cartService->getProductsAndCartTotal($products);
+        } else {
+            $products = $products->map(function ($item) {
+                $item->quantity = 0;
+                $item->cartPrice = ceil($item->price);
+                return $item;
+            });
+        }
         $page_title = "Products";
-        return view('products.index', compact('page_title', 'products'));
+        return view('products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue'));
     }
 
     /**
@@ -38,59 +53,35 @@ class UserProductController extends Controller
         return view('products.single-product', compact('page_title', 'product'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+
+    public function handleCartUpdate(Request $request) {
+        if (!auth()->check()) {
+            $notify[] = ['error', 'Please login to add to cart'];
+            Session::put('add-to-cart', true);
+            return redirect()->route('user.login')->withNotify($notify);
+        }
+        $user = auth()->user();
+        if ($user->balance <= 1){
+            $notify[] = ['error', 'Please deposit into your account'];
+            Session::put('deposit-before-add-to-cart', true);
+            return redirect()->route('user.deposit')->withNotify($notify);
+        }
+        if (!$user->my_level()->first()){
+            $notify[] = ['error', 'Please subscribe to a plan to buy products'];
+            Session::put('subscribe-before-add-to-cart', true);
+            return redirect()->route('user.plan.purchase')->withNotify($notify);
+        }
+        $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);
+        $notify[] = ['success', 'Cart updated successfully'];
+        return back()->withNotify($notify);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function checkout(Request $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $request->validate([
+            'address' => 'required',
+            'other_info' => 'required'
+        ]);
+        return $this->cartService->checkout($request->address, $request->other_info);
     }
 }
