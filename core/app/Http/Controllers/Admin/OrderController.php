@@ -24,24 +24,7 @@ class OrderController extends Controller
         $data['page_title'] = "My orders";
         $routeName = explode('/',request()->path());
         $route = $routeName[sizeof($routeName) - 1];
-        $key = 1;
-        switch ($route) {
-            case 'orders-pending':
-                $key=1;
-                break;
-            case 'orders-completed':
-                $key=2;
-                break;
-            case 'orders-all':
-                $key=123;
-                break;
-            case 'orders-failed':
-                $key=3;
-                break;
-            default:
-                $data['carts'] =  [];
-                break;
-        }
+        $key = $this->cartService->convertRouteToCartFilterKey($route);
         $data['carts'] =  $this->cartService->getUsersCarts($key);
         $data['general'] = GeneralSetting::first();
 

@@ -16,9 +16,12 @@ use App\User;
 
 const UNORDERED = 0;
 const PENDING = 1;
-const COMPLETED = 2;
-const FAILED = 3;
-const REVIVE = 4;
+const PROCESSING = 2;
+const IN_TRANSIT = 3;
+const COMPLETED = 4;
+const FAILED = 5;
+const REVIVE = 6;
+
 class CartService
 {
     public $productModel;
@@ -134,9 +137,21 @@ class CartService
         return redirect()->route('user.orders-pending')->withNotify($notify);
 
     }
-    public function getUserCarts(int $status) {
-        $statuses = [UNORDERED => 'Un ordered', PENDING => 'Pending', COMPLETED => 'Completed', FAILED => 'Failed'];
-        $carts =  auth()->user()->carts()->where('status', $status)->get();
+    public function getUserCarts($status) {
+        $statuses = [
+            UNORDERED => 'Un ordered',
+            PENDING => 'Pending',
+            PROCESSING => 'Processing',
+            IN_TRANSIT => 'In transit',
+            COMPLETED => 'Completed',
+            FAILED => 'Failed',
+            REVIVE => 'Revived'
+        ];
+        if($status === 'all') {
+            $carts =  auth()->user()->carts()->where('status', '>=', '1')->get();
+        } else{
+            $carts =  auth()->user()->carts()->where('status', $status)->get();
+        }
         $carts->each(function (Cart $cart) use ($statuses) {
             $cartMetaData = $this->getCartMetaData($cart);
             $cart->weight = $cartMetaData->weightTotal;
@@ -147,9 +162,21 @@ class CartService
         });
         return $carts;
     }
-    public function getUsersCarts(int $status) {
-        $statuses = [UNORDERED => 'Un ordered', PENDING => 'Pending', COMPLETED => 'Completed', FAILED => 'Failed'];
-        $carts =  Cart::where('status', $status)->orderBy('created_at', 'desc')->get();
+    public function getUsersCarts($status) {
+        $statuses = [
+            UNORDERED => 'Un ordered',
+            PENDING => 'Pending',
+            PROCESSING => 'Processing',
+            IN_TRANSIT => 'In transit',
+            COMPLETED => 'Completed',
+            FAILED => 'Failed',
+            REVIVE => 'Revived'
+        ];
+        if($status === 'all') {
+            $carts =  Cart::where('status', '>=', 1)->orderBy('created_at', 'desc')->get();
+        } else{
+            $carts =  Cart::where('status', $status)->orderBy('created_at', 'desc')->get();
+        }
         $carts->each(function (Cart $cart) use ($statuses) {
             $cartMetaData = $this->getCartMetaData($cart);
             $cart->weight = $cartMetaData->weightTotal;
@@ -209,9 +236,9 @@ class CartService
                     $notify[] = ['error', 'User has not paid please revive order and try again!'];
                     break;
                 }
-                if($status === COMPLETED && in_array($cart->status, [PENDING]) ) {
+                if($status === COMPLETED && in_array($cart->status, [PENDING, PROCESSING, IN_TRANSIT]) ) {
                     $user->update(['point_value' => $user->point_value + $cartMetaData->pointValue]);
-                } else if(($cart->status === COMPLETED) && ($status  && !in_array($status, [COMPLETED, REVIVE, FAILED]))) {
+                } else if(($cart->status === COMPLETED) && ($status  && !in_array($status, [REVIVE, FAILED]))) {
                     $user->update(['point_value' => $user->point_value - $cartMetaData->pointValue]);
                 }
                 $cart->cartItems()->each(function (CartItem $cartItem) use ($status) {
@@ -269,6 +296,32 @@ class CartService
             'title' => $title,
             'trx' => substr(getTrx(), 0,6).substr($transaction_no, 0,6),
         ]);
+    }
+    public function convertRouteToCartFilterKey($route) {
+        $key = 1;
+        switch ($route) {
+            case 'orders-pending':
+                $key=1;
+                break;
+            case 'orders-processing':
+                $key=2;
+                break;
+            case 'orders-intransit':
+                $key=3;
+                break;
+            case 'orders-completed':
+                $key=4;
+                break;
+            case 'orders-all':
+                $key='all';
+                break;
+            case 'orders-failed':
+                $key=5;
+                break;
+            default:
+                break;
+        }
+        return $key;
     }
 
 }

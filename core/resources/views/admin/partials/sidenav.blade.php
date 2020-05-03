@@ -89,6 +89,18 @@
                             <span class="menu-title">@lang('Pending orders')</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ sidenav_active('admin.orders-processing') }}">
+                        <a class="nav-link" href="{{ route('admin.orders-processing') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Processing orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('admin.orders-intransit') }}">
+                        <a class="nav-link" href="{{ route('admin.orders-intransit') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('In transit orders')</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ sidenav_active('admin.orders-completed') }}">
                         <a class="nav-link" href="{{ route('admin.orders-completed') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
@@ -99,6 +111,12 @@
                         <a class="nav-link" href="{{ route('admin.orders-failed') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
                             <span class="menu-title">@lang('Failed orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('admin.orders-all') }}">
+                        <a class="nav-link" href="{{ route('admin.orders-all') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('All orders')</span>
                         </a>
                     </li>
                 </ul>

@@ -32,10 +32,12 @@
                                         @csrf()
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <select style="height: 30px!important;"  name="status" id="">
+                                                <select style="height: 30px!important;min-width: 100px"  name="status" id="">
                                                     <option value="1" {{$data->status === 1 ? 'selected':''}}>Pending</option>
-                                                    <option value="2"{{$data->status === 2 ? 'selected':''}}>Completed</option>
-                                                    <option value="3" {{$data->status === 3 ? 'selected':''}}>Failed(Refund and Delete)</option>
+                                                    <option value="2"{{$data->status === 2 ? 'selected':''}}>Processing</option>
+                                                    <option value="3"{{$data->status === 3 ? 'selected':''}}>In transit</option>
+                                                    <option value="4"{{$data->status === 4 ? 'selected':''}}>Completed</option>
+                                                    <option value="5" {{$data->status === 5 ? 'selected':''}}>Failed(Refund and Delete)</option>
                                                 </select>
                                             </div>
                                             <div>

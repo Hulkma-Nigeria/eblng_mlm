@@ -128,8 +128,11 @@ Route::name('user.')->prefix('user')->group(function () {
 
             // orders
             Route::get('orders-pending', 'UserController@orders')->name('orders-pending');
+            Route::get('orders-processing', 'UserController@orders')->name('orders-processing');
+            Route::get('orders-intransit', 'UserController@orders')->name('orders-intransit');
             Route::get('orders-completed', 'UserController@orders')->name('orders-completed');
             Route::get('orders-failed', 'UserController@orders')->name('orders-failed');
+            Route::get('orders-all', 'UserController@orders')->name('orders-all');
 
             Route::get('order/{cart}', 'UserController@order')->name('orders.order');
             // Support ticket
@@ -310,8 +313,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         //ORDER MANAGEMENT SYSTEM
         // orders
         Route::get('orders-pending', 'OrderController@orders')->name('orders-pending');
+        Route::get('orders-processing', 'OrderController@orders')->name('orders-processing');
+        Route::get('orders-intransit', 'OrderController@orders')->name('orders-intransit');
         Route::get('orders-completed', 'OrderController@orders')->name('orders-completed');
         Route::get('orders-failed', 'OrderController@orders')->name('orders-failed');
+        Route::get('orders-all', 'OrderController@orders')->name('orders-all');
         Route::get('order/{cart}', 'OrderController@order')->name('orders.order');
         Route::post('order/{cart}/update', 'OrderController@update')->name('orders.update');
         Route::post('order/{cart}/update/{cartItem}', 'OrderController@updateCartItem')->name('orders.item.update');

@@ -101,6 +101,18 @@
                             <span class="menu-title">@lang('Pending orders')</span>
                         </a>
                     </li>
+                    <li class="nav-item {{ sidenav_active('user.orders-processing') }}">
+                        <a class="nav-link" href="{{ route('user.orders-processing') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('Processing orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('user.orders-intransit') }}">
+                        <a class="nav-link" href="{{ route('user.orders-intransit') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('In transit orders')</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ sidenav_active('user.orders-completed') }}">
                         <a class="nav-link" href="{{ route('user.orders-completed') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
@@ -111,6 +123,12 @@
                         <a class="nav-link" href="{{ route('user.orders-failed') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
                             <span class="menu-title">@lang('Failed orders')</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ sidenav_active('user.orders-all') }}">
+                        <a class="nav-link" href="{{ route('user.orders-all') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">@lang('All orders')</span>
                         </a>
                     </li>
                 </ul>

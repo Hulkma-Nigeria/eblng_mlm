@@ -33,8 +33,12 @@
                                     @if($data->status === 1)
                                         {{'Pending'}}
                                     @elseif($data->status === 2)
-                                        {{'Completed'}}
+                                        {{'Processing'}}
                                     @elseif($data->status === 3)
+                                        {{'In transit'}}
+                                    @elseif($data->status === 4)
+                                        {{'Completed'}}
+                                    @elseif($data->status === 5)
                                         {{'Failed'}}
                                     @endif
                                 </td>

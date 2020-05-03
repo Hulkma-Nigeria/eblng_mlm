@@ -14,6 +14,7 @@
                             <th scope="col">@lang('Total') </th>
                             <th scope="col">@lang('Point values') </th>
                             <th scope="col">@lang('Weight') </th>
+                            <th scope="col">@lang('Shipping') </th>
                             <th scope="col">@lang('Address') </th>
                             <th scope="col">@lang('Other info.') </th>
                             <th scope="col">@lang('Status') </th>
@@ -25,11 +26,12 @@
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td><a href={{route('user.orders.order', $data->id)}}>
-                                        {{$data->id}}
+                                        {{$data->reference_no}}
                                     </a></td>
                                 <td>{{$general->cur_sym}}{{formatter_money($data->amount)}}</td>
                                 <td>{{$data->pointValue}}</td>
                                 <td>{{$data->weight}}</td>
+                                <td>{{$data->shipping}}</td>
                                 <td>{{$data->address}}</td>
                                 <td>{{$data->other_info}}</td>
                                 <td>{{$data->status}}</td>

@@ -12,6 +12,7 @@
                             <th scope="col">@lang('Order ID') </th>
                             <th scope="col">@lang('Total') </th>
                             <th scope="col">@lang('Weight') </th>
+                            <th scope="col">@lang('Shipping') </th>
                             <th scope="col">@lang('Point values') </th>
                             <th scope="col">@lang('Address') </th>
                             <th scope="col">@lang('Other info.') </th>
@@ -24,10 +25,11 @@
                             <tr>
                                 <td>{{$loop->index + 1}}</td>
                                 <td><a href={{route('admin.orders.order', $data->id)}}>
-                                        {{$data->id}}
+                                        {{$data->reference_no}}
                                     </a></td>
                                 <td>{{$general->cur_sym}}{{formatter_money($data->amount)}}</td>
                                 <td>{{$data->weight}}</td>
+                                <td>{{$data->shipping}}</td>
                                 <td>{{$data->pointValue}}</td>
                                 <td>{{$data->address}}</td>
                                 <td>{{$data->other_info}}</td>
@@ -36,11 +38,13 @@
                                         @csrf()
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <select style="height: 30px!important;"  name="status" id="">
+                                                <select style="height: 30px!important;min-width: 100px"  name="status" id="">
                                                     <option value="1" {{$data->status === 1 ? 'selected':''}}>Pending</option>
-                                                    <option value="2"{{$data->status === 2 ? 'selected':''}}>Completed</option>
-                                                    <option value="3" {{$data->status === 3 ? 'selected':''}}>Failed</option>
-                                                    <option value="4" {{$data->status === 4 ? 'selected':''}}>Revive</option>
+                                                    <option value="2"{{$data->status === 2 ? 'selected':''}}>Processing</option>
+                                                    <option value="3"{{$data->status === 3 ? 'selected':''}}>In transit</option>
+                                                    <option value="4"{{$data->status === 4 ? 'selected':''}}>Completed</option>
+                                                    <option value="5" {{$data->status === 5 ? 'selected':''}}>Failed</option>
+                                                    <option value="6" {{$data->status === 6 ? 'selected':''}}>Revive</option>
                                                 </select>
                                             </div>
                                             <div>
