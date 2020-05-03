@@ -15,8 +15,8 @@ class CreateCartsTable extends Migration
     {
         Schema::create('carts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('reference_no', 40)->unique();
             $table->unsignedInteger('user_id');
-            $table->double('total')->default(0);
             $table->double('shipping')->default(0);
             $table->double('weight')->default(0);
             $table->double('address')->default('');

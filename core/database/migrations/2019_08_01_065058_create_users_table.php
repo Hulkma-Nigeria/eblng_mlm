@@ -13,6 +13,8 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+//        Add forms for Gender, martial status that is(single, married, rather not say)
+//        province/city , country, state, date of registration, date of birth, phone number.
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('firstname');
@@ -21,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('mobile')->unique();
             $table->decimal('balance', 11, 2)->default(0);
+            $table->string('point_value');
             $table->string('password');
             $table->string('image')->nullable();
             $table->text('address')->nullable()->comment('contains full address');

@@ -15,6 +15,7 @@
                 <p>Account: {{bl}}</p>
                 <p>Cart total: {{ct}}</p>
                 <p>Estimated Balance: {{netBalance}}</p>
+                <p>Total point value: {{pv}}</p>
             </div>
             <button class="add-to-cart" v-if="netBalance" :disabled="ct <= 0">
                 Checkout
@@ -28,12 +29,13 @@
 <script>
     export default {
         name: 'cart-summary-component',
-        props: ['cartTotal', 'balance'],
+        props: ['cartTotal', 'balance', 'pointValue'],
         data: function() {
             return {
                 netBalance: 0,
                 ct: this.cartTotal,
-                bl: this.balance
+                bl: this.balance,
+                pv: this.pointValue
             }
         },
         mounted() {

@@ -464,7 +464,7 @@ class UserController extends Controller
     function order(Cart $cart)
     {
         $data['page_title'] = "Order items";
-        $data['carts'] =  $this->cartService->getCartMetaData($cart);
+        $data['cart'] =  $cart;
         $data['cartItems'] = $cart->cartItems()->get();
         return view('orders.order', $data);
     }

@@ -12,6 +12,7 @@
                             <th scope="col">@lang('Product') </th>
                             <th scope="col">@lang('Price') </th>
                             <th scope="col">@lang('Quantity') </th>
+                            <th scope="col">@lang('Point values') </th>
                             <th scope="col">@lang('Weight') </th>
                             <th scope="col">@lang('Status') </th>
                             <th scope="col">@lang('Date') </th>
@@ -24,6 +25,7 @@
                                 <td>{{$data->product->name}}</td>
                                 <td>{{$general->cur_sym}}{{formatter_money($data->price)}}</td>
                                 <td>{{$data->quantity}}</td>
+                                <td>{{$data->point_value * $data->quantity}}</td>
                                 <td>{{$data->weight}}</td>
                                 <td>
                                     <form  method="post" action={{route('admin.orders.item.update', ['cart' => $cart->id, 'cartItem' => $data->id])}}>
@@ -33,7 +35,7 @@
                                                 <select style="height: 30px!important;"  name="status" id="">
                                                     <option value="1" {{$data->status === 1 ? 'selected':''}}>Pending</option>
                                                     <option value="2"{{$data->status === 2 ? 'selected':''}}>Completed</option>
-                                                    <option value="3" {{$data->status === 3 ? 'selected':''}}>Refund and Delete</option>
+                                                    <option value="3" {{$data->status === 3 ? 'selected':''}}>Failed(Refund and Delete)</option>
                                                 </select>
                                             </div>
                                             <div>

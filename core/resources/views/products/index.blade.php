@@ -41,6 +41,7 @@
                                 <cart-summary-component
                                     :balance="'{{$balance}}'"
                                     :cart-total="'{{$cartTotal}}'"
+                                    :point-value="'{{$pointValue}}'"
                                  ></cart-summary-component>
                             </form>
                         </div>

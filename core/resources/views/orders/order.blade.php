@@ -13,6 +13,8 @@
                             <th scope="col">@lang('Product') </th>
                             <th scope="col">@lang('Price') </th>
                             <th scope="col">@lang('Quantity') </th>
+
+                            <th scope="col">@lang('Point values') </th>
                             <th scope="col">@lang('Weight') </th>
                             <th scope="col">@lang('Status') </th>
                             <th scope="col">@lang('Date') </th>
@@ -25,6 +27,7 @@
                                 <td>{{$data->product->name}}</td>
                                 <td>{{$general->cur_sym}}{{formatter_money($data->price)}}</td>
                                 <td>{{$data->quantity}}</td>
+                                <td>{{$data->point_value * $data->quantity}}</td>
                                 <td>{{$data->weight}}</td>
                                 <td>
                                     @if($data->status === 1)
@@ -56,3 +59,6 @@
     </div>
 
 @endsection
+{{--@push('breadcrumb-plugins')--}}
+{{--<a href="{{ route('admin.sms-template.index') }}" class="btn btn-dark" ><i class="fa fa-fw fa-reply"></i>Back</a>--}}
+{{--@endpush--}}

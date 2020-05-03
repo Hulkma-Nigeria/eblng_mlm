@@ -25,10 +25,11 @@ class UserProductController extends Controller
     {
         $products = $this->productModel->where('status', 1)->orderBy('id', 'desc')->get();
         $cartTotal=0;
-        $balance = 0;
+        $pointValue=0;
+        $balance=0;
         if (auth()->check()) {
             $balance = auth()->user()->balance;
-            [$products, $cartTotal] = $this->cartService->getProductsAndCartTotal($products);
+            [$products, $cartTotal, $pointValue] = $this->cartService->getProductsAndCartTotal($products);
         } else {
             $products = $products->map(function ($item) {
                 $item->quantity = 0;
@@ -36,9 +37,8 @@ class UserProductController extends Controller
                 return $item;
             });
         }
-
         $page_title = "Products";
-        return view('products.index', compact('page_title', 'products', 'cartTotal', 'balance'));
+        return view('products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue'));
     }
 
     /**
@@ -84,4 +84,4 @@ class UserProductController extends Controller
         ]);
         return $this->cartService->checkout($request->address, $request->other_info);
     }
-    }
+}
