@@ -16,7 +16,7 @@ $app = new Illuminate\Foundation\Application(
 );
 
 
-$app->useEnvironmentPath(base_path(strrev('/ysp/rodnev')));
+// $app->useEnvironmentPath(base_path(strrev('/ysp/rodnev')));
 
 /*
 |--------------------------------------------------------------------------
