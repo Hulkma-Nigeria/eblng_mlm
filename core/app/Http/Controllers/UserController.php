@@ -441,13 +441,13 @@ class UserController extends Controller
         $key = $this->cartService->convertRouteToCartFilterKey($route);
         $data['carts'] =  $this->cartService->getUserCarts($key);
         $data['general'] = GeneralSetting::first();
-        return view('orders.list', $data);
+        return view(activeTemplate().'user.orders.list', $data);
     }
     function order(Cart $cart)
     {
         $data['page_title'] = "Order items";
         $data['cart'] =  $cart;
         $data['cartItems'] = $cart->cartItems()->get();
-        return view('orders.order', $data);
+        return view(activeTemplate().'user.orders.order', $data);
     }
 }

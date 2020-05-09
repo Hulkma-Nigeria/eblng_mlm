@@ -13,6 +13,7 @@ use App\Cart;
 use App\CartItem;
 use App\Product;
 use App\User;
+use Illuminate\Http\Request;
 
 const UNORDERED = 0;
 const PENDING = 1;
@@ -110,12 +111,39 @@ class CartService
         return $products;
     }
     public function getProductsAndCartTotal($products) {
-        $cartMetaData = $this->getCartMetaData( $this->cart());
-        $products = $this->syncProductsWithCartQuantity($products, $cartMetaData->map, $cartMetaData->mapKeys);
-        return [$products, $cartMetaData->cartTotal, $cartMetaData->pointValue];
-    }
-    public function checkout($address, $other_info) {
         $cart = $this->cart();
+        $cartMetaData = $this->getCartMetaData($cart);
+        $products = $this->syncProductsWithCartQuantity($products, $cartMetaData->map, $cartMetaData->mapKeys);
+//        dd($products);
+        return [$products, $cartMetaData->cartTotal, $cartMetaData->pointValue, $cart];
+    }
+    public function checkout(Request $request) {
+        $buyer_username = $request->buyer_username;
+        $action_type = $request->action_type;
+        $address = $request->address;
+        $other_info = $request->other_info;
+        $cart = $this->cart();
+        switch ($action_type) {
+            case 'confirm_user':
+                $buyer = User::where('username', trim($buyer_username))->first();
+                if(!$buyer) {
+                    $notify[] = ['User '. $buyer_username. ' does n\'t exist'];
+                    return back()->withErrors($notify)->withInput($request->input());
+                }
+                if ($buyer->id === auth()->id()){
+                    $notify[] = ['You are not a member but a stockist'];
+                    return back()->withErrors($notify)->withInput($request->input());
+                }
+                $data = ['buyer_id' => $buyer->id, 'address' => $address, 'other_info' => $other_info];
+                $cart->update($data);
+                $notify[] = ['success','User '. $buyer_username. ' will receive PV for this order on completion'];
+                return back()->withNotify($notify);
+                break;
+            case 'checkout':
+                break;
+            default:
+                break;
+        }
         $user = auth()->user();
         if (!$user->my_level()->first()) {
             $notify[] = ['error', 'You need to purchase a plan to start buying products'];
@@ -135,7 +163,6 @@ class CartService
         });
         $notify[] = ['success','Order initiated successfully'];
         return redirect()->route('user.orders-pending')->withNotify($notify);
-
     }
     public function getUserCarts($status) {
         $statuses = [
@@ -322,6 +349,13 @@ class CartService
                 break;
         }
         return $key;
+    }
+    public function deleteCart() {
+        $cart = $this->cart();
+//        $user = $cart->user()->first();
+//        $cartMetaData = $this->getCartMetaData($cart);
+//        $user->update(['balance' => $user->balance + $cartMetaData->cartTotal]);
+        return $cart->delete();
     }
 
 }

@@ -47,7 +47,7 @@ class ManualGatewayController extends Controller
             'percent_charge' => 'required|between:0,100',
             'ud.*'           => 'required',
             'instruction'    => 'required|max:64000',
-            'verify_image'   => 'required|max:190',
+//            'verify_image'   => 'required|max:190',
         ];
 
         $request->validate($validation_rule, [], ['ud.*' => 'All user data']);

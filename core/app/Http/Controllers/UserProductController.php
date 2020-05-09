@@ -24,21 +24,18 @@ class UserProductController extends Controller
     public function index()
     {
         $products = $this->productModel->where('status', 1)->orderBy('id', 'desc')->get();
-        $cartTotal=0;
-        $pointValue=0;
-        $balance=0;
-        if (auth()->check()) {
-            $balance = auth()->user()->balance;
-            [$products, $cartTotal, $pointValue] = $this->cartService->getProductsAndCartTotal($products);
-        } else {
-            $products = $products->map(function ($item) {
-                $item->quantity = 0;
-                $item->cartPrice = ceil($item->price);
-                return $item;
-            });
+        if (!auth()->check()) {
+            return back()->withErrors(['Please log in']);
+        }
+        $balance = auth()->user()->balance;
+        [$products, $cartTotal, $pointValue, $cart] = $this->cartService->getProductsAndCartTotal($products);
+        $buyerInfo = $cart->buyer();
+        $buyer = '';
+        if($buyerInfo) {
+            $buyer = $buyerInfo->username;
         }
         $page_title = "Products";
-        return view('products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue'));
+        return view(activeTemplate() .'user.products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue', 'cart', 'buyer'));
     }
 
     /**
@@ -80,8 +77,19 @@ class UserProductController extends Controller
     {
         $request->validate([
             'address' => 'required',
-            'other_info' => 'required'
+            'other_info' => 'required',
+            'buyer_username' => 'required',
+            'action_type' => 'required'
         ]);
-        return $this->cartService->checkout($request->address, $request->other_info);
+        return $this->cartService->checkout($request);
+    }
+    public function deleteCart() {
+        $done = $this->cartService->deleteCart();
+        $notify = ['success', 'Cart successfully deleted'];
+        if(!$done) {
+            $notify = ['Unable to delete cart successfully'];
+            return back()->withErrors($notify);
+        }
+        return back()->withNotify($notify);
     }
 }
