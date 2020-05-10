@@ -47,18 +47,18 @@
         </div>
 
 
-        <div class="col-xl-4 col-lg-6 col-sm-6">
-            <div class="dashboard-w2 slice bg-info border-radius-5">
-                <div class="details">
-                    <h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_withdraw)}} </h2>
-                    <h4 class="mb-3">@lang('Total Withdraw')</h4>
-                    <a href="{{route('user.withdraw')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-money"></i>
-                </div>
-            </div>
-        </div>
+        {{--<div class="col-xl-4 col-lg-6 col-sm-6">--}}
+            {{--<div class="dashboard-w2 slice bg-info border-radius-5">--}}
+                {{--<div class="details">--}}
+                    {{--<h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_withdraw)}} </h2>--}}
+                    {{--<h4 class="mb-3">@lang('Total Withdraw')</h4>--}}
+                    {{--<a href="{{route('user.withdraw')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>--}}
+                {{--</div>--}}
+                {{--<div class="icon">--}}
+                    {{--<i class="fa fa-money"></i>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
         <div class="col-xl-4 col-lg-6 col-sm-6">
             <div class="dashboard-w2 slice bg-warning border-radius-5">

@@ -13,6 +13,7 @@
     @stack('style')
     <link rel="stylesheet"
           href='{{ asset(activeTemplate(true) . "users/css/color.php?color=$general->bclr&color2=$general->sclr")}}'>
+
 </head>
 <body>
 @yield('panel')
@@ -24,7 +25,6 @@
 
 <!-- Load toast -->
 @include('partials.notify')
-
 <script src="{{asset(activeTemplate(true) .'users/js/nicEdit.js')}}"></script>
 {{-- LOAD NIC EDIT --}}
 <script type="text/javascript">

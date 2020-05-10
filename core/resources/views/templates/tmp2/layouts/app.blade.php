@@ -1,7 +1,7 @@
 @extends(activeTemplate().'layouts.user-master')
 
 @section('panel')
-<div class="main-container">
+<div class="main-container" id="app">
     <div class="container-fluid main-body-wrapper">
         @include(activeTemplate().'partials.sidenav')
         <div class="main-panel-wrapper">
