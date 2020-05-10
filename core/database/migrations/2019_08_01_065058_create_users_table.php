@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile')->unique();
             $table->decimal('balance', 11, 2)->default(0);
             $table->string('point_value');
+            $table->integer('access_type')->default(0);
             $table->string('password');
             $table->string('image')->nullable();
             $table->text('address')->nullable()->comment('contains full address');
