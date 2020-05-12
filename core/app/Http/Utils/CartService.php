@@ -44,7 +44,8 @@ class CartService
             $reference_no = getTrx();
         }
         $cart = new Cart([
-            'reference_no' => $reference_no
+            'reference_no' => $reference_no,
+            'buyer_id' => $customer->id
         ]);
         $customer->carts()->save($cart);
         return $cart;

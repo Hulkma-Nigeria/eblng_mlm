@@ -41,6 +41,7 @@
         href='{{ asset(activeTemplate(true) . "front/css/color.php?color=$general->bclr&color2=$general->sclr")}}'>
 
 
+
 </head>
 
 

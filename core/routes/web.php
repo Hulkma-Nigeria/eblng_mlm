@@ -92,6 +92,7 @@ Route::name('user.')->prefix('user')->group(function () {
             // Product
             Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
             Route::get('product', 'UserProductController@index')->name('product');
+            Route::get('product/{id}/preview','UserProductController@preview')->name('prodct_preview');
             Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
             Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 

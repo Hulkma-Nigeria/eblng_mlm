@@ -16,6 +16,7 @@
 
 </head>
 <body>
+
 @yield('panel')
 
 <script src="{{asset(activeTemplate(true) .'users/js/dashboard.min.js')}}"></script>

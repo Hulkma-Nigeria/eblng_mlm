@@ -37,6 +37,11 @@ class UserProductController extends Controller
         $page_title = "Products";
         return view(activeTemplate() .'user.products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue', 'cart', 'buyer'));
     }
+    public function preview($id)
+    {
+        $product = $this->productModel->findOrFail($id);
+        return view(activeTemplate().'user.products.product_preview_modal', compact('product'));
+    }
 
     /**
      * Show the form for creating a new resource.

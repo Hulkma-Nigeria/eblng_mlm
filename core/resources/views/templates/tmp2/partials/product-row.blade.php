@@ -1,4 +1,4 @@
-<div class="row">
+{{-- <div class="row">
     <div class="col-xs-4">
         <div class="product-image">
             <a href="#" class="image">
@@ -39,4 +39,6 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
+
+
