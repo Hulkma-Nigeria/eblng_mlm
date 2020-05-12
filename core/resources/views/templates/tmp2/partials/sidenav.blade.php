@@ -49,27 +49,27 @@
 
             @endif
 
-            <li class="nav-item {{ sidenav_active('user.withdraw*') }}">
-                <a href="#" class="nav-link">
-                    <span class="menu-icon"><i class="fa fa-credit-card text-primary"></i></span>
-                    <span class="menu-title">@lang('Withdrawal')</span>
-                    <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item {{ sidenav_active('user.withdraw') }}">
-                        <a class="nav-link" href="{{ route('user.withdraw') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">@lang('Withdraw Now')</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('user.withdraw.history') }}">
-                        <a class="nav-link" href="{{ route('user.withdraw.history') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">@lang('Withdraw History')</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            {{--<li class="nav-item {{ sidenav_active('user.withdraw*') }}">--}}
+                {{--<a href="#" class="nav-link">--}}
+                    {{--<span class="menu-icon"><i class="fa fa-credit-card text-primary"></i></span>--}}
+                    {{--<span class="menu-title">@lang('Withdrawal')</span>--}}
+                    {{--<span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>--}}
+                {{--</a>--}}
+                {{--<ul class="sub-menu">--}}
+                    {{--<li class="nav-item {{ sidenav_active('user.withdraw') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('user.withdraw') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">@lang('Withdraw Now')</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ sidenav_active('user.withdraw.history') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('user.withdraw.history') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">@lang('Withdraw History')</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
             <li class="nav-item {{ sidenav_active('user.pin.recharge') }}">
                 <a href="{{ route('user.pin.recharge') }}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-credit-card text-facebook"></i></span>
@@ -86,6 +86,12 @@
                 <a href="{{route('user.matrix.index',['lv_no' => 1])}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-sitemap text-facebook"></i></span>
                     <span class="menu-title">@lang('My Matrix')</span>
+                </a>
+            </li>
+            <li class="nav-item {{ sidenav_active('user.product') }}">
+                <a href="{{route('user.product')}}" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-sitemap text-facebook"></i></span>
+                    <span class="menu-title">@lang('Purchase Product')</span>
                 </a>
             </li>
             <li class="nav-item {{ sidenav_active('user.orders*') }}">

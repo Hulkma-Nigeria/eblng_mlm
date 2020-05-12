@@ -15,12 +15,6 @@ Route::get('clear', function () {
     Artisan::call('cache:clear');
 });
 
-Route::get('product', 'UserProductController@index')->name('product');
-Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
-Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
-
-
-
 Route::post('ipn/g101', 'Gateway\g101\ProcessController@ipn')->name('ipn.g101'); // paypal
 Route::post('ipn/g102', 'Gateway\g102\ProcessController@ipn')->name('ipn.g102'); // Perfect Money
 Route::post('ipn/g103', 'Gateway\g103\ProcessController@ipn')->name('ipn.g103'); // Stripe
@@ -95,6 +89,12 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('g2fa', 'UserController@create2fa')->name('go2fa');
             Route::post('g2fa-disable', 'UserController@disable2fa')->name('go2fa.disable');
 
+            // Product
+            Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
+            Route::get('product', 'UserProductController@index')->name('product');
+            Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
+            Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
+
             // Deposit
             Route::get('deposit', 'Gateway\PaymentController@deposit')->name('deposit');
             Route::post('deposit', 'Gateway\PaymentController@deposit')->name('deposit');
@@ -108,11 +108,11 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('deposit/history', 'UserController@depositHistory')->name('deposit.history');
 
             // Withdraw
-            Route::get('withdraw', 'UserController@withdraw')->name('withdraw');
-            Route::post('withdraw/insert', 'UserController@withdrawInsert')->name('withdraw.insert');
-            Route::get('withdraw/preview', 'UserController@withdrawPreview')->name('withdraw.preview');
-            Route::post('withdraw', 'UserController@withdrawStore')->name('withdraw');
-            Route::get('withdraw/history', 'UserController@withdrawHistory')->name('withdraw.history');
+//            Route::get('withdraw', 'UserController@withdraw')->name('withdraw');
+//            Route::post('withdraw/insert', 'UserController@withdrawInsert')->name('withdraw.insert');
+//            Route::get('withdraw/preview', 'UserController@withdrawPreview')->name('withdraw.preview');
+//            Route::post('withdraw', 'UserController@withdrawStore')->name('withdraw');
+//            Route::get('withdraw/history', 'UserController@withdrawHistory')->name('withdraw.history');
 
             // Transaction
             Route::get('transaction-log', 'UserController@transactions')->name('transaction.index');
