@@ -33,6 +33,20 @@ class CartService
         $this->productModel = $product;
     }
 
+    public function cartCount()
+    {
+        $customer = auth()->user();
+        $cart = $customer->carts()->where('status', '0')->first();
+        $cartItems = $cart->cartItems()->get();
+        $cart_count = 0;
+        foreach($cartItems as $cartItem)
+        {
+            $cart_count += $cartItem->quantity;
+        }
+        return $cart_count;
+
+    }
+
     public function cart(): Cart {
         $customer = auth()->user();
         $current_cart = $customer->carts()->where('status', '0')->first();
@@ -357,6 +371,13 @@ class CartService
 //        $cartMetaData = $this->getCartMetaData($cart);
 //        $user->update(['balance' => $user->balance + $cartMetaData->cartTotal]);
         return $cart->delete();
+    }
+
+    public function deleteCartItem($product_id)
+    {
+        $cart = $this->cart();
+        $cartItem = $cart->cartItems()->where('product_id',$product_id)->first();
+        return $cartItem->delete();
     }
 
 }

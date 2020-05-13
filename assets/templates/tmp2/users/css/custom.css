@@ -314,14 +314,15 @@ table tbody tr td:last-child {
   right:0%;
   top:0%;
   content: attr(data-count);
-  font-size:40%;
+  font-size:30%;
   padding:.6em;
-  border-radius:999px;
+  border-radius:45%;
   line-height:.75em;
   color: white;
-  color: red;
+  color: rgb(17, 13, 13);
   text-align:center;
   min-width:2em;
+  min-height: 2em;
   font-weight:bold;
   background: white;
   border-style:solid;

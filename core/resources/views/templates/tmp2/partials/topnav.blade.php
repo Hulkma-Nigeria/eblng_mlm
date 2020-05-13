@@ -14,10 +14,13 @@
     </div>
 
     <ul class="navbar-nav ml-auto flex-row">
-        <span class="fa-stack has-badge" data-count="5">
-            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-            <i style="" class="fa fa-shopping-cart fa-stack-2x red-cart"></i>
-        </span>
+        <div id="ex4">
+            <a href="{{route('user.cart')}}" class="text-white">
+                <span id="cart_count" class="p1 fa-stack fa-2x has-badge" data-count="4">
+                  <i class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse" ></i>
+                </span>
+            </a>
+        </div>
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" id="userProfileDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">

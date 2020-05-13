@@ -45,15 +45,10 @@
             <span class="color green"></span>
             <span class="color blue"></span>
         </h5> --}}
-        <div class="quantity buttons_added">
-            <input type="button" value="-" class="minus btn-number" data-type="minus">
-            <input type="text" step="1" min="1" max="20" name="quantity" value="1" title="Qty"
-                class="input-text qty text" size="4" pattern="" inputmode="">
-            <input type="button" value="+" class="plus btn-number" data-type="plus">
-        </div>
+        @include(activeTemplate().'partials.quantity-select')
         <div class="action">
             <br>
-            <button class="add-to-cart btn btn-primary btn-sm" type="button"><i class="fa fa-shopping-cart"> Add To
+            <button class="add-to-cart btn btn-primary btn-sm" type="button" onclick="addToCart({{$product->id}},'input.input-text.qty')"><i class="fa fa-shopping-cart"> Add To
                     Cart</i></button>
             {{-- <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button> --}}
         </div>

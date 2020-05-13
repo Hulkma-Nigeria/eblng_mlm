@@ -1,7 +1,17 @@
 //import { log } from "util";
 
 $(window).on('load', function () {
+  $.ajax('/user/cart-count')
+.then(res=>updateCartCount(res))
   background();
+
+  //Set header or csrf token transportation via jqury ajax
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+      }
+    });
+
 
 });
 
@@ -185,19 +195,18 @@ function background () {
 };
 
 
-
+//  MANIPULATION OF CART QUANTITY BUTTON
 $(document).on('click', '.btn-number', function (e) {
   e.preventDefault();
 
   // fieldName = $(this).attr('data-field');
   type = $(this).attr('data-type');
-  var input = $(".input-text");
-  console.log(input.val());
+  var input = $(this).siblings(".input-text");
   var currentVal = parseInt(input.val());
   if (!isNaN(currentVal)) {
     if (type == 'minus') {
       if (currentVal > input.attr('min')) {
-        input.val(currentVal - 1).change(); e
+        input.val(currentVal - 1).change();
       }
       if (parseInt(input.val()) == input.attr('min')) {
         $(this).attr('disabled', true);
@@ -257,3 +266,56 @@ $(document).on('keydown', ".input-text", function (e) {
     e.preventDefault();
   }
 });
+
+function notify (message,type, position='topRight') {
+  if(type == 'error'){
+    iziToast.error({
+      message,
+      position
+    });
+  }else{
+    iziToast.success({
+      message,
+      position
+    });
+  }
+}
+
+// ADD TO CART FUNCTIONALITY
+
+function addToCart(product_id,quantity=1)
+{
+  quantity = isNaN(quantity) || quantity == '' ? $(quantity).val() : quantity;
+  // if(isNaN(quantity)){
+  //   quantity = $(quantity).val();
+    // alert(quantity);
+  // }
+  $.ajax({
+    method:"post",
+    url:"/user/add-to-cart",
+    data: {
+      product_id,
+      quantity,
+    }
+  })
+  .then(res=>processCartCallBack(res))
+
+}
+
+function processCartCallBack(data)
+{
+  // console.log(data.success)
+  type = data.success == true ? 'success':'error';
+  $('#exampleModalCenter').modal('hide');
+  updateCartCount(data.data)
+  notify(data.message,type)
+
+}
+
+function updateCartCount(count)
+{
+  if(count>99){
+    count = '99+';
+  }
+  $('#cart_count').attr('data-count',count);
+}

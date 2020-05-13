@@ -90,11 +90,16 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('g2fa-disable', 'UserController@disable2fa')->name('go2fa.disable');
 
             // Product
-            Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
             Route::get('product', 'UserProductController@index')->name('product');
             Route::get('product/{id}/preview','UserProductController@preview')->name('prodct_preview');
-            Route::post('product', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
             Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
+
+            // Cart
+            Route::get('cart',"UserProductController@getCart")->name('cart');
+            Route::delete('cart/remove/{id}','UserProductController@deleteCartItem')->name('remove_product_from_cart');
+            Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
+            Route::post('add-to-cart', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
+            Route::get('cart-count', 'UserProductController@cartCount')->name('cart-count');
 
             // Deposit
             Route::get('deposit', 'Gateway\PaymentController@deposit')->name('deposit');
