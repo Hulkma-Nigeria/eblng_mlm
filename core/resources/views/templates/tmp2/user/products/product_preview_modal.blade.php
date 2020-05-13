@@ -15,11 +15,12 @@
           <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
           <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
         </ul> --}}
-        <img style="v-align-center" src="{{get_image(config('constants.product_image_path') . '/' . $product->images)}}">
+        <img style="v-align-center"
+            src="{{get_image(config('constants.product_image_path') . '/' . $product->images)}}">
 
     </div>
     <div class="details col-md-6">
-        <h3 class="product-title">{{$product->name}}</h3><br>
+        <h5 class="product-title">{{$product->name}}</h5><br>
         {{-- <div class="rating">
             <div class="stars">
                 <span class="fa fa-star checked"></span>
@@ -31,7 +32,7 @@
             <span class="review-no">41 reviews</span>
         </div> --}}
         <p class="product-description">{{$product->description}}</p>
-        <h4 class="price"><span>$180</span></h4>
+        <h5 class="price"><span>{{$general->cur_sym.$product->price}}</span></h5>
         {{-- <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p> --}}
         {{-- <h5 class="sizes">sizes:
             <span class="size" data-toggle="tooltip" title="small">s</span>
@@ -46,12 +47,14 @@
         </h5> --}}
         <div class="quantity buttons_added">
             <input type="button" value="-" class="minus btn-number" data-type="minus">
-            <input type="text" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+            <input type="text" step="1" min="1" max="20" name="quantity" value="1" title="Qty"
+                class="input-text qty text" size="4" pattern="" inputmode="">
             <input type="button" value="+" class="plus btn-number" data-type="plus">
         </div>
         <div class="action">
             <br>
-            <button class="add-to-cart btn btn-default btn-sm" type="button"><i class="fa fa-shopping-cart"> Add To Cart</i></button>
+            <button class="add-to-cart btn btn-primary btn-sm" type="button"><i class="fa fa-shopping-cart"> Add To
+                    Cart</i></button>
             {{-- <button class="like btn btn-default" type="button"><span class="fa fa-heart"></span></button> --}}
         </div>
     </div>

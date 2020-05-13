@@ -175,8 +175,8 @@ table tbody tr td:last-child {
     text-transform: UPPERCASE;
     font-weight: bold; }
   
-  .checked, .price span {
-    color: #ff9f1a; }
+  /* .checked, .price span {
+    color: #ff9f1a; } */
   
   .product-title, .rating, .product-description, .price, .vote, .sizes {
     margin-bottom: 15px; }
@@ -200,7 +200,7 @@ table tbody tr td:last-child {
       margin-left: 20px; }
   
   .add-to-cart, .like {
-    background: #ff9f1a;
+    /* background: #ff9f1a; */
     padding: 1.2em 1.5em;
     border: none;
     text-transform: UPPERCASE;
@@ -306,5 +306,32 @@ table tbody tr td:last-child {
     .quantity.buttons_added .minus:focus,
    .quantity.buttons_added .plus:focus {
     outline: none; }
-   
-   
+    
+
+    /* cart badge design */
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:0%;
+  content: attr(data-count);
+  font-size:40%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: white;
+  color: red;
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+  background: white;
+  border-style:solid;
+}
+.fa-circle {
+  /* color:#DF0000; */
+  /* padding:5px; */
+}
+
+.red-cart {
+  color: #DF0000;  background:white;
+  border-radius: 50%;
+}
