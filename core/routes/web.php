@@ -91,15 +91,21 @@ Route::name('user.')->prefix('user')->group(function () {
 
             // Product
             Route::get('product', 'UserProductController@index')->name('product');
-            Route::get('product/{id}/preview','UserProductController@preview')->name('prodct_preview');
+            Route::get('product/{id}/preview', 'UserProductController@preview')->name('prodct_preview');
             Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 
             // Cart
-            Route::get('cart',"UserProductController@getCart")->name('cart');
-            Route::delete('cart/remove/{id}','UserProductController@deleteCartItem')->name('remove_product_from_cart');
+            Route::get('cart', "UserProductController@getCart")->name('cart');
+            Route::delete('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
             Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
             Route::post('add-to-cart', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
             Route::get('cart-count', 'UserProductController@cartCount')->name('cart-count');
+
+            // Checkout
+            Route::get('checkout', 'CheckoutController@index')->name('checkout');
+            Route::post('checkout', 'CheckoutController@checkout')->name('confirm_checkout');
+            Route::post('checkout/confirm-user', 'CheckoutController@validateUser')->name('confirm_user');
+
 
             // Deposit
             Route::get('deposit', 'Gateway\PaymentController@deposit')->name('deposit');
@@ -114,11 +120,11 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('deposit/history', 'UserController@depositHistory')->name('deposit.history');
 
             // Withdraw
-//            Route::get('withdraw', 'UserController@withdraw')->name('withdraw');
-//            Route::post('withdraw/insert', 'UserController@withdrawInsert')->name('withdraw.insert');
-//            Route::get('withdraw/preview', 'UserController@withdrawPreview')->name('withdraw.preview');
-//            Route::post('withdraw', 'UserController@withdrawStore')->name('withdraw');
-//            Route::get('withdraw/history', 'UserController@withdrawHistory')->name('withdraw.history');
+            //            Route::get('withdraw', 'UserController@withdraw')->name('withdraw');
+            //            Route::post('withdraw/insert', 'UserController@withdrawInsert')->name('withdraw.insert');
+            //            Route::get('withdraw/preview', 'UserController@withdrawPreview')->name('withdraw.preview');
+            //            Route::post('withdraw', 'UserController@withdrawStore')->name('withdraw');
+            //            Route::get('withdraw/history', 'UserController@withdrawHistory')->name('withdraw.history');
 
             // Transaction
             Route::get('transaction-log', 'UserController@transactions')->name('transaction.index');
@@ -130,7 +136,7 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('balance-transfer-log', 'UserController@balance_tf_log')->name('balance.tf.log');
 
             // checkout
-            Route::post('checkout', 'UserProductController@checkout')->name('checkout');
+            // Route::post('checkout', 'UserProductController@checkout')->name('checkout');
 
             // orders
             Route::get('orders-pending', 'UserController@orders')->name('orders-pending');

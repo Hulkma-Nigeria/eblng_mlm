@@ -31,16 +31,16 @@ class UserProductController extends Controller
         [$products, $cartTotal, $pointValue, $cart] = $this->cartService->getProductsAndCartTotal($products);
         $buyerInfo = $cart->buyer();
         $buyer = '';
-        if($buyerInfo) {
+        if ($buyerInfo) {
             $buyer = $buyerInfo->username;
         }
         $page_title = "Products";
-        return view(activeTemplate() .'user.products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue', 'cart', 'buyer'));
+        return view(activeTemplate() . 'user.products.index', compact('page_title', 'products', 'cartTotal', 'balance', 'pointValue', 'cart', 'buyer'));
     }
     public function preview($id)
     {
         $product = $this->productModel->findOrFail($id);
-        return view(activeTemplate().'user.products.product_preview_modal', compact('product'));
+        return view(activeTemplate() . 'user.products.product_preview_modal', compact('product'));
     }
 
     /**
@@ -57,29 +57,29 @@ class UserProductController extends Controller
 
     public function cartCount()
     {
-       return $this->cartService->cartCount();
-
+        return $this->cartService->cartCount();
     }
 
 
-    public function handleCartUpdate(Request $request) {
+    public function handleCartUpdate(Request $request)
+    {
         if (!auth()->check()) {
             $notify[] = ['error', 'Please login to add to cart'];
-            return $this->addToCartResponse(false,'please login to add to cart',true,route("user.login"));
+            return $this->addToCartResponse(false, 'please login to add to cart', true, route("user.login"));
             Session::put('add-to-cart', true);
             return redirect()->route('user.login')->withNotify($notify);
         }
         $user = auth()->user();
-        if ($user->balance <= 1){
+        if ($user->balance <= 1) {
             $notify[] = ['error', 'Please deposit into your account'];
-            return $this->addToCartResponse(false,'Please deposit into your account',true,route("user.deposit"));
+            return $this->addToCartResponse(false, 'Please deposit into your account', true, route("user.deposit"));
 
             Session::put('deposit-before-add-to-cart', true);
             return redirect()->route('user.deposit')->withNotify($notify);
         }
-        if (!$user->my_level()->first()){
+        if (!$user->my_level()->first()) {
             $notify[] = ['error', 'Please subscribe to a plan to buy products'];
-            return $this->addToCartResponse(false,'Please subscribe to a plan to buy products',true,route("user.plan.purchase"));
+            return $this->addToCartResponse(false, 'Please subscribe to a plan to buy products', true, route("user.plan.purchase"));
 
             Session::put('subscribe-before-add-to-cart', true);
             return redirect()->route('user.plan.purchase')->withNotify($notify);
@@ -87,24 +87,24 @@ class UserProductController extends Controller
         $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);
         $notify[] = ['success', 'Cart updated successfully'];
 
-       $cart_count = $this->cartService->cartCount();
-        return $this->addToCartResponse(true,'Cart updated successfully',$cart_count,false,'');
+        $cart_count = $this->cartService->cartCount();
+        return $this->addToCartResponse(true, 'Cart updated successfully', $cart_count, false, '');
 
         return back()->withNotify($notify);
     }
 
-    private function addToCartResponse($success,$message,$data=null,$redirect=false,$redirect_url=null)
+    private function addToCartResponse($success, $message, $data = null, $redirect = false, $redirect_url = null)
     {
-        $code = (!$success)?400:200;
+        $code = (!$success) ? 400 : 200;
         return response([
-            'success'=>$success,
-            'message'=>$message,
-            'data'=>$data,
-            'redirect'=>[
-                'status'=>$redirect,
-                'url'=>$redirect_url
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+            'redirect' => [
+                'status' => $redirect,
+                'url' => $redirect_url
             ]
-        ],$code);
+        ], $code);
     }
 
     public function checkout(Request $request)
@@ -123,26 +123,34 @@ class UserProductController extends Controller
         $empty_message = "Cart is Empty";
         $cart = $this->cartService->cart();
         $cartItems = $cart->cartItems()->get();
-        // return $cartItems[0]->product->name;
-        return view(activeTemplate().'user.cart.index',compact('page_title','empty_message','cartItems'));
+        $point_value = $cart_total = 0;
+        // dd($cartItems);
+        $cartItems->each(function ($item) use (&$point_value, &$cart_total) {
+            // dd($item);
+            $point_value += $item->point_value;
+            $cart_total += $item->price;
+        });
+        return view(activeTemplate() . 'user.cart.index', compact('point_value', 'cart_total', 'cart', 'page_title', 'empty_message', 'cartItems'));
     }
 
-    public function deleteCartItem(Request $request,$id)
+    public function deleteCartItem(Request $request, $id)
     {
         // dd($request->all());
         $done = $this->cartService->deleteCartItem($id);
         $notify[] = ['success', 'Product removed from cart'];
-        if(!$done) {
-            $notify[] = ['error','Failed to remove product from cart'];
+        if (!$done) {
+            $notify[] = ['error', 'Failed to remove product from cart'];
             return back()->withErrors($notify);
         }
         return back()->withNotify($notify);
     }
-    public function deleteCart() {
+    public function deleteCart()
+    {
+        // dd('here');
         $done = $this->cartService->deleteCart();
         $notify[] = ['success', 'Cart successfully deleted'];
-        if(!$done) {
-            $notify[] = ['error','Unable to delete cart'];
+        if (!$done) {
+            $notify[] = ['error', 'Unable to delete cart'];
             return back()->withErrors($notify);
         }
         return back()->withNotify($notify);

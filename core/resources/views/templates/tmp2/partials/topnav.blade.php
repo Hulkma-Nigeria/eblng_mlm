@@ -16,8 +16,8 @@
     <ul class="navbar-nav ml-auto flex-row">
         <div id="ex4">
             <a href="{{route('user.cart')}}" class="text-white">
-                <span id="cart_count" class="p1 fa-stack fa-2x has-badge" data-count="4">
-                  <i class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse" ></i>
+                <span id="cart_count" class="p1 fa-stack fa-2x has-badge" data-count="0">
+                    <i class="p3 fa fa-shopping-cart fa-stack-1x xfa-inverse"></i>
                 </span>
             </a>
         </div>

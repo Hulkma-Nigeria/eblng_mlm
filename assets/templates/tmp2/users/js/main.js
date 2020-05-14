@@ -1,16 +1,17 @@
 //import { log } from "util";
 
 $(window).on('load', function () {
-  $.ajax('/user/cart-count')
-.then(res=>updateCartCount(res))
   background();
 
   //Set header or csrf token transportation via jqury ajax
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-Token': $('meta[name="_token"]').attr('content')
-      }
-    });
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-Token': $('meta[name="_token"]').attr('content')
+    }
+  });
+
+  $.ajax('/user/cart-count')
+    .then(res => updateCartCount(res))
 
 
 });
@@ -267,13 +268,13 @@ $(document).on('keydown', ".input-text", function (e) {
   }
 });
 
-function notify (message,type, position='topRight') {
-  if(type == 'error'){
+function notify (message, type, position = 'topRight') {
+  if (type == 'error') {
     iziToast.error({
       message,
       position
     });
-  }else{
+  } else {
     iziToast.success({
       message,
       position
@@ -283,39 +284,36 @@ function notify (message,type, position='topRight') {
 
 // ADD TO CART FUNCTIONALITY
 
-function addToCart(product_id,quantity=1)
-{
+function addToCart (product_id, quantity = 1) {
   quantity = isNaN(quantity) || quantity == '' ? $(quantity).val() : quantity;
   // if(isNaN(quantity)){
   //   quantity = $(quantity).val();
-    // alert(quantity);
+  // alert(quantity);
   // }
   $.ajax({
-    method:"post",
-    url:"/user/add-to-cart",
+    method: "post",
+    url: "/user/add-to-cart",
     data: {
       product_id,
       quantity,
     }
   })
-  .then(res=>processCartCallBack(res))
+    .then(res => processCartCallBack(res))
 
 }
 
-function processCartCallBack(data)
-{
+function processCartCallBack (data) {
   // console.log(data.success)
-  type = data.success == true ? 'success':'error';
+  type = data.success == true ? 'success' : 'error';
   $('#exampleModalCenter').modal('hide');
   updateCartCount(data.data)
-  notify(data.message,type)
+  notify(data.message, type)
 
 }
 
-function updateCartCount(count)
-{
-  if(count>99){
+function updateCartCount (count) {
+  if (count > 99) {
     count = '99+';
   }
-  $('#cart_count').attr('data-count',count);
+  $('#cart_count').attr('data-count', count);
 }

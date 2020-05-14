@@ -89,9 +89,9 @@ class LoginController extends Controller
             $this->username() => 'required|string',
             'password' => 'required|string',
         ];
-        if ($recaptcha) {
-            $validation_rule['g-recaptcha-response'] = 'required';
-        }
+        // if ($recaptcha) {
+        //     $validation_rule['g-recaptcha-response'] = 'required';
+        // }
         $request->validate($validation_rule);
     }
 
@@ -211,7 +211,6 @@ class LoginController extends Controller
             return redirect()->route('product');
         }
         return redirect()->route('user.home');
-
     }
 
 

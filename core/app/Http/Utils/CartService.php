@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ABDULHAFEEZ
@@ -39,18 +40,17 @@ class CartService
         $cart = $customer->carts()->where('status', '0')->first();
         $cartItems = $cart->cartItems()->get();
         $cart_count = 0;
-        foreach($cartItems as $cartItem)
-        {
+        foreach ($cartItems as $cartItem) {
             $cart_count += $cartItem->quantity;
         }
         return $cart_count;
-
     }
 
-    public function cart(): Cart {
+    public function cart(): Cart
+    {
         $customer = auth()->user();
         $current_cart = $customer->carts()->where('status', '0')->first();
-        if($current_cart) {
+        if ($current_cart) {
             return $current_cart;
         }
         $reference_no = getTrx();
@@ -59,27 +59,28 @@ class CartService
         }
         $cart = new Cart([
             'reference_no' => $reference_no,
-            'buyer_id' => $customer->id
+            // 'buyer_id' => $customer->id
         ]);
         $customer->carts()->save($cart);
         return $cart;
     }
-    public function cartQuantityAdapter($product_id, $qty) {
+    public function cartQuantityAdapter($product_id, $qty)
+    {
         $cart = $this->cart();
         $cartItems = $cart->cartItems()->get();
-        $filtered = $cartItems->filter(function ($item) use($product_id) {
+        $filtered = $cartItems->filter(function ($item) use ($product_id) {
             return $item->product_id == $product_id;
         });
         if ($filtered->count()) {
             $this->updateCart($filtered->first(), $qty);
-        }
-        else {
+        } else {
             $this->addToCart($cart, $product_id, $qty);
         }
     }
 
-    protected function updateCart(CartItem $cartItem, $qty):bool {
-        $params = ['quantity'=>$qty];
+    protected function updateCart(CartItem $cartItem, $qty): bool
+    {
+        $params = ['quantity' => $qty];
         if ($qty > 0) {
             $done = $cartItem->update($params);
             return $done;
@@ -87,7 +88,8 @@ class CartService
             return $cartItem->delete();
         }
     }
-    protected function addToCart (Cart $cart, $product_id, $qty):bool {
+    protected function addToCart(Cart $cart, $product_id, $qty): bool
+    {
         $product = $this->productModel->findOrFail($product_id);
         $cartItem = new CartItem([
             'quantity' => $qty,
@@ -99,40 +101,44 @@ class CartService
         $cI = $cart->cartItems()->save($cartItem);
         return !!$cI;
     }
-    public function getCartMetaData(Cart $cart): CartMetaData {
-        $cartTotal=$cart->shipping;
-        $pointValue=0;
-        $weightTotal=0;
+    public function getCartMetaData(Cart $cart): CartMetaData
+    {
+        $cartTotal = $cart->shipping;
+        $pointValue = 0;
+        $weightTotal = 0;
         $map = [];
         $mapKeys = [];
-        $cart->cartItems()->get()->each(function ($item) use(&$map, &$mapKeys, &$cartTotal, &$weightTotal, &$pointValue) {
-            $cartTotal+= ceil($item->quantity * $item->price);
-            $pointValue+=($item->point_value * $item->quantity);
-            $weightTotal+=$item->weight;
+        $cart->cartItems()->get()->each(function ($item) use (&$map, &$mapKeys, &$cartTotal, &$weightTotal, &$pointValue) {
+            $cartTotal += ceil($item->quantity * $item->price);
+            $pointValue += ($item->point_value * $item->quantity);
+            $weightTotal += $item->weight;
             $map[$item->product_id] = $item->quantity;
             $mapKeys[] = $item->product_id;
         });
         return new CartMetaData($mapKeys, $map, $cartTotal, $weightTotal, $pointValue);
     }
-    public function syncProductsWithCartQuantity($products, $map, $mapKeys) {
+    public function syncProductsWithCartQuantity($products, $map, $mapKeys)
+    {
         $products->map(function ($item) use ($mapKeys, $map) {
             $item->quantity = 0;
-            if(in_array($item->id, $mapKeys)) {
+            if (in_array($item->id, $mapKeys)) {
                 $item->quantity = $map[$item->id];
             }
-            $item->cartPrice = ceil(($item->quantity?$item->quantity: 1) * $item->price);
+            $item->cartPrice = ceil(($item->quantity ? $item->quantity : 1) * $item->price);
             return $item;
         });
         return $products;
     }
-    public function getProductsAndCartTotal($products) {
+    public function getProductsAndCartTotal($products)
+    {
         $cart = $this->cart();
         $cartMetaData = $this->getCartMetaData($cart);
         $products = $this->syncProductsWithCartQuantity($products, $cartMetaData->map, $cartMetaData->mapKeys);
-//        dd($products);
+        //        dd($products);
         return [$products, $cartMetaData->cartTotal, $cartMetaData->pointValue, $cart];
     }
-    public function checkout(Request $request) {
+    public function checkout(Request $request)
+    {
         $buyer_username = $request->buyer_username;
         $action_type = $request->action_type;
         $address = $request->address;
@@ -141,17 +147,17 @@ class CartService
         switch ($action_type) {
             case 'confirm_user':
                 $buyer = User::where('username', trim($buyer_username))->first();
-                if(!$buyer) {
-                    $notify[] = ['User '. $buyer_username. ' does n\'t exist'];
+                if (!$buyer) {
+                    $notify[] = ['User ' . $buyer_username . ' does n\'t exist'];
                     return back()->withErrors($notify)->withInput($request->input());
                 }
-                if ($buyer->id === auth()->id()){
+                if ($buyer->id === auth()->id()) {
                     $notify[] = ['You are not a member but a stockist'];
                     return back()->withErrors($notify)->withInput($request->input());
                 }
                 $data = ['buyer_id' => $buyer->id, 'address' => $address, 'other_info' => $other_info];
                 $cart->update($data);
-                $notify[] = ['success','User '. $buyer_username. ' will receive PV for this order on completion'];
+                $notify[] = ['success', 'User ' . $buyer_username . ' will receive PV for this order on completion'];
                 return back()->withNotify($notify);
                 break;
             case 'checkout':
@@ -165,7 +171,7 @@ class CartService
             return redirect()->route('user.plan.purchase')->withNotify($notify);
         }
         $cartMetaData = $this->getCartMetaData($cart);
-        if($cartMetaData->cartTotal > $user->balance) {
+        if ($cartMetaData->cartTotal > $user->balance) {
             $notify[] = ['error', 'Insufficient balance'];
             return back()->withErrors($notify);
         }
@@ -176,10 +182,11 @@ class CartService
         $cart->cartItems()->each(function (CartItem $cartItem) {
             $cartItem->update(['status' => PENDING]);
         });
-        $notify[] = ['success','Order initiated successfully'];
+        $notify[] = ['success', 'Order initiated successfully'];
         return redirect()->route('user.orders-pending')->withNotify($notify);
     }
-    public function getUserCarts($status) {
+    public function getUserCarts($status)
+    {
         $statuses = [
             UNORDERED => 'Un ordered',
             PENDING => 'Pending',
@@ -189,9 +196,9 @@ class CartService
             FAILED => 'Failed',
             REVIVE => 'Revived'
         ];
-        if($status === 'all') {
+        if ($status === 'all') {
             $carts =  auth()->user()->carts()->where('status', '>=', '1')->get();
-        } else{
+        } else {
             $carts =  auth()->user()->carts()->where('status', $status)->get();
         }
         $carts->each(function (Cart $cart) use ($statuses) {
@@ -204,7 +211,8 @@ class CartService
         });
         return $carts;
     }
-    public function getUsersCarts($status) {
+    public function getUsersCarts($status)
+    {
         $statuses = [
             UNORDERED => 'Un ordered',
             PENDING => 'Pending',
@@ -214,9 +222,9 @@ class CartService
             FAILED => 'Failed',
             REVIVE => 'Revived'
         ];
-        if($status === 'all') {
+        if ($status === 'all') {
             $carts =  Cart::where('status', '>=', 1)->orderBy('created_at', 'desc')->get();
-        } else{
+        } else {
             $carts =  Cart::where('status', $status)->orderBy('created_at', 'desc')->get();
         }
         $carts->each(function (Cart $cart) use ($statuses) {
@@ -228,12 +236,13 @@ class CartService
         });
         return $carts;
     }
-    public function updateCartStatus(Cart $cart, int $status) {
-        if($cart->status === $status) {
+    public function updateCartStatus(Cart $cart, int $status)
+    {
+        if ($cart->status === $status) {
             $notify[] = ['success', 'Action already performed'];
             return back()->withNotify($notify);
         }
-        if($cart->status === COMPLETED && $status === FAILED) {
+        if ($cart->status === COMPLETED && $status === FAILED) {
             $notify[] = ['error', 'You can only fail an in complete order'];
             return back()->withNotify($notify);
         }
@@ -248,10 +257,10 @@ class CartService
                 $cartTotal = ceil($cart->shipping);
                 $cart->cartItems()->each(function (CartItem $cartItem) use ($status, &$cartTotal) {
                     $cartItem->update(['status' => $status]);
-                    $cartTotal+=($cartItem->price * $cartItem->quantity);
+                    $cartTotal += ($cartItem->price * $cartItem->quantity);
                     return $cartItem;
                 });
-                if($cart->status === COMPLETED) {
+                if ($cart->status === COMPLETED) {
                     $user->update(['point_value' => $user->point_value - $cartMetaData->pointValue]);
                 }
                 $user->update(['balance' => $user->balance + $cartTotal]);
@@ -274,13 +283,13 @@ class CartService
                 $notify[] = ['success', 'Order revived successfully check pending orders'];
                 break;
             default:
-                if($cart->status === FAILED) {
+                if ($cart->status === FAILED) {
                     $notify[] = ['error', 'User has not paid please revive order and try again!'];
                     break;
                 }
-                if($status === COMPLETED && in_array($cart->status, [PENDING, PROCESSING, IN_TRANSIT]) ) {
+                if ($status === COMPLETED && in_array($cart->status, [PENDING, PROCESSING, IN_TRANSIT])) {
                     $user->update(['point_value' => $user->point_value + $cartMetaData->pointValue]);
-                } else if(($cart->status === COMPLETED) && ($status  && !in_array($status, [REVIVE, FAILED]))) {
+                } else if (($cart->status === COMPLETED) && ($status  && !in_array($status, [REVIVE, FAILED]))) {
                     $user->update(['point_value' => $user->point_value - $cartMetaData->pointValue]);
                 }
                 $cart->cartItems()->each(function (CartItem $cartItem) use ($status) {
@@ -291,31 +300,32 @@ class CartService
                 $notify[] = ['success', 'Order status changed successfully'];
                 break;
         }
-        if (!sizeof($notify)){
+        if (!sizeof($notify)) {
             $notify[] = ['error', 'No action taken'];
         }
         return back()->withNotify($notify);
     }
-    public function updateCartItemStatus(Cart $cart, CartItem $cartItem, int $status) {
+    public function updateCartItemStatus(Cart $cart, CartItem $cartItem, int $status)
+    {
         $user = $cart->user()->first();
         switch ($status) {
             case FAILED: // failed
-                if($cart->status === FAILED) {
+                if ($cart->status === FAILED) {
                     $notify[] = ['error', 'User has not paid please revive order and try again!'];
                     break;
                 }
                 $charges = ceil($cartItem->price);
-                if($cartItem->status === COMPLETED) {
+                if ($cartItem->status === COMPLETED) {
                     $pointValue = $cartItem->point_value * $cartItem->quantity;
                     $user->update(['point_value' => $user->point_value - $pointValue]);
                 }
                 $cartItem->delete();
                 $user->update(['balance' => $user->balance + $charges]);
-                $this->logTransaction($user, $charges, 'Order item refund for '.$cartItem->product->name, 'refund', $cart->reference_no ?? 'FS677D79SHS');
+                $this->logTransaction($user, $charges, 'Order item refund for ' . $cartItem->product->name, 'refund', $cart->reference_no ?? 'FS677D79SHS');
                 $notify[] = ['success', 'Order item removed successfully'];
                 break;
             default:
-                if($cart->status === FAILED) {
+                if ($cart->status === FAILED) {
                     $notify[] = ['error', 'User has not paid please revive order and try again!'];
                     break;
                 }
@@ -323,12 +333,13 @@ class CartService
                 $notify[] = ['success', 'Order item status changed successfully'];
                 break;
         }
-        if (!sizeof($notify)){
+        if (!sizeof($notify)) {
             $notify[] = ['error', 'No action taken'];
         }
         return back()->withNotify($notify);
     }
-    public function logTransaction(User $user, $amount, $title, $type, $transaction_no) {
+    public function logTransaction(User $user, $amount, $title, $type, $transaction_no)
+    {
         $user->transactions()->create([
             'amount' => $amount,
             'user_id' => $user->id,
@@ -336,55 +347,57 @@ class CartService
             'balance' => $user->balance,
             'type' => $type,
             'title' => $title,
-            'trx' => substr(getTrx(), 0,6).substr($transaction_no, 0,6),
+            'trx' => substr(getTrx(), 0, 6) . substr($transaction_no, 0, 6),
         ]);
     }
-    public function convertRouteToCartFilterKey($route) {
+    public function convertRouteToCartFilterKey($route)
+    {
         $key = 1;
         switch ($route) {
             case 'orders-pending':
-                $key=1;
+                $key = 1;
                 break;
             case 'orders-processing':
-                $key=2;
+                $key = 2;
                 break;
             case 'orders-intransit':
-                $key=3;
+                $key = 3;
                 break;
             case 'orders-completed':
-                $key=4;
+                $key = 4;
                 break;
             case 'orders-all':
-                $key='all';
+                $key = 'all';
                 break;
             case 'orders-failed':
-                $key=5;
+                $key = 5;
                 break;
             default:
                 break;
         }
         return $key;
     }
-    public function deleteCart() {
+    public function deleteCart()
+    {
         $cart = $this->cart();
-//        $user = $cart->user()->first();
-//        $cartMetaData = $this->getCartMetaData($cart);
-//        $user->update(['balance' => $user->balance + $cartMetaData->cartTotal]);
+        //        $user = $cart->user()->first();
+        //        $cartMetaData = $this->getCartMetaData($cart);
+        //        $user->update(['balance' => $user->balance + $cartMetaData->cartTotal]);
         return $cart->delete();
     }
 
     public function deleteCartItem($product_id)
     {
         $cart = $this->cart();
-        $cartItem = $cart->cartItems()->where('product_id',$product_id)->first();
+        $cartItem = $cart->cartItems()->where('product_id', $product_id)->first();
         return $cartItem->delete();
     }
-
 }
 
 
 
-class CartMetaData {
+class CartMetaData
+{
     public $mapKeys;
     public $map;
     public $cartTotal;
