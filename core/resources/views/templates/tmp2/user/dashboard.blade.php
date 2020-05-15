@@ -88,32 +88,32 @@
         </div>
 
 
-        <div class="col-xl-4 col-lg-6 col-sm-6">
-            <div class="dashboard-w2 slice bg-dark border-radius-5">
-                <div class="details">
-                    <h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_epin_recharge)}}</h2>
-                    <h4 class="mb-3">@lang('Total E-Pin Recharged')</h4>
-                    <a href="{{route('user.e_pin.recharge')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-cart-plus"></i>
-                </div>
-            </div>
-        </div>
+        {{--<div class="col-xl-4 col-lg-6 col-sm-6">--}}
+            {{--<div class="dashboard-w2 slice bg-dark border-radius-5">--}}
+                {{--<div class="details">--}}
+                    {{--<h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_epin_recharge)}}</h2>--}}
+                    {{--<h4 class="mb-3">@lang('Total E-Pin Recharged')</h4>--}}
+                    {{--<a href="{{route('user.e_pin.recharge')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>--}}
+                {{--</div>--}}
+                {{--<div class="icon">--}}
+                    {{--<i class="fa fa-cart-plus"></i>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
 
-        <div class="col-xl-4 col-lg-6 col-sm-6">
-            <div class="dashboard-w2 slice bg-default border-radius-5">
-                <div class="details">
-                    <h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_epin_generate)}}</h2>
-                    <h4 class="mb-3">@lang('Total E-Pin Generated')</h4>
-                    <a href="{{route('user.e_pin.generated')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-plus-circle"></i>
-                </div>
-            </div>
-        </div>
+        {{--<div class="col-xl-4 col-lg-6 col-sm-6">--}}
+            {{--<div class="dashboard-w2 slice bg-default border-radius-5">--}}
+                {{--<div class="details">--}}
+                    {{--<h2 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($total_epin_generate)}}</h2>--}}
+                    {{--<h4 class="mb-3">@lang('Total E-Pin Generated')</h4>--}}
+                    {{--<a href="{{route('user.e_pin.generated')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>--}}
+                {{--</div>--}}
+                {{--<div class="icon">--}}
+                    {{--<i class="fa fa-plus-circle"></i>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
 
 

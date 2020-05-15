@@ -250,7 +250,8 @@ class CartService
             $notify[] = ['error', 'Order was n\'t failed. Cannot revive order'];
             return back()->withNotify($notify);
         }
-        $user = $cart->user()->first();
+        $general = $cart->user()->first();
+        $member = $cart->buyer();
         $cartMetaData = $this->getCartMetaData($cart);
         switch ($status) {
             case FAILED: // failed
@@ -260,21 +261,21 @@ class CartService
                     $cartTotal += ($cartItem->price * $cartItem->quantity);
                     return $cartItem;
                 });
-                if ($cart->status === COMPLETED) {
-                    $user->update(['point_value' => $user->point_value - $cartMetaData->pointValue]);
+                if($cart->status === COMPLETED) {
+                    $member->update(['point_value' => $member->point_value - $cartMetaData->pointValue]);
                 }
-                $user->update(['balance' => $user->balance + $cartTotal]);
-                $this->logTransaction($user, $cartTotal, 'Order refund', 'refund', $cart->reference_no ?? 'FS677D79SHS');
+                $general->update(['balance' => $general->balance + $cartTotal]);
+                $this->logTransaction($general, $cartTotal, 'Order refund', 'refund', $cart->reference_no ?? 'FS677D79SHS');
                 $cart->update(['status' => FAILED]);
                 $notify[] = ['success', 'Order refund successful'];
                 break;
             case REVIVE: // revived
-                if ($user->balance < $cartMetaData->cartTotal) {
+                if ($general->balance < $cartMetaData->cartTotal) {
                     $notify[] = ['error', 'User balance cannot revive order'];
                     break;
                 }
-                $user->update(['balance' => $user->balance - $cartMetaData->cartTotal]);
-                $this->logTransaction($user, $cartMetaData->cartTotal, 'Order payment', 'payment', $cart->reference_no ?? 'FS677D79SHS');
+                $general->update(['balance' => $general->balance - $cartMetaData->cartTotal]);
+                $this->logTransaction($general, $cartMetaData->cartTotal, 'Order payment', 'payment', $cart->reference_no ?? 'FS677D79SHS');
                 $cart->cartItems()->each(function (CartItem $cartItem) use ($status, &$cartTotal) {
                     $cartItem->update(['status' => PENDING]);
                     return $cartItem;
@@ -287,10 +288,10 @@ class CartService
                     $notify[] = ['error', 'User has not paid please revive order and try again!'];
                     break;
                 }
-                if ($status === COMPLETED && in_array($cart->status, [PENDING, PROCESSING, IN_TRANSIT])) {
-                    $user->update(['point_value' => $user->point_value + $cartMetaData->pointValue]);
-                } else if (($cart->status === COMPLETED) && ($status  && !in_array($status, [REVIVE, FAILED]))) {
-                    $user->update(['point_value' => $user->point_value - $cartMetaData->pointValue]);
+                if($status === COMPLETED && in_array($cart->status, [PENDING, PROCESSING, IN_TRANSIT]) ) {
+                    $member->update(['point_value' => $member->point_value + $cartMetaData->pointValue]);
+                } else if(($cart->status === COMPLETED) && ($status  && !in_array($status, [REVIVE, FAILED]))) {
+                    $member->update(['point_value' => $member->point_value - $cartMetaData->pointValue]);
                 }
                 $cart->cartItems()->each(function (CartItem $cartItem) use ($status) {
                     $cartItem->update(['status' => $status]);
@@ -305,9 +306,9 @@ class CartService
         }
         return back()->withNotify($notify);
     }
-    public function updateCartItemStatus(Cart $cart, CartItem $cartItem, int $status)
-    {
-        $user = $cart->user()->first();
+    public function updateCartItemStatus(Cart $cart, CartItem $cartItem, int $status) {
+        $general = $cart->user()->first();
+        $member = $cart->buyer();
         switch ($status) {
             case FAILED: // failed
                 if ($cart->status === FAILED) {
@@ -317,11 +318,11 @@ class CartService
                 $charges = ceil($cartItem->price);
                 if ($cartItem->status === COMPLETED) {
                     $pointValue = $cartItem->point_value * $cartItem->quantity;
-                    $user->update(['point_value' => $user->point_value - $pointValue]);
+                    $member->update(['point_value' => $member->point_value - $pointValue]);
                 }
                 $cartItem->delete();
-                $user->update(['balance' => $user->balance + $charges]);
-                $this->logTransaction($user, $charges, 'Order item refund for ' . $cartItem->product->name, 'refund', $cart->reference_no ?? 'FS677D79SHS');
+                $general->update(['balance' => $general->balance + $charges]);
+                $this->logTransaction($general, $charges, 'Order item refund for '.$cartItem->product->name, 'refund', $cart->reference_no ?? 'FS677D79SHS');
                 $notify[] = ['success', 'Order item removed successfully'];
                 break;
             default:

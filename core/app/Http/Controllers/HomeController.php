@@ -102,7 +102,7 @@ class HomeController extends Controller
                     if (Session::get('subscribe-before-add-to-cart')) {
                         Session::remove('subscribe-before-add-to-cart');
                         $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
-                        return redirect()->route('product');
+                        return redirect()->route('user.product');
                     }
                     $notify[] = ['success', 'Purchased ' . $plan->name . ' Successfully'];
                     return redirect()->route('user.home')->withNotify($notify);

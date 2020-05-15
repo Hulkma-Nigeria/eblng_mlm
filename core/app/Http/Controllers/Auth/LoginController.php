@@ -47,12 +47,30 @@ class LoginController extends Controller
         $page_title = "Sign In";
         return view(activeTemplate() . 'user.auth.login', compact('page_title'));
     }
+    protected function sendLoginResponse(Request $request)
+    {
+        $user = $this->guard()->user();
+//        dd($user);
+        $request->session()->regenerate();
 
+        $this->clearLoginAttempts($request);
+        $authenticated = $this->authenticated($request, $this->guard()->user());
+        if ($authenticated) {
+            if ($user->access_type === 'member') {
+                return  redirect()->route('user.home');
+            }
+            else if ($user->access_type === 'general') {
+                return  redirect()->route('user.home');
+            }
+            else if ($user->access_type === 'admin') {
+                return  redirect()->route('admin.dashboard');
+            }
+        }
+        return null;
+    }
 
     public function login(Request $request)
     {
-
-
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle

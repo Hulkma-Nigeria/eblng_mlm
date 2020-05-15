@@ -19,9 +19,7 @@ class AdminController extends Controller
 
     public function dashboard(Request $request)
     {
-
-
-
+        
         $page_title = 'Dashboard';
         $user_login_data = UserLogin::whereYear('created_at', '>=', \Carbon\Carbon::now()->subYear())->get(['browser', 'os', 'country']);
         $chart['user_browser_counter'] = $user_login_data->groupBy('browser')->map(function ($item, $key) {

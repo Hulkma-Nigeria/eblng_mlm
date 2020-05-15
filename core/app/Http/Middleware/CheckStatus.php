@@ -19,8 +19,10 @@ class CheckStatus
         if (Auth::check()) {
             $user = Auth()->user();
             if ($user->status  && $user->ev  && $user->sv  && $user->tv) {
+//                dd('okay');
                 return $next($request);
             } else {
+//                dd('hie');
                 return redirect()->route('user.authorization');
             }
         }
