@@ -53,21 +53,31 @@ Route::post('subscriber', 'SiteController@subscriberStore')->name('subscriber.st
 
 
 
-Route::get('user/register/{username}', 'Auth\RegisterController@showRegistrationFormRef');
-Route::name('user.')->prefix('user')->group(function () {
+Route::middleware('web')->name('user.')->prefix('user')->group(function () {
+    // LOGIN ROUTES
     Route::get('/login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\LoginController@login');
-    Route::get('logout', 'Auth\LoginController@logoutGet')->name('logout');
+
+    //PASSWORD RESET ROUTES
     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
     Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
     Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.updates');
     Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
     Route::post('password/verify-code', 'Auth\ForgotPasswordController@verifyCode')->name('password.verify-code');
 
+    // REGISTRATION ROUTES
+    Route::get('register/{username}', 'Auth\RegisterController@showRegistrationFormRef');
+    Route::post('register/get-referer', 'Auth\RegisterController@getReferer')->name('get.referer');
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register')->middleware('regStatus');
 
-    Route::middleware(['auth', 'allow:member'])->group(function () {
+
+    Route::get('logout', 'Auth\LoginController@logoutGet')->name('logout');
+});
+Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
+
+    // GENERAL ROUTES FOR BOTH MEMBERS AND GENERALS
+    Route::middleware(['allow:member,general'])->group(function () {
         Route::get('authorization', 'AuthorizationController@authorizeForm')->name('authorization');
         Route::get('resend-verify', 'AuthorizationController@sendVerifyCode')->name('send_verify_code');
         Route::post('verify-email', 'AuthorizationController@emailVerification')->name('verify_email');
@@ -81,6 +91,12 @@ Route::name('user.')->prefix('user')->group(function () {
         Route::post('ticket/comment/{id}', 'TicketController@comment')->name('ticket.comment');
         Route::post('ticket/close/{id}', 'TicketController@close')->name('ticket.close');
 
+        //user profile
+        Route::get('/profile', 'UserController@profileIndex')->name('profile');
+        Route::put('/profile', 'UserController@profileUpdate')->name('profile.update');
+        Route::put('/password', 'UserController@passwordUpdate')->name('password.update');
+        Route::get('/login/history', 'UserController@loginHistory')->name('login.history');
+
         Route::middleware(['ckstatus'])->group(function () {
             Route::get('dashboard', 'UserController@home')->name('home');
 
@@ -88,24 +104,6 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::get('g2fa', 'UserController@show2faForm')->name('go2fa');
             Route::post('g2fa', 'UserController@create2fa')->name('go2fa');
             Route::post('g2fa-disable', 'UserController@disable2fa')->name('go2fa.disable');
-
-            // Product
-            Route::get('product', 'UserProductController@index')->name('product');
-            Route::get('product/{id}/preview', 'UserProductController@preview')->name('prodct_preview');
-            Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
-
-            // Cart
-            Route::get('cart', "UserProductController@getCart")->name('cart');
-            Route::delete('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
-            Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
-            Route::post('add-to-cart', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
-            Route::get('cart-count', 'UserProductController@cartCount')->name('cart-count');
-
-            // Checkout
-            Route::get('checkout', 'CheckoutController@index')->name('checkout');
-            Route::post('checkout', 'CheckoutController@checkout')->name('confirm_checkout');
-            Route::post('checkout/confirm-user', 'CheckoutController@validateUser')->name('confirm_user');
-
 
             // Deposit
             Route::get('deposit', 'Gateway\PaymentController@deposit')->name('deposit');
@@ -138,15 +136,7 @@ Route::name('user.')->prefix('user')->group(function () {
             // checkout
             // Route::post('checkout', 'UserProductController@checkout')->name('checkout');
 
-            // orders
-            Route::get('orders-pending', 'UserController@orders')->name('orders-pending');
-            Route::get('orders-processing', 'UserController@orders')->name('orders-processing');
-            Route::get('orders-intransit', 'UserController@orders')->name('orders-intransit');
-            Route::get('orders-completed', 'UserController@orders')->name('orders-completed');
-            Route::get('orders-failed', 'UserController@orders')->name('orders-failed');
-            Route::get('orders-all', 'UserController@orders')->name('orders-all');
 
-            Route::get('order/{cart}', 'UserController@order')->name('orders.order');
             // Support ticket
             Route::get('ticket', 'TicketController@index')->name('ticket');
             Route::post('ticket/new', 'TicketController@new')->name('ticket.new');
@@ -155,19 +145,19 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('ticket/close/{id}', 'TicketController@close')->name('ticket.close');
 
             //user profile
-            Route::get('/profile', 'UserController@profileIndex')->name('profile');
-            Route::put('/profile', 'UserController@profileUpdate')->name('profile.update');
-            Route::put('/password', 'UserController@passwordUpdate')->name('password.update');
-            Route::get('/login/history', 'UserController@loginHistory')->name('login.history');
+            // Route::get('/profile', 'UserController@profileIndex')->name('profile');
+            // Route::put('/profile', 'UserController@profileUpdate')->name('profile.update');
+            // Route::put('/password', 'UserController@passwordUpdate')->name('password.update');
+            // Route::get('/login/history', 'UserController@loginHistory')->name('login.history');
 
 
             //pin-recharge
-//            Route::get('/pin-recharge', 'HomeController@pinRecharge')->name('pin.recharge');
-//            Route::post('/pin-recharge', 'HomeController@pinRechargePost')->name('pin.recharge.post');
-//            Route::post('/pin-generate', 'HomeController@pinGenerate')->name('pin.generate');
-//
-//            Route::get('/pin-recharged', 'HomeController@EPinRecharge')->name('e_pin.recharge');
-//            Route::get('/pin-generated', 'HomeController@EPinGenerated')->name('e_pin.generated');
+            //            Route::get('/pin-recharge', 'HomeController@pinRecharge')->name('pin.recharge');
+            //            Route::post('/pin-recharge', 'HomeController@pinRechargePost')->name('pin.recharge.post');
+            //            Route::post('/pin-generate', 'HomeController@pinGenerate')->name('pin.generate');
+            //
+            //            Route::get('/pin-recharged', 'HomeController@EPinRecharge')->name('e_pin.recharge');
+            //            Route::get('/pin-generated', 'HomeController@EPinGenerated')->name('e_pin.generated');
 
 
 
@@ -188,9 +178,42 @@ Route::name('user.')->prefix('user')->group(function () {
             Route::post('/search-user', 'HomeController@searchUser')->name('search.user');
         });
     });
+
+
+    // GENERAL SPECIFIC ROUTES
+    Route::middleware(['allow:general'])->group(function () {
+
+        // orders
+        Route::get('orders-pending', 'UserController@orders')->name('orders-pending');
+        Route::get('orders-processing', 'UserController@orders')->name('orders-processing');
+        Route::get('orders-intransit', 'UserController@orders')->name('orders-intransit');
+        Route::get('orders-completed', 'UserController@orders')->name('orders-completed');
+        Route::get('orders-failed', 'UserController@orders')->name('orders-failed');
+        Route::get('orders-all', 'UserController@orders')->name('orders-all');
+
+        Route::get('order/{cart}', 'UserController@order')->name('orders.order');
+
+        // Product
+        Route::get('product', 'UserProductController@index')->name('product');
+        Route::get('product/{id}/preview', 'UserProductController@preview')->name('prodct_preview');
+        Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
+
+        // Cart
+        Route::get('cart', "UserProductController@getCart")->name('cart');
+        Route::delete('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
+        Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
+        Route::post('add-to-cart', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
+        Route::get('cart-count', 'UserProductController@cartCount')->name('cart-count');
+
+        // Checkout
+        Route::get('checkout', 'CheckoutController@index')->name('checkout');
+        Route::post('checkout', 'CheckoutController@checkout')->name('confirm_checkout');
+        Route::post('checkout/confirm-user', 'CheckoutController@validateUser')->name('confirm_user');
+    });
 });
 
 
+// ADMIN SPECIFIC ROUTES
 Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['allow:admin', 'ckstatus'])->group(function () {
         Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
@@ -263,7 +286,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('users/send-email', 'ManageUsersController@sendEmailAll')->name('users.email.all');
         Route::get('user/send-email/{id}', 'ManageUsersController@showEmailSingleForm')->name('users.email.single');
         Route::post('user/send-email/{id}', 'ManageUsersController@sendEmailSingle')->name('users.email.single');
-//        Route::get('user/withdrawals/{id}', 'ManageUsersController@withdrawals')->name('users.withdrawals');
+        //        Route::get('user/withdrawals/{id}', 'ManageUsersController@withdrawals')->name('users.withdrawals');
         Route::get('user/deposits/{id}', 'ManageUsersController@deposits')->name('users.deposits');
         Route::get('user/transactions/{id}', 'ManageUsersController@transactions')->name('users.transactions');
 
@@ -290,22 +313,22 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('subscriber/send-email', 'SubscriberController@sendEmail')->name('subscriber.sendEmail');
 
         // WITHDRAW SYSTEM
-//        Route::get('withdraw/pending', 'WithdrawalController@pending')->name('withdraw.pending');
-//        Route::get('withdraw/approved', 'WithdrawalController@approved')->name('withdraw.approved');
-//        Route::get('withdraw/rejected', 'WithdrawalController@rejected')->name('withdraw.rejected');
-//        Route::get('withdraw/log', 'WithdrawalController@log')->name('withdraw.log');
-//        Route::get('withdraw/{scope}/search', 'WithdrawalController@search')->name('withdraw.search');
-//        Route::post('withdraw/approve', 'WithdrawalController@approve')->name('withdraw.approve');
-//        Route::post('withdraw/reject', 'WithdrawalController@reject')->name('withdraw.reject');
+        //        Route::get('withdraw/pending', 'WithdrawalController@pending')->name('withdraw.pending');
+        //        Route::get('withdraw/approved', 'WithdrawalController@approved')->name('withdraw.approved');
+        //        Route::get('withdraw/rejected', 'WithdrawalController@rejected')->name('withdraw.rejected');
+        //        Route::get('withdraw/log', 'WithdrawalController@log')->name('withdraw.log');
+        //        Route::get('withdraw/{scope}/search', 'WithdrawalController@search')->name('withdraw.search');
+        //        Route::post('withdraw/approve', 'WithdrawalController@approve')->name('withdraw.approve');
+        //        Route::post('withdraw/reject', 'WithdrawalController@reject')->name('withdraw.reject');
 
         // Withdraw Method
-//        Route::get('withdraw/method/', 'WithdrawMethodController@methods')->name('withdraw.method.methods');
-//        Route::get('withdraw/method/new', 'WithdrawMethodController@create')->name('withdraw.method.create');
-//        Route::post('withdraw/method/store', 'WithdrawMethodController@store')->name('withdraw.method.store');
-//        Route::get('withdraw/method/edit/{id}', 'WithdrawMethodController@edit')->name('withdraw.method.edit');
-//        Route::post('withdraw/method/edit/{id}', 'WithdrawMethodController@update')->name('withdraw.method.update');
-//        Route::post('withdraw/method/activate', 'WithdrawMethodController@activate')->name('withdraw.method.activate');
-//        Route::post('withdraw/method/deactivate', 'WithdrawMethodController@deactivate')->name('withdraw.method.deactivate');
+        //        Route::get('withdraw/method/', 'WithdrawMethodController@methods')->name('withdraw.method.methods');
+        //        Route::get('withdraw/method/new', 'WithdrawMethodController@create')->name('withdraw.method.create');
+        //        Route::post('withdraw/method/store', 'WithdrawMethodController@store')->name('withdraw.method.store');
+        //        Route::get('withdraw/method/edit/{id}', 'WithdrawMethodController@edit')->name('withdraw.method.edit');
+        //        Route::post('withdraw/method/edit/{id}', 'WithdrawMethodController@update')->name('withdraw.method.update');
+        //        Route::post('withdraw/method/activate', 'WithdrawMethodController@activate')->name('withdraw.method.activate');
+        //        Route::post('withdraw/method/deactivate', 'WithdrawMethodController@deactivate')->name('withdraw.method.deactivate');
 
         //ORDER MANAGEMENT SYSTEM
         // orders
@@ -351,7 +374,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         Route::get('report/purchased-plan', 'ReportController@purchasedPlan')->name('report.purchased.plan');
         Route::get('report/referral-commission', 'ReportController@RefCom')->name('report.refcom');
-//        Route::get('report/e-pin-recharge', 'ReportController@e_pinRecharge')->name('report.e_pin.recharge');
+        //        Route::get('report/e-pin-recharge', 'ReportController@e_pinRecharge')->name('report.e_pin.recharge');
         Route::get('report/referral-bonus', 'ReportController@Ref_bonus')->name('report.ref_bonus');
 
         // Support Ticket
@@ -412,9 +435,9 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
 
         //e-pin
-//        Route::get('/manage-pin', 'AdminController@managePin')->name('manage-pin');
-//        Route::get('/used-pin', 'AdminController@UsedPin')->name('used-pin');
-//        Route::post('/manage-pin', 'AdminController@storePin')->name('storePin');
+        //        Route::get('/manage-pin', 'AdminController@managePin')->name('manage-pin');
+        //        Route::get('/used-pin', 'AdminController@UsedPin')->name('used-pin');
+        //        Route::post('/manage-pin', 'AdminController@storePin')->name('storePin');
 
         Route::resources([
 

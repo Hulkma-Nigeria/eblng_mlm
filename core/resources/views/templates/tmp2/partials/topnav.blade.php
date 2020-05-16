@@ -14,6 +14,7 @@
     </div>
 
     <ul class="navbar-nav ml-auto flex-row">
+        @if (auth()->user()->access_type == 'general')
         <div id="ex4">
             <a href="{{route('user.cart')}}" class="text-white">
                 <span id="cart_count" class="p1 fa-stack fa-2x has-badge" data-count="0">
@@ -21,6 +22,7 @@
                 </span>
             </a>
         </div>
+        @endif
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" id="userProfileDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">

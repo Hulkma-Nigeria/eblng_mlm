@@ -192,7 +192,7 @@
             timer = setTimeout(() => {
                 $.ajax({
                 method:'post',
-                url:'{{route("get_referer")}}',
+                url:'{{route("user.get.referer")}}',
                 data:{username: $(elem).val()}
                 })
                 .then(res => getRefererCallback(res,elem))

@@ -50,23 +50,22 @@ class LoginController extends Controller
     protected function sendLoginResponse(Request $request)
     {
         $user = $this->guard()->user();
-//        dd($user);
+        // dd($user);
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
+        // dd($request->all());
         $authenticated = $this->authenticated($request, $this->guard()->user());
         if ($authenticated) {
             if ($user->access_type === 'member') {
                 return  redirect()->route('user.home');
-            }
-            else if ($user->access_type === 'general') {
+            } else if ($user->access_type === 'general') {
                 return  redirect()->route('user.home');
-            }
-            else if ($user->access_type === 'admin') {
+            } else if ($user->access_type === 'admin') {
                 return  redirect()->route('admin.dashboard');
             }
         }
-        return null;
+        return 'null';
     }
 
     public function login(Request $request)

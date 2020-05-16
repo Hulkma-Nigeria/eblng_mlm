@@ -3,9 +3,9 @@
     <div class="navbar-brand-wrapper d-flex justify-content-start align-items-center">
         <a href="{{ route('user.home') }}" class="navbar-brand">
             <span class="logo-one"><img src="{{ get_image(config('constants.logoIcon.path') .'/logo.png') }}"
-                                        alt="logo-image"/></span>
+                    alt="logo-image" /></span>
             <span class="logo-two"><img src="{{ get_image(config('constants.logoIcon.path') .'/favicon.png') }}"
-                                        alt="logo-image"/></span>
+                    alt="logo-image" /></span>
         </a>
     </div>
     <div id="main-sidebar">
@@ -40,41 +40,41 @@
 
             @if(auth()->user()->plan_id == 0)
 
-                <li class="nav-item {{ sidenav_active('user.plan.index') }}">
-                    <a href="{{ route('user.plan.index') }}" class="nav-link">
-                        <span class="menu-icon"><i class="fa fa-lightbulb-o text-facebook"></i></span>
-                        <span class="menu-title">@lang('Subscribe Plan')</span>
-                    </a>
-                </li>
+            <li class="nav-item {{ sidenav_active('user.plan.index') }}">
+                <a href="{{ route('user.plan.index') }}" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-lightbulb-o text-facebook"></i></span>
+                    <span class="menu-title">@lang('Subscribe Plan')</span>
+                </a>
+            </li>
 
             @endif
 
             {{--<li class="nav-item {{ sidenav_active('user.withdraw*') }}">--}}
-                {{--<a href="#" class="nav-link">--}}
-                    {{--<span class="menu-icon"><i class="fa fa-credit-card text-primary"></i></span>--}}
-                    {{--<span class="menu-title">@lang('Withdrawal')</span>--}}
-                    {{--<span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>--}}
-                {{--</a>--}}
-                {{--<ul class="sub-menu">--}}
-                    {{--<li class="nav-item {{ sidenav_active('user.withdraw') }}">--}}
-                        {{--<a class="nav-link" href="{{ route('user.withdraw') }}">--}}
-                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
-                            {{--<span class="menu-title">@lang('Withdraw Now')</span>--}}
-                        {{--</a>--}}
-                    {{--</li>--}}
-                    {{--<li class="nav-item {{ sidenav_active('user.withdraw.history') }}">--}}
-                        {{--<a class="nav-link" href="{{ route('user.withdraw.history') }}">--}}
-                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
-                            {{--<span class="menu-title">@lang('Withdraw History')</span>--}}
-                        {{--</a>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
+            {{--<a href="#" class="nav-link">--}}
+            {{--<span class="menu-icon"><i class="fa fa-credit-card text-primary"></i></span>--}}
+            {{--<span class="menu-title">@lang('Withdrawal')</span>--}}
+            {{--<span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>--}}
+            {{--</a>--}}
+            {{--<ul class="sub-menu">--}}
+            {{--<li class="nav-item {{ sidenav_active('user.withdraw') }}">--}}
+            {{--<a class="nav-link" href="{{ route('user.withdraw') }}">--}}
+            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+            {{--<span class="menu-title">@lang('Withdraw Now')</span>--}}
+            {{--</a>--}}
+            {{--</li>--}}
+            {{--<li class="nav-item {{ sidenav_active('user.withdraw.history') }}">--}}
+            {{--<a class="nav-link" href="{{ route('user.withdraw.history') }}">--}}
+            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+            {{--<span class="menu-title">@lang('Withdraw History')</span>--}}
+            {{--</a>--}}
+            {{--</li>--}}
+            {{--</ul>--}}
             {{--</li>--}}
             {{--<li class="nav-item {{ sidenav_active('user.pin.recharge') }}">--}}
-                {{--<a href="{{ route('user.pin.recharge') }}" class="nav-link">--}}
-                    {{--<span class="menu-icon"><i class="fa fa-credit-card text-facebook"></i></span>--}}
-                    {{--<span class="menu-title">@lang('E-Pin Recharge')</span>--}}
-                {{--</a>--}}
+            {{--<a href="{{ route('user.pin.recharge') }}" class="nav-link">--}}
+            {{--<span class="menu-icon"><i class="fa fa-credit-card text-facebook"></i></span>--}}
+            {{--<span class="menu-title">@lang('E-Pin Recharge')</span>--}}
+            {{--</a>--}}
             {{--</li>--}}
             <li class="nav-item {{ sidenav_active('user.balance.transfer') }}">
                 <a href="{{ route('user.balance.transfer') }}" class="nav-link">
@@ -88,6 +88,8 @@
                     <span class="menu-title">@lang('My Matrix')</span>
                 </a>
             </li>
+            @if (auth()->user()->access_type == 'general')
+
             <li class="nav-item {{ sidenav_active('user.product') }}">
                 <a href="{{route('user.product')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-sitemap text-facebook"></i></span>
@@ -139,6 +141,9 @@
                     </li>
                 </ul>
             </li>
+            @endif
+
+
             <li class="nav-item {{ sidenav_active('user.ref.index') }}">
                 <a href="{{route('user.ref.index')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-users text-facebook"></i></span>

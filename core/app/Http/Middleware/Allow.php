@@ -22,16 +22,20 @@ class Allow
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$role)
     {
-//        dd($request);
+        // dd($role);
         if (Auth::check()) {
             $user = Auth()->user();
-            if ($user->access_type === $role) {
+            if (is_array($role) && in_array($user->access_type, $role)) {
                 return $next($request);
             }
+            // if ($user->access_type === $role) {
+            //     return $next($request);
+            // }
         }
-        $this->controller->logoutGet();
-        return redirect()->route('user.login');
+        // $this->controller->logoutGet();
+        // return redirect()->route('user.login');
+        return abort('404');
     }
 }
