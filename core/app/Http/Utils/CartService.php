@@ -59,7 +59,7 @@ class CartService
         }
         $cart = new Cart([
             'reference_no' => $reference_no,
-            // 'buyer_id' => $customer->id
+            'buyer_id' => $customer->id
         ]);
         $customer->carts()->save($cart);
         return $cart;

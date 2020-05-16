@@ -6,6 +6,7 @@ use App\GeneralSetting;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\WithdrawMethod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -43,23 +44,45 @@ class RegisterController extends Controller
         return view(activeTemplate() . 'user.auth.register', compact('page_title'));
     }
 
-    public function showRegistrationFormRef($username){
+    public function showRegistrationFormRef($username)
+    {
 
 
-  $ref_user = User::where('username', $username)->first();
-        if (isset($ref_user)){
+        $ref_user = User::where('username', $username)->first();
+        if (isset($ref_user)) {
             $page_title = "Sign Up";
-            if ($ref_user->plan_id == 0){
+            if ($ref_user->plan_id == 0) {
 
-                $notify[] = ['error', $ref_user->username.' did not in subscribed in any plan'];
+                $notify[] = ['error', $ref_user->username . ' did not in subscribed in any plan'];
                 return redirect()->route('user.register')->withNotify($notify);
-
-
             }
-            return view(activeTemplate().'.user.auth.register',compact('page_title', 'ref_user'));
-        }else{
+            return view(activeTemplate() . '.user.auth.register', compact('page_title', 'ref_user'));
+        } else {
             return redirect()->route('user.register');
         }
+    }
+
+    public function getReferer(Request $request)
+    {
+        $username = $request->username;
+        $user = User::where('username', $username)->first();
+        if (!$user) {
+            return response([
+                'success' => false,
+                'message' => "No user found with user name <strong>{$username}</strong>"
+            ]);
+        } else if ($user->plan_id == 0) {
+            return response([
+                'success' => false,
+                'message' => "User <strong>{$username}</strong> does not have an active plan"
+            ]);
+        }
+        return response([
+            'success' => true,
+            'message' => "<strong>{$user->fullname}</strong> is your referer",
+            'user_id' => $user->id
+
+        ]);
     }
 
     /**
@@ -91,6 +114,7 @@ class RegisterController extends Controller
     {
         $gnl = GeneralSetting::first();
 
+        // dd($data);
 
         return User::create([
             'ref_id' => $data['ref_id'],
@@ -100,12 +124,14 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'username' => $data['username'],
             'mobile' => $data['mobile'],
+            'bank_name' => $data['bank_name'],
+            'account_number' => $data['account_number'],
             'address' => [
-                'address' => '',
-                'state' => '',
-                'zip' => '',
-                'country' => '',
-                'city' => '',
+                'address' => $data['address'] ?? '',
+                'state' => $data['state'] ?? '',
+                'zip' => $data['zip'] ?? '',
+                'country' => $data['country'] ?? '',
+                'city' => $data['city'] ?? '',
             ],
             'status' => 1,
             'ev' =>  $gnl->ev ? 0 : 1,

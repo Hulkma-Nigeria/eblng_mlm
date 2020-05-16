@@ -75,7 +75,7 @@ class UserProductController extends Controller
             return $this->addToCartResponse(false, 'Please deposit into your account', true, route("user.deposit"));
 
             Session::put('deposit-before-add-to-cart', true);
-            return redirect()->route('user.deposit')->withNotify($notify);
+            return redirect()->route(request()->segment(1) . '.deposit')->withNotify($notify);
         }
         if (!$user->my_level()->first()) {
             $notify[] = ['error', 'Please subscribe to a plan to buy products'];

@@ -38,26 +38,26 @@
 .login-area .login-form {
 	margin-top: 50px;
 }
-.login-area .login-form .frm-grp input {
-  border: 1px solid #5220c5;
-  width: 100%;
-  padding: 12px 20px;
-  color: #ffffff;
-  z-index: 9;
-  background-color: #3c139c;
-  border-radius: 3px
+.login-area .login-form .frm-grp input, .signin-textarea  {
+  border: 1px solid #5220c5 !important;
+  width: 100% !important;
+  padding: 12px 20px !important;
+  color: #ffffff  !important;
+  z-index: 9 !important;
+  background-color: #3c139c  !important;
+  border-radius: 3px !important
 }
-.login-area .login-form .frm-grp input::-webkit-input-placeholder {
-  color: #ffffff80;
+.login-area .login-form .frm-grp input::-webkit-input-placeholder, .signin-textarea::-webkit-input-placeholder {
+  color: #ffffff80 !important;
 }
-.login-area .login-form .frm-grp input::-moz-placeholder {
-  color: #ffffff80;
+.login-area .login-form .frm-grp input::-moz-placeholder, .signin-textarea::-moz-placeholder {
+  color: #ffffff80 !important;
 }
-.login-area .login-form .frm-grp input:-ms-input-placeholder {
-  color: #ffffff80;
+.login-area .login-form .frm-grp input:-ms-input-placeholder, .signin-textarea:-ms-input-placeholder {
+  color: #ffffff80 !important;
 }
-.login-area .login-form .frm-grp input:-moz-placeholder { 
-  color: #ffffff80;
+.login-area .login-form .frm-grp input:-moz-placeholder, .signin-textarea:-moz-placeholder{ 
+  color: #ffffff80 !important;
 }
 .login-area .login-form .btn-area {
   margin: 30px -10px -8px -10px;
