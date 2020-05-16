@@ -70,12 +70,12 @@
                     {{--</li>--}}
                 {{--</ul>--}}
             {{--</li>--}}
-            <li class="nav-item {{ sidenav_active('user.pin.recharge') }}">
-                <a href="{{ route('user.pin.recharge') }}" class="nav-link">
-                    <span class="menu-icon"><i class="fa fa-credit-card text-facebook"></i></span>
-                    <span class="menu-title">@lang('E-Pin Recharge')</span>
-                </a>
-            </li>
+            {{--<li class="nav-item {{ sidenav_active('user.pin.recharge') }}">--}}
+                {{--<a href="{{ route('user.pin.recharge') }}" class="nav-link">--}}
+                    {{--<span class="menu-icon"><i class="fa fa-credit-card text-facebook"></i></span>--}}
+                    {{--<span class="menu-title">@lang('E-Pin Recharge')</span>--}}
+                {{--</a>--}}
+            {{--</li>--}}
             <li class="nav-item {{ sidenav_active('user.balance.transfer') }}">
                 <a href="{{ route('user.balance.transfer') }}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-exchange text-facebook"></i></span>

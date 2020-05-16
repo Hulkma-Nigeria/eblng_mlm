@@ -115,19 +115,19 @@
             </div>
         </div>
 
-        <div class="col-xl-4 col-lg-6 col-sm-6">
-            <div class="dashboard-w2 slice border-radius-5" data-bg="ff5252" data-before="b33939"
-                 style="background: #ff5252; --before-bg-color:#b33939;">
-                <div class="details">
-                    <h2 class="amount mb-2 font-weight-bold">{{ $general->cur_sym }} {{ formatter_money($total_e_pin_re) }}</h2>
-                    <h6 class="mb-3">Total E-PIN Recharge</h6>
-                    <a href="{{ route('admin.report.e_pin.recharge') }}" class="btn btn-sm btn-neutral">View all</a>
-                </div>
-                <div class="icon">
-                    <i class="fa fa-credit-card"></i>
-                </div>
-            </div>
-        </div>
+        {{--<div class="col-xl-4 col-lg-6 col-sm-6">--}}
+            {{--<div class="dashboard-w2 slice border-radius-5" data-bg="ff5252" data-before="b33939"--}}
+                 {{--style="background: #ff5252; --before-bg-color:#b33939;">--}}
+                {{--<div class="details">--}}
+                    {{--<h2 class="amount mb-2 font-weight-bold">{{ $general->cur_sym }} {{ formatter_money($total_e_pin_re) }}</h2>--}}
+                    {{--<h6 class="mb-3">Total E-PIN Recharge</h6>--}}
+                    {{--<a href="{{ route('admin.report.e_pin.recharge') }}" class="btn btn-sm btn-neutral">View all</a>--}}
+                {{--</div>--}}
+                {{--<div class="icon">--}}
+                    {{--<i class="fa fa-credit-card"></i>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
         <div class="col-xl-4 col-lg-6 col-sm-6">
             <div class="dashboard-w2 slice border-radius-5" data-bg="B33771" data-before="6D214F"

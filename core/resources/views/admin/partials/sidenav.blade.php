@@ -26,28 +26,28 @@
 
 
 
-            <li class="nav-item {{ sidenav_active('admin.manage-pin') }}{{ sidenav_active('admin.used-pin') }}">
-                <a data-default-url="{{ route('admin.report.transaction') }}" class="nav-link">
-                    <span class="menu-icon"><i class="fa fa-clipboard text-facebook"></i></span>
-                    <span class="menu-title">Manage-pin</span>
-                    <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
-                </a>
+            {{--<li class="nav-item {{ sidenav_active('admin.manage-pin') }}{{ sidenav_active('admin.used-pin') }}">--}}
+                {{--<a data-default-url="{{ route('admin.report.transaction') }}" class="nav-link">--}}
+                    {{--<span class="menu-icon"><i class="fa fa-clipboard text-facebook"></i></span>--}}
+                    {{--<span class="menu-title">Manage-pin</span>--}}
+                    {{--<span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>--}}
+                {{--</a>--}}
 
-                <ul class="sub-menu">
-                    <li class="nav-item {{ sidenav_active('admin.manage-pin') }}">
-                        <a class="nav-link" href="{{ route('admin.manage-pin') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Generate E-PIN</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('admin.used-pin') }}">
-                        <a class="nav-link" href="{{ route('admin.used-pin') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Used E-PIN</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+                {{--<ul class="sub-menu">--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.manage-pin') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.manage-pin') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">Generate E-PIN</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.used-pin') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.used-pin') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">Used E-PIN</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
 
             {{-- PRODUCT MANAGEMENT --}}
             <li class="nav-item {{ sidenav_active('admin.products.index') }}{{ sidenav_active('admin.products.index') }}">
@@ -62,12 +62,6 @@
                         <a class="nav-link" href="{{ route('admin.products.index') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
                             <span class="menu-title">List Product</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('admin.used-pin') }}">
-                        <a class="nav-link" href="{{ route('admin.used-pin') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Products Status Report</span>
                         </a>
                     </li>
                 </ul>
@@ -184,49 +178,49 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item {{ sidenav_active('admin.withdraw*') }}">
-                <a data-default-url="{{ route('admin.withdraw.method.methods') }}" class="nav-link">
-                    <span class="menu-icon"><i class="fa fa-bank text-facebook"></i></span>
-                    <span class="menu-title">Withdraw System</span>
-                    @if($pending_withdrawals_count > 0)
-                        <span class="badge bg-orange border-radius-10"><i class="fa px-1 fa-exclamation"></i></span>
-                    @endif
-                    <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item {{ sidenav_active('admin.withdraw.method*') }}">
-                        <a class="nav-link" href="{{ route('admin.withdraw.method.methods') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Withdraw Methods</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('admin.withdraw.pending') }}">
-                        <a class="nav-link" href="{{ route('admin.withdraw.pending') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Pending Withdrawals</span>
-                            @if($pending_withdrawals_count) <span class="badge bg-blue border-radius-10">{{ $pending_withdrawals_count }}</span> @endif
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('admin.withdraw.approved') }}">
-                        <a class="nav-link" href="{{ route('admin.withdraw.approved') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Approved Withdrawals</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('admin.withdraw.rejected') }}">
-                        <a class="nav-link" href="{{ route('admin.withdraw.rejected') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">Rejected Withdrawals</span>
-                        </a>
-                    </li>
-                    <li class="nav-item {{ sidenav_active('admin.withdraw.log') }}">
-                        <a class="nav-link" href="{{ route('admin.withdraw.log') }}">
-                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
-                            <span class="menu-title">All Withdrawals</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            {{--<li class="nav-item {{ sidenav_active('admin.withdraw*') }}">--}}
+                {{--<a data-default-url="{{ route('admin.withdraw.method.methods') }}" class="nav-link">--}}
+                    {{--<span class="menu-icon"><i class="fa fa-bank text-facebook"></i></span>--}}
+                    {{--<span class="menu-title">Withdraw System</span>--}}
+                    {{--@if($pending_withdrawals_count > 0)--}}
+                        {{--<span class="badge bg-orange border-radius-10"><i class="fa px-1 fa-exclamation"></i></span>--}}
+                    {{--@endif--}}
+                    {{--<span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>--}}
+                {{--</a>--}}
+                {{--<ul class="sub-menu">--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.withdraw.method*') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.withdraw.method.methods') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">Withdraw Methods</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.withdraw.pending') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.withdraw.pending') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">Pending Withdrawals</span>--}}
+                            {{--@if($pending_withdrawals_count) <span class="badge bg-blue border-radius-10">{{ $pending_withdrawals_count }}</span> @endif--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.withdraw.approved') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.withdraw.approved') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">Approved Withdrawals</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.withdraw.rejected') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.withdraw.rejected') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">Rejected Withdrawals</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                    {{--<li class="nav-item {{ sidenav_active('admin.withdraw.log') }}">--}}
+                        {{--<a class="nav-link" href="{{ route('admin.withdraw.log') }}">--}}
+                            {{--<span class="mr-2"><i class="fa fa-angle-right"></i></span>--}}
+                            {{--<span class="menu-title">All Withdrawals</span>--}}
+                        {{--</a>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</li>--}}
 
             <li class="nav-item {{ sidenav_active('admin.deposit*') }}">
                 <a data-default-url="{{ route('admin.deposit.gateway.index') }}" class="nav-link">
