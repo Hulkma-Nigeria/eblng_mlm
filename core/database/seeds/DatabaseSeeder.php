@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             GeneralSettingsTableSeeder::class,
             EmailSmsTemplatesTableSeeder::class,
             PluginsTableSeeder::class,
+            GatewaysTableSeeder::class,
+            PlansTableSeeder::class
         ]);
     }
 }

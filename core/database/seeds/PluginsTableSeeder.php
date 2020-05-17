@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PluginsTableSeeder extends Seeder
 {
@@ -15,15 +16,14 @@ class PluginsTableSeeder extends Seeder
             [
                 'act' => 'google-analytics',
                 'name' => 'Google Analytics',
-                'image' => 'google-analytics.png',
                 'description' => 'Key location is shown bellow',
-                'support' => 'ganalytics.png',
+                'image' => 'google-analytics.png',
                 'script' => '<script async src="https://www.googletagmanager.com/gtag/js?id={{app_key}}"></script>
                 <script>
                   window.dataLayer = window.dataLayer || [];
                   function gtag(){dataLayer.push(arguments);}
                   gtag("js", new Date());
-                
+
                   gtag("config", "{{app_key}}");
                 </script>',
                 'shortcode' => json_encode([
@@ -32,14 +32,16 @@ class PluginsTableSeeder extends Seeder
                         'value' => 'Demo'
                     ],
                 ]),
+                'support' => 'ganalytics.png',
+                'status'    => 1,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
             ],
             [
                 'act' => 'tawk-chat',
                 'name' => 'Tawk Chat',
-                'image' => 'tawky_big.png',
                 'description' => 'Key location is shown bellow',
+                'image' => 'tawky_big.png',
                 'support' => 'twak.png',
                 'script' => '<script>
                         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -58,6 +60,7 @@ class PluginsTableSeeder extends Seeder
                         'value' => 'Demo'
                     ],
                 ]),
+                'status'    => 1,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
             ],
@@ -74,7 +77,7 @@ class PluginsTableSeeder extends Seeder
                                     "sitekey" : "{{sitekey}}",
                                     "callback": function(token) {
                                         $("#recaptcha").parents("form:first").submit();
-                                    } 
+                                    }
                                 });
                             };
                         </script>
@@ -85,6 +88,7 @@ class PluginsTableSeeder extends Seeder
                         'value' => '6Ldy8bUUAAAAALn0JWsmdKYvOBuL18qExf1PczsJ'
                     ],
                 ]),
+                'status'    => 1,
                 'created_at' => \Carbon\Carbon::now(),
                 'updated_at' => \Carbon\Carbon::now(),
             ],
