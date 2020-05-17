@@ -32,6 +32,13 @@ class CreateGeneralSettingsTable extends Migration
             $table->tinyInteger('reg')->default(0)->comment('allow registration');
             $table->tinyInteger('alert')->default(1)->comment('0 => none, 1 => iziToast, 2 => toaster');
             $table->string('active_template')->nullable()->comment('active template folder name');
+            $table->integer('matrix_width')->default(5);
+            $table->integer('matrix_height')->default(5);
+            $table->string('bal_trans_fixed_charge')->nullable();
+            $table->string('bal_trans_per_charge')->nullable();
+            $table->string('contact_email')->nullable();
+            $table->string('contact_address')->nullable();
+            $table->string('contact_phone')->nullable();
             $table->timestamps();
         });
     }
