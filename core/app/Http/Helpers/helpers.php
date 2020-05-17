@@ -51,23 +51,23 @@ function shortcode_replacer($shortcode, $replace_with, $template_string)
 
 if (!function_exists('month_arr')) {
 
-    function month_arr() {
+    function month_arr()
+    {
         return [
-            1=>'January',
-            2=>'February',
-            3=>'March',
-            4=>'April',
-            5=>'May',
-            6=>'June',
-            7=>'July',
-            8=>'August',
-            9=>'September',
-            10=>'October',
-            11=>'November',
-            12=>'December'
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December'
         ];
     }
-
 }
 
 
@@ -301,8 +301,11 @@ function activeTemplate($asset = false)
         $template = session('active_template');
     } else {
         $gs = GeneralSetting::first(['active_template']);
-        $template = $gs->active_template;
-        session()->put(['active_template' => $template]);
+        if ($gs) {
+
+            $template = $gs->active_template;
+            session()->put(['active_template' => $template]);
+        }
     }
     if ($asset) return 'assets/templates/' . $template . '/';
     return 'templates.' . $template . '.';
@@ -427,5 +430,3 @@ function showUserLevel($id, $level)
         echo "</tr>";
     }
 }
-
-

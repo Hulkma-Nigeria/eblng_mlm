@@ -124,8 +124,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'username' => $data['username'],
             'mobile' => $data['mobile'],
-            'bank_name' => $data['bank_name'],
-            'account_number' => $data['account_number'],
+            'bank_ac' => $data['bank_name'],
+            'bank_ac_no' => $data['account_number'],
             'address' => [
                 'address' => $data['address'] ?? '',
                 'state' => $data['state'] ?? '',

@@ -16,15 +16,17 @@ class CheckStatus
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->access_type == 'general' || Auth::user()->access_type == 'member') {
             $user = Auth()->user();
             if ($user->status  && $user->ev  && $user->sv  && $user->tv) {
-//                dd('okay');
+                //                dd('okay');
                 return $next($request);
             } else {
-//                dd('hie');
+                // dd('hie');
                 return redirect()->route('user.authorization');
             }
         }
+
+        return $next($request);
     }
 }
