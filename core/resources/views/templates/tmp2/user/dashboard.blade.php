@@ -68,7 +68,7 @@
             <div class="details">
                 <h4 class="amount mb-2 font-weight-bold">{{$general->cur_sym}}{{formatter_money($ref_com)}}</h4>
                 <h6 class="mb-3">@lang('Total Referral Commission')</h6>
-                <a href="{{route('user.level.com')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
+                <a href="{{route('user.referral.com')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
             </div>
             <div class="icon">
                 <i class="fa fa-money"></i>
@@ -133,6 +133,7 @@
             </div>
         </div>
     </div>
+    @if (auth()->user()->access_type == 'member')
     <div class="col-xl-4 col-lg-6 col-sm-6">
         <div class="dashboard-w2 slice bg-red border-radius-5">
             <div class="details">
@@ -145,6 +146,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 
 
