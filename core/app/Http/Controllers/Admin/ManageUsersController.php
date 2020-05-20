@@ -285,7 +285,7 @@ class ManageUsersController extends Controller
         $user = User::findOrFail($id);
 
         $data['referrals'] = User::where('ref_id', $id)->paginate(config('constants.table.default'));
-        $data['page_title'] =  $user->username.' Referrers';
+        $data['page_title'] =  $user->username . ' Referrers';
         $data['empty_message'] = 'No referral found';
         return view('admin.users.ref_history', $data);
     }
@@ -303,11 +303,9 @@ class ManageUsersController extends Controller
 
             return redirect()->route('home')->withNotify($notify);
         }
-        $data['page_title'] = $data['user']->username. " Level " . $lv_no . " Referrer";
+        $data['page_title'] = $data['user']->username . " Level " . $lv_no . " Referrer";
         $data['lv_no'] = $lv_no;
         $data['referral'] = User::where('position_id', $id)->get();
         return view('admin.users.matrix_level', $data);
     }
-
-
 }

@@ -38,7 +38,7 @@
                 </ul>
             </li>
 
-            @if(auth()->user()->plan_id == 0)
+            @if(auth()->user()->plan_id == 0 && auth()->user()->access_type == 'member')
 
             <li class="nav-item {{ sidenav_active('user.plan.index') }}">
                 <a href="{{ route('user.plan.index') }}" class="nav-link">
@@ -82,12 +82,14 @@
                     <span class="menu-title">@lang('Transfer Balance')</span>
                 </a>
             </li>
+            @if (auth()->user()->access_type == 'member')
             <li class="nav-item {{ sidenav_active('user.matrix*') }}">
                 <a href="{{route('user.matrix.index',['lv_no' => 1])}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-sitemap text-facebook"></i></span>
                     <span class="menu-title">@lang('My Matrix')</span>
                 </a>
             </li>
+            @endif
             @if (auth()->user()->access_type == 'general')
 
             <li class="nav-item {{ sidenav_active('user.product') }}">
@@ -143,13 +145,16 @@
             </li>
             @endif
 
-
+            @if (auth()->user()->access_type == 'member')
             <li class="nav-item {{ sidenav_active('user.ref.index') }}">
                 <a href="{{route('user.ref.index')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-users text-facebook"></i></span>
                     <span class="menu-title">@lang('My Referral')</span>
                 </a>
             </li>
+            @endif
+
+
             <li class="nav-item {{ sidenav_active('user.transaction.index') }}">
                 <a href="{{route('user.transaction.index')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-money text-facebook"></i></span>

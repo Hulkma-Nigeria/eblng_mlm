@@ -16,10 +16,11 @@ class CreateTrxesTable extends Migration
         Schema::create('trxes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id')->nullable();
-            $table->string('amount',50)->nullable();
-            $table->string('main_amo',50)->nullable();
-            $table->string('charge',50)->nullable();
-            $table->string('type',50)->nullable();
+            $table->string('amount', 50)->nullable();
+            $table->string('main_amo', 50)->nullable();
+            $table->string('balance')->nullable();
+            $table->string('charge', 50)->nullable();
+            $table->string('type', 50)->nullable();
             $table->string('title')->nullable();
             $table->string('trx')->nullable();
             $table->timestamps();
