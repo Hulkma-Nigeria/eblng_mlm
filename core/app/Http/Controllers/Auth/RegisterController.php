@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\GeneralSetting;
+use App\StockistApplication;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\WithdrawMethod;
@@ -144,5 +145,33 @@ class RegisterController extends Controller
     public function registered()
     {
         return redirect()->route('user.home');
+    }
+    public function showStockistForm()
+    {
+        $page_title = "Stockist Application";
+        return view(activeTemplate() . 'user.auth.stockist-form', compact('page_title'));
+    }
+    public function showStockistSuccessful()
+    {
+        $page_title = "Stockist Application Successful";
+        return view(activeTemplate() . 'user.auth.stockist-application-successful', compact('page_title'));
+    }
+    public function handleStockistApplication(Request $request)
+    {
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:60',
+            'lastname' => 'required|string|max:60',
+            'country' => 'required|string|max:80',
+            'email' => 'required|string|email|max:160|unique:users',
+            'mobile' => 'required|string|max:30|unique:users',
+            'state' => 'required|string|max:60',
+            'city' => 'required|string|max:60',
+            'address' => 'required|string|max:300',
+            'bank_name' => 'required|string|max:100',
+            'account_number' => 'required|string|min:9|max:20',
+            'zip' => 'string',
+        ]);
+        StockistApplication::create($validatedData);
+        return redirect()->route('user.stockist-application-successful');
     }
 }
