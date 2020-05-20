@@ -38,7 +38,7 @@
                 </ul>
             </li>
 
-            @if(auth()->user()->plan_id == 0)
+            @if(auth()->user()->plan_id == 0 && auth()->user()->access_type == 'member')
 
             <li class="nav-item {{ sidenav_active('user.plan.index') }}">
                 <a href="{{ route('user.plan.index') }}" class="nav-link">

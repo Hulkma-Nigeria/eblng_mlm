@@ -129,6 +129,22 @@
                                     <input type="text" name="account_number" value="{{old('account_number')}}"
                                         placeholder="@lang('Account number')">
                                 </div>
+
+                                @if (!empty($plans))
+                                <div class="form-group text-white col-md-12">
+                                    <h5>Plan Subscription</h5>
+                                </div>
+                                <div class="frm-grp form-group col-md-12">
+                                    <label>@lang('Plans')</label>
+                                    <select name="plan" id="plan">
+                                        @foreach ($plans as $plan)
+                                        <option value="{{$plan->id}}">{{$plan->name}}
+                                            &nbsp;-&nbsp;{{$general->cur_sym}}{{$plan->price}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
                             </div>
                         </div>
 

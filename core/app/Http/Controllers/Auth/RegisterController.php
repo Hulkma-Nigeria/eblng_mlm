@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\GeneralSetting;
 use App\User;
 use App\Http\Controllers\Controller;
+use App\Plan;
 use App\WithdrawMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -41,22 +42,25 @@ class RegisterController extends Controller
     public function showRegistrationForm($ref = null)
     {
         $page_title = "Sign Up";
-        return view(activeTemplate() . 'user.auth.register', compact('page_title'));
+        $plans = Plan::where('status', 1)->get();
+        return view(activeTemplate() . 'user.auth.register', compact('page_title', 'plans'));
     }
 
     public function showRegistrationFormRef($username)
     {
 
 
-        $ref_user = User::where('username', $username)->first();
+        $ref_user = User::where('username', $username)->where('access_type', 'member')->first();
+        $plans = Plan::where('status', 1)->get();
+
         if (isset($ref_user)) {
             $page_title = "Sign Up";
             if ($ref_user->plan_id == 0) {
 
-                $notify[] = ['error', $ref_user->username . ' did not in subscribed in any plan'];
+                $notify[] = ['error', $ref_user->username . 'does not have an active plan.'];
                 return redirect()->route('user.register')->withNotify($notify);
             }
-            return view(activeTemplate() . '.user.auth.register', compact('page_title', 'ref_user'));
+            return view(activeTemplate() . '.user.auth.register', compact('page_title', 'ref_user', 'plans'));
         } else {
             return redirect()->route('user.register');
         }
@@ -65,7 +69,7 @@ class RegisterController extends Controller
     public function getReferer(Request $request)
     {
         $username = $request->username;
-        $user = User::where('username', $username)->first();
+        $user = User::where('username', $username)->where('access_type', 'member')->first();
         if (!$user) {
             return response([
                 'success' => false,

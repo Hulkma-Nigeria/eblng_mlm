@@ -158,8 +158,6 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
             //            Route::get('/pin-generated', 'HomeController@EPinGenerated')->name('e_pin.generated');
 
             //plan
-            Route::get('/plan', 'HomeController@planIndex')->name('plan.index');
-            Route::post('/plan', 'HomeController@planStore')->name('plan.purchase');
 
             //balance transfer
             Route::get('/transfer', 'HomeController@indexTransfer')->name('balance.transfer');
@@ -177,6 +175,9 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
         Route::get('/matrix/{lv_no}', 'HomeController@matrixIndex')->name('matrix.index');
 
         Route::get('/referrals', 'HomeController@referralIndex')->name('ref.index');
+
+        Route::get('/plan', 'HomeController@planIndex')->name('plan.index');
+        Route::post('/plan', 'HomeController@planStore')->name('plan.purchase');
     });
     // GENERAL SPECIFIC ROUTES
     Route::middleware(['allow:general'])->group(function () {

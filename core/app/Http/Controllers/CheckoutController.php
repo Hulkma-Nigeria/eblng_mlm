@@ -50,6 +50,12 @@ class CheckoutController extends Controller
                 'message' => 'No user found with username ' . $request->user_name
             ]);
         }
+        if ($user->plan_id == '') {
+            return response([
+                'success' => false,
+                'message' => 'User ' . $user->fullname . ' deos not have an active plan to buy products'
+            ]);
+        }
         return response([
             'success' => true,
             'message' => 'User ' . $user->username . ' will receive PV for this order on completion'
@@ -75,6 +81,15 @@ class CheckoutController extends Controller
             'buyer_username' => 'required',
             // 'action_type' => 'required'
         ]);
+
+        $user = User::where('username', $request->buyer_username)->first();
+        if ($user->access_type == 'general') {
+            return back()->withErrors(['notify' => ['User ' . $user->fullname . ' is a general and cannot buy products                       ']]);
+        }
+        if ($user->plan_id == '') {
+            return back()->withErrors(['notify' => ['User ' . $user->fullname . ' deos not have an active plan to buy products']]);
+        }
+
         return $this->cartService->checkout($request);
     }
 
