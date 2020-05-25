@@ -18,6 +18,8 @@
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/fideloper/proxy" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/filp/whoops" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/fzaninotto/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/core/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/core/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/hamcrest/hamcrest-php" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/intervention/image" />
@@ -96,6 +98,7 @@
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/tijsverkoyen/css-to-inline-styles" />
+      <excludeFolder url="file://$MODULE_DIR$/core/vendor/unicodeveloper/laravel-paystack" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/core/vendor/webmozart/assert" />
     </content>

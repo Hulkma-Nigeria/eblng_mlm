@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Bank;
 use App\GeneralSetting;
+use App\Helpers\Peach;
 use App\StockistApplication;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Plan;
 use App\WithdrawMethod;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +18,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
+    protected $peach;
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -36,6 +40,7 @@ class RegisterController extends Controller
 
     public function __construct()
     {
+        $this->peach = new Peach();
         $this->middleware(['guest']);
         $this->middleware('regStatus')->except('registrationNotAllowed');
     }
@@ -44,13 +49,14 @@ class RegisterController extends Controller
     {
         $page_title = "Sign Up";
         $plans = Plan::where('status', 1)->get();
-        return view(activeTemplate() . 'user.auth.register', compact('page_title', 'plans'));
+        $banks = Bank::all();
+        return view(activeTemplate() . 'user.auth.register', compact('page_title', 'plans', 'banks'));
     }
 
     public function showRegistrationFormRef($username)
     {
 
-
+        $banks = Bank::all();
         $ref_user = User::where('username', $username)->where('access_type', 'member')->first();
         $plans = Plan::where('status', 1)->get();
 
@@ -61,7 +67,7 @@ class RegisterController extends Controller
                 $notify[] = ['error', $ref_user->username . 'does not have an active plan.'];
                 return redirect()->route('user.register')->withNotify($notify);
             }
-            return view(activeTemplate() . '.user.auth.register', compact('page_title', 'ref_user', 'plans'));
+            return view(activeTemplate() . '.user.auth.register', compact('page_title', 'ref_user', 'plans', 'banks'));
         } else {
             return redirect()->route('user.register');
         }
@@ -108,6 +114,22 @@ class RegisterController extends Controller
             'username' => 'required|string|unique:users|min:6',
         ]);
     }
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        $user = $this->create($request->all());
+        $recipient = $this->peach->createRecipient($user);
+        if(!$recipient) {
+            return redirect()->back()->withInput()
+                ->withErrors(['incorrect_account' => 'Account information incorrect']);
+        }
+        event(new Registered($user));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -129,7 +151,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'username' => $data['username'],
             'mobile' => $data['mobile'],
-            'bank_ac' => $data['bank_name'],
+            'bank_id' => $data['bank_id'],
             'bank_ac_no' => $data['account_number'],
             'address' => [
                 'address' => $data['address'] ?? '',
@@ -153,7 +175,8 @@ class RegisterController extends Controller
     public function showStockistForm()
     {
         $page_title = "Stockist Application";
-        return view(activeTemplate() . 'user.auth.stockist-form', compact('page_title'));
+        $banks = Bank::all();
+        return view(activeTemplate() . 'user.auth.stockist-form', compact('page_title', 'banks'));
     }
     public function showStockistSuccessful()
     {
@@ -171,11 +194,16 @@ class RegisterController extends Controller
             'state' => 'required|string|max:60',
             'city' => 'required|string|max:60',
             'address' => 'required|string|max:300',
-            'bank_name' => 'required|string|max:100',
+            'bank_id' => 'required|gte:1',
             'account_number' => 'required|string|min:9|max:20',
             'zip' => 'string',
         ]);
-        StockistApplication::create($validatedData);
+        $stockist = StockistApplication::create($validatedData);
+        $recipient = $this->peach->createRecipient($stockist);
+        if(!$recipient) {
+            return redirect()->back()->withInput()
+                ->withErrors(['incorrect_account' => 'Account information incorrect']);
+        }
         return redirect()->route('user.stockist-application-successful');
     }
 }

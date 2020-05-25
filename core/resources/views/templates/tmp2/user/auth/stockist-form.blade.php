@@ -19,6 +19,9 @@
                                                          src="{{ get_image(config('constants.logoIcon.path') .'/logo.png') }}" alt="image"> </a>
                             <p class="text-center admin-brand-text">@lang('Stockist Application Form')</p>
                         </div>
+                        @error('incorrect_account')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
                         <form action="{{ route('user.handle-stockist-application') }}" method="POST" class="login-form" id="recaptchaForm">
                             @csrf
                             <div class="login-inner-block">
@@ -87,9 +90,24 @@
                                         <h5>Bank Details</h5>
                                     </div>
                                     <div class="frm-grp form-group col-md-6">
-                                        <label>@lang('Bank name')</label>
-                                        <input type="text" name="bank_name" placeholder="@lang('Bank name')">
+                                        <label for="bank">@lang('Bank name')</label>
+                                        <select id="bank" class="frm-grp" name="bank_id">
+                                            <option value="0">Select a bank</option>
+                                            @isset($banks)
+                                                @php
+                                                    $old_bank = old('bank_id') ?? false
+                                                @endphp
+                                                @foreach($banks as $bank)
+                                                    @if($old_bank == $bank->id)
+                                                        <option value="{{$bank->id}}" selected>{{$bank->name}}</option>
+                                                    @else
+                                                        <option value="{{$bank->id}}">{{$bank->name}}</option>
+                                                    @endif
+                                                @endforeach
+                                            @endisset
+                                        </select>
                                     </div>
+
                                     <div class="frm-grp form-group col-md-6">
                                         <label>@lang('Account number')</label>
                                         <input type="text" name="account_number" value="{{old('account_number')}}"

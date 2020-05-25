@@ -149,6 +149,12 @@
                             @if($banned_users_count) <span class="badge bg-blue border-radius-10">{{ $banned_users_count }}</span> @endif
                         </a>
                     </li>
+                    <li class="nav-item {{ sidenav_active('admin.users.payout-histories') }}">
+                        <a class="nav-link" href="{{ route('admin.users.payout-histories') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">Payout Histories</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ sidenav_active('admin.users.emailUnverified') }}">
                         <a class="nav-link" href="{{ route('admin.users.emailUnverified') }}">
                             <span class="mr-2"><i class="fa fa-angle-right"></i></span>
