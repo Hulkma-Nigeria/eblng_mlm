@@ -70,7 +70,9 @@ Route::middleware('web')->name('user.')->prefix('user')->group(function () {
     Route::post('register/get-referer', 'Auth\RegisterController@getReferer')->name('get.referer');
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register')->middleware('regStatus');
-
+    Route::get('/stockist-application', 'Auth\RegisterController@showStockistForm')->name('stockist-application');
+    Route::get('/stockist-application-successful', 'Auth\RegisterController@showStockistSuccessful')->name('stockist-application-successful');
+    Route::post('/stockist-application', 'Auth\RegisterController@handleStockistApplication')->name('handle-stockist-application');
 
     Route::get('logout', 'Auth\LoginController@logoutGet')->name('logout');
 });
