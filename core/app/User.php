@@ -94,8 +94,16 @@ class User extends Authenticatable
     public function scopeInactive($query){
         return $query->where('status',0)->latest();
     }
-
-
-
-
+    public function payoutHistories(){
+        return $this->hasMany(PayoutHistory::class);
+    }
+    public function lastSuccessfulPayout($status=1){
+        return $this->payoutHistories()
+            ->where('status', '=', $status)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+    public function recipients() {
+        return $this->hasMany(Recipient::class);
+    }
 }

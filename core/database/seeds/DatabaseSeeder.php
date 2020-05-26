@@ -1,6 +1,7 @@
 <?php
 
 use App\Frontend;
+use App\Helpers\Peach;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $peach = new Peach();
+        $peach->saveBanks();
         $this->call([
             UsersTableSeeder::class,
             AdminsTableSeeder::class,

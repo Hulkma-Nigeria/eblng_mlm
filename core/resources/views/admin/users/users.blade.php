@@ -14,6 +14,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Balance</th>
+                            <th scope="col">PV</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -35,7 +36,14 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->mobile }}</td>
                             <td>{{ $general->cur_sym }}{{ formatter_money($user->balance) }}</td>
-                            <td><a href="{{ route('admin.users.detail', $user->id) }}" class="btn btn-rounded btn-primary text-white"><i class="fa fa-fw fa-desktop"></i></a></td>
+                            <td>{{$user->point_value }}</td>
+                            <td>
+                                <a href="{{ route('admin.users.detail', $user->id) }}" class="btn btn-rounded btn-primary text-white"><i class="fa fa-fw fa-desktop"></i></a>
+                                <form action="{{ route('admin.users.manual-payment', $user->id)}}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button class="btn btn-rounded btn-primary text-white"><i class="fa fa-fw fa-money"></i></button>
+                                </form>
+                            </td>
                         </tr>
                         @empty
                         <tr>

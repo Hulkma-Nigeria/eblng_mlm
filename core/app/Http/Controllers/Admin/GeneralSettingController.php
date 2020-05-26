@@ -15,7 +15,8 @@ class GeneralSettingController extends Controller
     {
         $general_setting = GeneralSetting::first();
         $page_title = 'General Settings';
-        return view('admin.setting.general_setting', compact('page_title', 'general_setting'));
+        $week = 604800;
+        return view('admin.setting.general_setting', compact('page_title', 'general_setting', 'week'));
     }
 
     public function update(Request $request)
@@ -51,7 +52,7 @@ class GeneralSettingController extends Controller
         $request->merge(['reg' => isset($request->reg) ? 1 : 0]);
 
 
-        $general_setting->update($request->only(['sitename', 'cur_text', 'cur_sym', 'ev', 'en', 'sv', 'sn', 'reg', 'alert', 'bclr', 'sclr', 'bal_trans_fixed_charge', 'bal_trans_per_charge']));
+        $general_setting->update($request->only(['sitename', 'cur_text', 'cur_sym', 'ev', 'en', 'sv', 'sn', 'reg', 'alert', 'bclr', 'sclr', 'bal_trans_fixed_charge', 'bal_trans_per_charge','payment_interval','one_pv_to_naira']));
         $notify[] = ['success', 'General Setting has been updated.'];
         return back()->withNotify($notify);
     }
