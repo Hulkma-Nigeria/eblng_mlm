@@ -68,6 +68,7 @@ class Peach implements PeachInterface
     }
     public function sendMoneyToUser(User $user, $amount, $reason = ''): bool{
         $recipient = $user->recipients()->where(['status' => 1])->first();
+
         if(!$recipient) {
             return false;
         }

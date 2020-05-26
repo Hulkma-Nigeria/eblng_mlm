@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Cart;
-use App\Deposit;
-use App\GeneralSetting;
-use App\Http\Utils\CartService;
-use App\Lib\GoogleAuthenticator;
-use App\Rules\FileTypeValidate;
-use App\SupportTicket;
 use App\Trx;
+use App\Cart;
+use App\User;
+use App\Deposit;
 use App\UserLogin;
 use App\Withdrawal;
+use App\SupportTicket;
+use App\GeneralSetting;
 use App\WithdrawMethod;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Utils\CartService;
+use App\Rules\FileTypeValidate;
+use App\Lib\GoogleAuthenticator;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\User;
-use Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
@@ -374,7 +376,7 @@ class UserController extends Controller
 
         if (!empty($withdraw_method->user_data)) {
             foreach ($withdraw_method->user_data as $data) {
-                $validation_rule['ud.' . \Str::slug($data)] = 'required';
+                $validation_rule['ud.' . Str::slug($data)] = 'required';
             }
             $request->validate($validation_rule, ['ud.*' => 'Please provide all information.']);
         }

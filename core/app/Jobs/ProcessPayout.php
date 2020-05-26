@@ -21,6 +21,7 @@ class ProcessPayout implements ShouldQueue
     protected $user;
     protected $peach;
     protected $data;
+    protected $api;
     /**
      * Create a new job instance.
      * @param User $user
@@ -29,7 +30,9 @@ class ProcessPayout implements ShouldQueue
      */
     public function __construct(Peach $peach, User $user, array $data)
     {
+        // dd('the construct');
         Log::info('public function __construct');
+        $this->api = config('paystack.paymentUrl').'/';
         $this->user = $user;
         $this->data = $data;
         $this->peach = $peach;
@@ -48,7 +51,7 @@ class ProcessPayout implements ShouldQueue
             'amount' => $this->data['amount'],
             'narration' => $this->data['reason'],
             'status' => $response->status,
-            'pv' => $user->point_value ?? 0
+            'pv' => $this->user->point_value ?? 0
         ]);
         $this->user->payoutHistories()->save($payout_history);
     }
