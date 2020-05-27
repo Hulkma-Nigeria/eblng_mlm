@@ -235,6 +235,7 @@ $(document).on('change', '.input-text', function () {
   minValue = parseInt($(this).attr('min'));
   maxValue = parseInt($(this).attr('max'));
   valueCurrent = parseInt($(this).val());
+  product_id = parseInt($(this).data('product_id'))
 
   name = $(this).attr('name');
   if (valueCurrent >= minValue) {
@@ -249,6 +250,8 @@ $(document).on('change', '.input-text', function () {
     alert('Sorry, the maximum value was reached');
     $(this).val($(this).data('oldValue'));
   }
+
+  updatePrice()
 
 
 });
@@ -280,6 +283,17 @@ function notify (message, type, position = 'topRight') {
       position
     });
   }
+}
+
+function updatePrice(product_id,quantity_elem)
+{
+  var quantity = $(quantity_elem).val();
+  $.ajax({
+    url:'update-js-price',
+    method:'post',
+    data:{product_id}
+  }).then(res => console.log(res));
+  alert(quantity)
 }
 
 // ADD TO CART FUNCTIONALITY

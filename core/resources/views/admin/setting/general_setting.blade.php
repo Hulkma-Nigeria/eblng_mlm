@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-2">
-                                <label>1 PV in ₦</label>
+                                <label>1 PR in ₦</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">₦</span>

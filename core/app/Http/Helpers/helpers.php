@@ -1,6 +1,9 @@
 <?php
 
 use App\GeneralSetting;
+use Illuminate\Support\Facades\Mail;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Config;
 
 function get_image($image, $clean = '')
 {
@@ -95,6 +98,7 @@ function formatter_money($money, $currency = null)
 {
     if (!$currency) $currency = config('constants.currency.base');
     $money = round($money, config('constants.currency.precision.' . strtolower($currency)));
+    $money = number_format($money,0,'.',',');
     return $money;
 }
 

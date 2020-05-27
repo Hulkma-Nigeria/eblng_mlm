@@ -13,7 +13,7 @@
                     </div>
                     <div class="price-value">
                         <span class="currency">{{$general->cur_sym}}</span>
-                        <span class="amount">{{$data->price}}</span>
+                        <span class="amount">{{ formatter_money($data->price)}}</span>
                     </div>
                     <div class="price-body text-center">
                         <ul class="margin-bottom-30">
@@ -27,7 +27,7 @@
                                 @if($key+1 <= $general->matrix_height)
                                     <li>
                                         <strong>  @lang('L'.$lv->level.' ')
-                                        : {{$general->cur_sym}} {{$lv->amount}}
+                                        : {{$general->cur_sym}} {{formatter_money($lv->amount)}}
                                         X {{pow($general->matrix_width,$key+1)}} <i class="fa fa-users"></i> =
                                        {{$general->cur_sym}}{{$lv->amount*pow($general->matrix_width,$key+1)}}</strong>
                                     </li>
@@ -37,7 +37,7 @@
 
                             <li>
                                 <h4 class="pb-3"> @lang('Total Level Commission')</h4>
-                                <h5>{{$total}} {{$general->cur_text}}</h5>
+                                <h5>{{formatter_money($total)}} {{$general->cur_text}}</h5>
                             </li>
 
                             <li>

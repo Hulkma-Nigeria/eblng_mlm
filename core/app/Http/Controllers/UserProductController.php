@@ -77,13 +77,13 @@ class UserProductController extends Controller
             Session::put('deposit-before-add-to-cart', true);
             return redirect()->route(request()->segment(1) . '.deposit')->withNotify($notify);
         }
-        if (!$user->my_level()->first()) {
-            $notify[] = ['error', 'Please subscribe to a plan to buy products'];
-            return $this->addToCartResponse(false, 'Please subscribe to a plan to buy products', true, route("user.plan.purchase"));
+        // if (!$user->my_level()->first()) {
+        //     $notify[] = ['error', 'Please subscribe to a plan to buy products'];
+        //     return $this->addToCartResponse(false, 'Please subscribe to a plan to buy products', true, route("user.plan.purchase"));
 
-            Session::put('subscribe-before-add-to-cart', true);
-            return redirect()->route('user.plan.purchase')->withNotify($notify);
-        }
+        //     Session::put('subscribe-before-add-to-cart', true);
+        //     return redirect()->route('user.plan.purchase')->withNotify($notify);
+        // }
         $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);
         $notify[] = ['success', 'Cart updated successfully'];
 
@@ -107,6 +107,24 @@ class UserProductController extends Controller
         ], $code);
     }
 
+    public function updatePrice(Request $request){
+        $product = $this->productModel::find($request->product_id);
+        $quantity = $product->price * $request->quantity;
+        if(!$product)
+        {
+            return response()->json([
+                'success'=>false,
+                'message'=>'Product Not found'
+            ]);
+        }
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'',
+            'data'=>$quantity
+        ]);
+        dd($request->all());
+    }
     public function checkout(Request $request)
     {
         $request->validate([

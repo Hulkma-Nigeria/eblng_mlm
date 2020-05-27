@@ -80,6 +80,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
 
     // GENERAL ROUTES FOR BOTH MEMBERS AND GENERALS
     Route::middleware(['allow:member,general'])->group(function () {
+        Route::post('update-js-price','UserProductController@updatePrice');
         Route::get('authorization', 'AuthorizationController@authorizeForm')->name('authorization');
         Route::get('resend-verify', 'AuthorizationController@sendVerifyCode')->name('send_verify_code');
         Route::post('verify-email', 'AuthorizationController@emailVerification')->name('verify_email');

@@ -6,17 +6,17 @@
     <div class="col-lg-3 col-md-3">
         <div class="card">
             <div class="card-body text-center border-bottom">
-                <img src="{{ get_image(config('constants.admin.profile.path').'/'. auth()->guard('admin')->user()->image) }}" alt="profile-image" class="user-image">
-                <h5 class="card-title mt-3">{{ auth()->guard('admin')->user()->name }}</h5>
+                <img src="{{ get_image(config('constants.admin.profile.path').'/'. auth()->user()->image) }}" alt="profile-image" class="user-image">
+                <h5 class="card-title mt-3">{{ auth()->user()->name }}</h5>
             </div>
             <div class="card-body">
                 <p class="clearfix">
                     <span class="float-left">Name</span>
-                    <span class="float-right text-muted">{{ auth()->guard('admin')->user()->name }}</span>
+                    <span class="float-right text-muted">{{ auth()->user()->name }}</span>
                 </p>
                 <p class="clearfix">
                     <span class="float-left">E-mail</span>
-                    <span class="float-right text-muted">{{ auth()->guard('admin')->user()->email }}</span>
+                    <span class="float-right text-muted">{{ auth()->user()->email }}</span>
                 </p>
             </div>
         </div>
@@ -40,11 +40,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="">Name</label>
-                                    <input class="form-control" type="text" name="name" value="{{ auth()->guard('admin')->user()->name }}" required>
+                                    <input class="form-control" type="text" name="name" value="{{ auth()->user()->name }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label class="">Email</label>
-                                    <input class="form-control" type="email" name="email" value="{{ auth()->guard('admin')->user()->email }}" required>
+                                    <input class="form-control" type="email" name="email" value="{{ auth()->user()->email }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -52,7 +52,7 @@
                                     <div class="image-upload">
                                         <div class="thumb">
                                             <div class="avatar-preview">
-                                            <div class="profilePicPreview" style="background-image: url({{ get_image(config('constants.admin.profile.path').'/'. auth()->guard('admin')->user()->image) }})">
+                                            <div class="profilePicPreview" style="background-image: url({{ get_image(config('constants.admin.profile.path').'/'. auth()->user()->image) }})">
                                                     <button type="button" class="remove-image"><i class="fa fa-times"></i></button>
                                                 </div>
                                             </div>
@@ -64,9 +64,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>                        
+                            </div>
                         </div>
-                        
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <input type="submit" class="btn btn-block btn-primary mt-2" value="Save Changes">
@@ -82,44 +82,44 @@
                                 <div class="form-group">
                                     <label>Password</label>
                                     <div class="input-group">
-    
+
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fa fa-key"></i></div>
                                         </div>
                                     <input class="form-control" type="password" name="old_password">
-    
+
                                     </div>
                                 </div>
-        
+
                                 <div class="form-group">
                                     <label>New Password</label>
                                     <div class="input-group">
-    
+
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fa fa-key"></i></div>
                                         </div>
                                     <input class="form-control" type="password" name="password">
-    
+
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Confirm password</label>
                                     <div class="input-group">
-    
+
                                         <div class="input-group-prepend">
                                             <div class="input-group-text"><i class="fa fa-key"></i></div>
                                         </div>
                                     <input class="form-control" type="password" name="password_confirmation">
-    
+
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-block btn-primary mt-2" value="Change Password">
                                 </div>
                             </div>
                         </div>
-                        
+
                     </form>
                 </div>
             </div>
