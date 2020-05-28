@@ -61,8 +61,8 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <header>
-        <div class="header-section">
+    <header class="">
+        <div class="header-section" style="background: #000036; top:0;">
             <div class="container">
                 <div class="header-area">
                     <div class="logo">
@@ -74,18 +74,14 @@
                         <li>
                             <a href="{{url('/')}}">@lang('Home')</a>
                         </li>
-                        <li>
-                            <a href="{{url('/product')}}">@lang('Product')</a>
-                        </li>
-
                         <li><a @if(request()->path() == '/') href="#about"
                                 @else href="{{url('/')}}#about" @endif>@lang('About')</a></li>
 
                         <li><a @if(request()->path() == '/') href="#how-it-works"
                                 @else href="{{url('/')}}#how-it-works" @endif>@lang('How It Works')</a></li>
 
-                        <li><a @if(request()->path() == '/') href="#plan"
-                                @else href="{{url('/')}}#plan" @endif>@lang('Plan')</a></li>
+                        {{-- <li><a @if(request()->path() == '/') href="#plan"
+                                @else href="{{url('/')}}#plan" @endif>@lang('Plan')</a></li> --}}
                         <li>
                             <a href="{{route('faq')}}">@lang('Faq')</a>
                         </li>
@@ -110,7 +106,7 @@
 
                         <li>
                             <a href="{{route('user.login')}}"
-                                class="header-button custom-button white">@lang('Account')</a>
+                                class="header-button custom-button white"><i class="fa fa-user"> </i>@lang(' Account')</a>
                         </li>
                     </ul>
                     <div class="header-bar d-lg-none">
@@ -132,7 +128,6 @@
         <div class="header-fix w-100"></div>
 
     </header>
-
 
 
     <div id="app">

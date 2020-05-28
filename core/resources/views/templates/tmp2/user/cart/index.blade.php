@@ -37,7 +37,7 @@
 
                                 </div>
                             </td>
-                            <td>{{$general->cur_sym }}{{ formatter_money($cartItem->product->price) }}</td>
+                            <td id="price{{$product->id}}">{{$general->cur_sym }}{{ formatter_money($cartItem->product->price) }}</td>
                             <td>{{-- $general->cur_sym }}{{ formatter_money($user->balance) {{$cartItem->quantity}}--}}
                                 @include(activeTemplate().'partials.quantity-select',['current_val'=>$cartItem->quantity,'product'=>$cartItem->product])
                             </td>

@@ -109,7 +109,7 @@ class UserProductController extends Controller
 
     public function updatePrice(Request $request){
         $product = $this->productModel::find($request->product_id);
-        $quantity = $product->price * $request->quantity;
+        $newPrice = $product->price * $request->quantity;
         if(!$product)
         {
             return response()->json([
@@ -118,12 +118,22 @@ class UserProductController extends Controller
             ]);
         }
 
+        if(
+            $request->quantity > $product->stock ||
+            $request->quantity < 1
+          )
+        {
+            return response()->json([
+                'success'=>false,
+                'message'=>'Quantity mismatch'
+            ]);
+        }
+
         return response()->json([
             'success'=>true,
             'message'=>'',
-            'data'=>$quantity
+            'data'=>currencySymbol().formatter_money($newPrice)
         ]);
-        dd($request->all());
     }
     public function checkout(Request $request)
     {

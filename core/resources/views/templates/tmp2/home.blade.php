@@ -1,34 +1,87 @@
 @extends(activeTemplate() .'layouts.master')
 
+@section('style')
+<style>
+     .swiper-container {
+      width: 100%;
+      height: auto;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+    z-index:99px;
+
+      /* Center slide text vertically */
+      /* display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center; */
+    }
+    .carousel-item>img {
+        width: 100%;
+        height: 696px;
+    }
+    @media(max-width:768px){
+    .carousel-item>img {
+        width: 100%;
+        height: 250px;
+        display:none;
+    }
+    }
+</style>
+
+@endsection
 @section('content')
 
-<div class="slider-banner">
-    <div class="swiper-wrapper">
-        @foreach ($sliders as $slider)
-            <div class="swiper-slide">
 
-            <section class="banner-section gradient-bg-two bg_img"
-            data-background="{{ get_image(config('constants.frontend.banner.path') .'/'. $slider->value->image) }}">
-            <div class="banner-shape shape01"></div>
-            <div class="banner-shape shape02"></div>
-            <div class="banner-shape shape03"></div>
-            <div class="banner-shape shape04"></div>
-            <div class="container">
-                <div class="banner-content text-center" style="margin: auto;">
-                    <span class="banner-cate">@lang($slider->value->subtitle)</span>
-                    <h1 class="title">@lang($slider->value->title)</h1>
-                    <p>@lang($slider->value->details)</p>
-                    <div class="banner-button justify-content-center">
-                        <a href="{{route('user.register')}}" class="custom-button">@lang('Sign Up')</a>
-                        <a href="{{route('user.login')}}" class="custom-button white">@lang('Sign In')</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+
+{{-- <div class="slide-banner swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="https://via.placeholder.com/1200" alt=""></div>
+      <div class="swiper-slide"><img src="https://via.placeholder.com/1200" alt=""></div>
     </div>
-    @endforeach
-</div>
-</div>
+    <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
+    <!-- Add Arrows -->
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div> --}}
+<div id="carouselExampleIndicators" class="carousel slide w-100"  data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="d-block w-100" src="https://via.placeholder.com/1200" alt="First slide">
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100 img-responsive" src="https://via.placeholder.com/1200" alt="Second slide">
+      </div>
+      <div class="carousel-item">
+        <img class="d-block w-100 img-responsive" src="..." alt="Third slide">
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
 
 
 <section id="about" class="about-section padding-bottom padding-top bg_img"
@@ -84,7 +137,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
         </div>
     </div>
 </section>
-<section id="plan" class="pricing-section padding-bottom padding-top">
+{{-- <section id="plan" class="pricing-section padding-bottom padding-top">
     <div class="container">
         <div class="section-header">
             <div class="left-side">
@@ -123,7 +176,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                                     @endforeach
                                     <li class="bgcolor">
                                         <h6 class="pt-2 pb-3 choto"> @lang('Total Level Commission') : {{$total}} {{$general->cur_text}}</h6>
-                                    
+
                                         @php
                                         $per = intval($total/$data->price*100);
                                         @endphp
@@ -244,7 +297,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
          </div>
      </div>
  </div>
-</section>
+</section> --}}
 
 <section class="blog-section padding-bottom padding-top">
     <div class="container">
@@ -292,4 +345,18 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
     </div>
 </section>
 
+@endsection
+@section('js')
+<script>
+    var swiper = new Swiper('.swiper-container', {
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  </script>
 @endsection

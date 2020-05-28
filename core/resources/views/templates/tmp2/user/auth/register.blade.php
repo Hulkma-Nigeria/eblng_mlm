@@ -171,9 +171,9 @@
                         </div>
                         <br>
                         <div class="d-flex mt-3 justify-content-between">
-                            <a href="{{ route('user.password.request') }}" class="forget-pass">@lang('Forget
-                                password?')</a>
-                            <a href="{{ route('user.stockist-application') }}" class="forget-pass">@lang('Apply as a stockist')</a>
+                            {{-- <a href="{{ route('user.password.request') }}" class="forget-pass">@lang('Forget
+                                password?')</a> --}}
+                            <a href="{{ route('user.stockist-application') }}" class="forget-pass">@lang('Sign up as a General')</a>
                             <a href="{{route('user.login')}}" class="forget-pass">@lang('Sign In')</a>
                         </div>
                     </form>

@@ -241,17 +241,16 @@ $(document).on('change', '.input-text', function () {
   if (valueCurrent >= minValue) {
     $(".btn-number[data-type='minus']").removeAttr('disabled')
   } else {
-    alert('Sorry, the minimum value was reached');
+    notify('Minimun quantity reached for this product','error');
     $(this).val($(this).data('oldValue'));
   }
   if (valueCurrent <= maxValue) {
     $(".btn-number[data-type='plus']").removeAttr('disabled')
   } else {
-    alert('Sorry, the maximum value was reached');
+    notify('Maximum quantity reached for this product','error')
     $(this).val($(this).data('oldValue'));
   }
 
-  updatePrice()
 
 
 });
@@ -285,15 +284,21 @@ function notify (message, type, position = 'topRight') {
   }
 }
 
-function updatePrice(product_id,quantity_elem)
+function updatePrice(product_id,quantity_elem,output_elem)
 {
+
   var quantity = $(quantity_elem).val();
   $.ajax({
     url:'update-js-price',
     method:'post',
-    data:{product_id}
-  }).then(res => console.log(res));
-  alert(quantity)
+    data:{product_id,quantity}
+  })
+  .then(res => {
+    if(res.success){
+      $(output_elem+product_id).html(res.data);
+    }
+  })
+
 }
 
 // ADD TO CART FUNCTIONALITY

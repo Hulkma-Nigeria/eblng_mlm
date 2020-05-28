@@ -174,13 +174,13 @@ class RegisterController extends Controller
     }
     public function showStockistForm()
     {
-        $page_title = "Stockist Application";
+        $page_title = "General Application";
         $banks = Bank::all();
         return view(activeTemplate() . 'user.auth.stockist-form', compact('page_title', 'banks'));
     }
     public function showStockistSuccessful()
     {
-        $page_title = "Stockist Application Successful";
+        $page_title = "General Application Successful";
         return view(activeTemplate() . 'user.auth.stockist-application-successful', compact('page_title'));
     }
     public function handleStockistApplication(Request $request)

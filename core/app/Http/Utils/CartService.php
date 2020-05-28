@@ -152,7 +152,7 @@ class CartService
                     return back()->withErrors($notify)->withInput($request->input());
                 }
                 if ($buyer->id === auth()->id()) {
-                    $notify[] = ['You are not a member but a stockist'];
+                    $notify[] = ['You are not a member but a general'];
                     return back()->withErrors($notify)->withInput($request->input());
                 }
                 $data = ['buyer_id' => $buyer->id, 'address' => $address, 'other_info' => $other_info];

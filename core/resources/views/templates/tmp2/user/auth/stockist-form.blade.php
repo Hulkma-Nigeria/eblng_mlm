@@ -17,7 +17,7 @@
                         <div class="login-header-wrapper text-center">
                             <a href="{{url('/')}}"> <img class="logo"
                                                          src="{{ get_image(config('constants.logoIcon.path') .'/logo.png') }}" alt="image"> </a>
-                            <p class="text-center admin-brand-text">@lang('Stockist Application Form')</p>
+                            <p class="text-center admin-brand-text">@lang('General\'s Application Form')</p>
                         </div>
                         @error('incorrect_account')
                         <div class="text-danger">{{ $message }}</div>
@@ -122,7 +122,7 @@
                             <br>
                             <div class="d-flex mt-3 justify-content-between">
                                 <a href="{{route('user.login')}}" class="forget-pass">@lang('Sign In')</a>
-                                <a href="{{route('user.register')}}" class="forget-pass">@lang('Sign Up')</a>
+                                <a href="{{route('user.register')}}" class="forget-pass">@lang('Sign Up as a member')</a>
                             </div>
                         </form>
                     </div>

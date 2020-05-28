@@ -434,3 +434,10 @@ function showUserLevel($id, $level)
         echo "</tr>";
     }
 }
+
+function currencySymbol()
+{
+    $gnl = GeneralSetting::first();
+
+    return $gnl->cur_sym;
+}
