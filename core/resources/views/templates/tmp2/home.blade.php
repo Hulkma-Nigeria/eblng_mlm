@@ -222,7 +222,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                 @endforeach
             </div>
         </div>
-    </section>
+    </section>--}}
  <section class="testimonial-section padding-bottom padding-top ">
         <div class="container">
             <div class="section-header">
@@ -296,7 +296,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
          </div>
      </div>
  </div>
-</section> --}}
+</section>
 
 <section class="blog-section padding-bottom padding-top">
     <div class="container">

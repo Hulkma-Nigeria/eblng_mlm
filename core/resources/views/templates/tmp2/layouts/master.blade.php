@@ -87,7 +87,7 @@
                         </li>
 
                         <li>
-                            <a href="{{route('blog')}}">@lang('News')</a>
+                            <a href="{{route('user.stockist-application')}}">@lang('Become a General')</a>
                         </li>
 
                         <li>
