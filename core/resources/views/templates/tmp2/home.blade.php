@@ -2,38 +2,30 @@
 
 @section('style')
 <style>
-     .swiper-container {
-      width: 100%;
-      height: 700;
-    }
     .carousel {
         top: 97px;
         padding-bottom: 3px;
         margin-bottom: 18px;
 
     }
-    .img {
-        height: 650px !important;
-        width: 100%;
+    .carousel-item>img{
+        height: 650px;
     }
 
     @media(max-width:992px){
         .carousel-item>img {
-            width: 100%;
             height: 450px;
     }
     }
 
     @media(max-width:768px){
         .carousel-item>img {
-            width: 100%;
             height: 350px;
         }
     }
 
     @media(max-width:480px){
         .carousel-item>img {
-            width: 100%;
             height: 250px;
         }
     }
