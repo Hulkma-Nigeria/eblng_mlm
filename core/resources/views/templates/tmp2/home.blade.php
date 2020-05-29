@@ -4,39 +4,38 @@
 <style>
      .swiper-container {
       width: 100%;
-      height: auto;
+      height: 700;
     }
-    .swiper-slide {
-      text-align: center;
-      font-size: 18px;
-      background: #fff;
+    .carousel {
+        top: 97px;
+        padding-bottom: 3px;
+        margin-bottom: 18px;
 
-    z-index:99px;
-
-      /* Center slide text vertically */
-      /* display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      -webkit-justify-content: center;
-      justify-content: center;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center; */
     }
-    .carousel-item>img {
+    .img {
+        height: 650px !important;
         width: 100%;
-        height: 696px;
     }
+
+    @media(max-width:992px){
+        .carousel-item>img {
+            width: 100%;
+            height: 450px;
+    }
+    }
+
     @media(max-width:768px){
-    .carousel-item>img {
-        width: 100%;
-        height: 250px;
-        display:none;
+        .carousel-item>img {
+            width: 100%;
+            height: 350px;
+        }
     }
+
+    @media(max-width:480px){
+        .carousel-item>img {
+            width: 100%;
+            height: 250px;
+        }
     }
 </style>
 
@@ -56,23 +55,23 @@
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
 </div> --}}
-<div id="carouselExampleIndicators" class="carousel slide w-100"  data-ride="carousel">
+<div id="carouselExampleIndicators" class="carousel slide w-100"  data-ride="carousel" data-interval="2000">
     <ol class="carousel-indicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        @foreach ($sliders as $slider)
+        <li data-target="#carouselExampleIndicators" data-slide-to="" class="@if($loop->index == 0)active @endif"></li>
+        @endforeach
+
     </ol>
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img class="d-block w-100" src="https://via.placeholder.com/1200" alt="First slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 img-responsive" src="https://via.placeholder.com/1200" alt="Second slide">
-      </div>
-      <div class="carousel-item">
-        <img class="d-block w-100 img-responsive" src="..." alt="Third slide">
-      </div>
-    </div>
+    @foreach ($sliders as $slider)
+
+        <div class="carousel-item @if($loop->index == 0)active @endif">
+          <img class="d-block w-100 img" src="{{ get_image(config('constants.frontend.banner.path') .'/'. $slider->value->image) }}" alt="First slide">
+        </div>
+
+    @endforeach
+</div>
+
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
