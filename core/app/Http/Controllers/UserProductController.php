@@ -70,9 +70,9 @@ class UserProductController extends Controller
             return redirect()->route('user.login')->withNotify($notify);
         }
         $user = auth()->user();
-        if ($user->balance <= 1) {
+        if ($user->balance >= 1) {
             $notify[] = ['error', 'Please deposit into your account'];
-            return $this->addToCartResponse(false, 'Please deposit into your account', true, route("user.deposit"));
+            return $this->addToCartResponse(false, 'Please deposit into your account',null);
 
             Session::put('deposit-before-add-to-cart', true);
             return redirect()->route(request()->segment(1) . '.deposit')->withNotify($notify);
@@ -95,15 +95,15 @@ class UserProductController extends Controller
 
     private function addToCartResponse($success, $message, $data = null, $redirect = false, $redirect_url = null)
     {
-        $code = (!$success) ? 400 : 200;
+        $code = (!$success) ? 200 : 200;
         return response([
             'success' => $success,
             'message' => $message,
             'data' => $data,
-            'redirect' => [
-                'status' => $redirect,
-                'url' => $redirect_url
-            ]
+            // 'redirect' => [
+            //     'status' => $redirect,
+            //     'url' => $redirect_url
+            // ]
         ], $code);
     }
 

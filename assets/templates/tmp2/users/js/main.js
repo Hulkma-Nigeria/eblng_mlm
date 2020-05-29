@@ -325,7 +325,8 @@ function processCartCallBack (data) {
   // console.log(data.success)
   type = data.success == true ? 'success' : 'error';
   $('#exampleModalCenter').modal('hide');
-  updateCartCount(data.data)
+  if(data.data) updateCartCount(data.data)
+
   notify(data.message, type)
 
 }
