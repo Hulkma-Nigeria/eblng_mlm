@@ -70,7 +70,7 @@ class UserProductController extends Controller
             return redirect()->route('user.login')->withNotify($notify);
         }
         $user = auth()->user();
-        if ($user->balance >= 1) {
+        if ($user->balance <= 1) {
             $notify[] = ['error', 'Please deposit into your account'];
             return $this->addToCartResponse(false, 'Please deposit into your account',null);
 
