@@ -8,7 +8,6 @@ use App\Bank;
 use App\GeneralSetting;
 use App\Interfaces\PeachInterface;
 use App\Jobs\ProcessPayout;
-use App\PayoutHistory;
 use App\Recipient;
 use App\Traits\Curl;
 use App\User;
