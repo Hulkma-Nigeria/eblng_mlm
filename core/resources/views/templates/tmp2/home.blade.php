@@ -115,9 +115,17 @@
     <div class="row">
 
     </div>
-
+    <div class="container">
+        <div class="section-header">
+            <div class="left-side">
+                <h2 class="title">Our Showroom</h2>
+            </div>
+            <div class="right-side">
+               <p>Flip through our quality Products, Prices, Product Rates to make purchase decisions</p>
+            </div>
+        </div>
     <div class="client-slider-area-wrapper wow slideInUp">
-        <div class="client-slider-area">
+        <div class="client-slider-area product-slide">
             <div class="swiper-wrapper">
                 @foreach($testimonial as $data)
                 <div class="swiper-slide">
@@ -309,8 +317,8 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                     <p>@lang($testimonial_title->value->subtitle) </p>
                 </div>
             </div>
-            <div class="client-slider-area-wrapper wow slideInUp">
-                <div class="client-slider-area">
+            <div class="client-slider-area-wrapper wow slideInUp ">
+                <div class="client-slider-area testimonials-slide">
                     <div class="swiper-wrapper">
                         @foreach($testimonial as $data)
                         <div class="swiper-slide">

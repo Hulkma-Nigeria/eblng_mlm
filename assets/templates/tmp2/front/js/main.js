@@ -205,7 +205,7 @@ var currentState = '';
                 },
             },
         });
-        var swiper = new Swiper('.client-slider-area', {
+        var testimonials_slider = new Swiper('.testimonials-slide', {
             loop: true,
             slidesPerView: 3,
             autoplay: {
@@ -221,13 +221,32 @@ var currentState = '';
             },
         });
 
+        var product_slider = new Swiper('.product-slide', {
+            loop: true,
+            slidesPerView: 3,
+            autoplay: {
+                delay: 1500,
+            },
+            breakpoints: {
+                991: {
+                    slidesPerView: 2,
+                },
+                767: {
+                    slidesPerView: 1,
+                },
+            },
+        });
+
+
         $(document).on('mouseenter','.swiper-wrapper',function(e){
-            swiper.autoplay.stop()
+   
+            product_slider.autoplay.stop()
         })
 
 
         $(document).on('mouseleave','.swiper-wrapper',function(e){
-            swiper.autoplay.start()
+            product_slider.autoplay.start()
+
         })
         var swiper = new Swiper('.choose-slider', {
             loop: true,
