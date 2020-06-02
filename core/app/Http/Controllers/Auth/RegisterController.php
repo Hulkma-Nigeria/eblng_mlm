@@ -126,7 +126,7 @@ class RegisterController extends Controller
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => $data['password'],
             'username' => $data['username'],
             'mobile' => $data['mobile'],
             'bank_ac' => $data['bank_name'],
@@ -162,19 +162,33 @@ class RegisterController extends Controller
     }
     public function handleStockistApplication(Request $request)
     {
+        // dd($request->all());
         $validatedData = $request->validate([
+            'title' => 'required|string',
+            'passport' => 'mimes:jpeg,jpg,png',
             'firstname' => 'required|string|max:60',
             'lastname' => 'required|string|max:60',
+            'gender'   => 'required|string',
             'country' => 'required|string|max:80',
             'email' => 'required|string|email|max:160|unique:users',
             'mobile' => 'required|string|max:30|unique:users',
             'state' => 'required|string|max:60',
             'city' => 'required|string|max:60',
             'address' => 'required|string|max:300',
+            'zip' => 'string',
+            'store_country' => 'required|string|max:80',
+            'store_city' => 'required|string|max:60',
+            'store_state' => 'required|string|max:60',
+            'store_address' => 'required|string|max:300',
+            'store_zip' => 'string',
             'bank_name' => 'required|string|max:100',
             'account_number' => 'required|string|min:9|max:20',
-            'zip' => 'string',
         ]);
+
+        if ($request->hasFile('passport')) {
+            $validatedData['passport'] = now() . '.' . $request->file('passport')->extension();
+            $request->file('passport')->move(public_path(config('constants.stockist_passport')), $validatedData['passport']);
+        }
         StockistApplication::create($validatedData);
         return redirect()->route('user.stockist-application-successful');
     }

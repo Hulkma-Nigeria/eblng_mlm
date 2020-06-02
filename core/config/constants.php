@@ -5,6 +5,7 @@ return [
         'default' => 'assets/images/default.png',
     ],
     'product_image_path' => 'assets/images/product_images',
+    'stockist_passport' => 'assets/images/stockist_passport',
 
 
 

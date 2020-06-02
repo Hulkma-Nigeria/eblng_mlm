@@ -19,13 +19,13 @@
             </div>
         </div>
     </div>
-
+    @if (auth()->user()->access_type == 'general')
     <div class="col-xl-4 col-lg-6 col-sm-6">
         <div class="dashboard-w2 slice bg-warning border-radius-5" data-bg="2ecc71" data-before="27ae60"
             style="background: #2ecc71; --before-bg-color:#27ae60;">
             <div class="details">
-                <h4 class="amount mb-2 font-weight-bold">{{Auth::user()->point_value}} </h4>
-                <h6 class="mb-3">@lang('Product Point Value')</h6>
+                <h4 class="amount mb-2 font-weight-bold">{{$total_orders}}</h4>
+                <h6 class="mb-3">@lang('Completed Orders')</h6>
                 @if (Auth::user()->access_type == 'general')
                 <a href="{{route('user.orders-completed')}}" class="btn btn-sm btn-neutral">@lang('View all')</a>
                 @endif
@@ -35,6 +35,21 @@
             </div>
         </div>
     </div>
+    @elseif(auth()->user()->access_type == 'member')
+    <div class="col-xl-4 col-lg-6 col-sm-6">
+        <div class="dashboard-w2 slice bg-warning border-radius-5" data-bg="2ecc71" data-before="27ae60"
+            style="background: #2ecc71; --before-bg-color:#27ae60;">
+            <div class="details">
+                <h4 class="amount mb-2 font-weight-bold">{{auth()->user()->point_value}}</h4>
+                <h6 class="mb-3">@lang('Product Rate')</h6>
+
+            </div>
+            <div class="icon">
+                <i class="fa fa-history"></i>
+            </div>
+        </div>
+    </div>
+    @endif
 
     <div class="col-xl-4 col-lg-6 col-sm-6">
         <div class="dashboard-w2 slice bg-primary border-radius-5">
@@ -63,6 +78,7 @@
     {{--</div>--}}
     {{--</div>--}}
 
+    @if (auth()->user()->access_type == 'member')
     <div class="col-xl-4 col-lg-6 col-sm-6">
         <div class="dashboard-w2 slice bg-warning border-radius-5">
             <div class="details">
@@ -76,7 +92,6 @@
         </div>
     </div>
 
-
     <div class="col-xl-4 col-lg-6 col-sm-6">
         <div class="dashboard-w2 slice bg-info border-radius-5">
             <div class="details">
@@ -89,6 +104,10 @@
             </div>
         </div>
     </div>
+    @endif
+
+
+
 
 
     {{--<div class="col-xl-4 col-lg-6 col-sm-6">--}}

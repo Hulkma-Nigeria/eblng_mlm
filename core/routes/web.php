@@ -70,9 +70,9 @@ Route::middleware('web')->name('user.')->prefix('user')->group(function () {
     Route::post('register/get-referer', 'Auth\RegisterController@getReferer')->name('get.referer');
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     Route::post('register', 'Auth\RegisterController@register')->middleware('regStatus');
-    Route::get('/stockist-application', 'Auth\RegisterController@showStockistForm')->name('stockist-application');
-    Route::get('/stockist-application-successful', 'Auth\RegisterController@showStockistSuccessful')->name('stockist-application-successful');
-    Route::post('/stockist-application', 'Auth\RegisterController@handleStockistApplication')->name('handle-stockist-application');
+    Route::get('/general-application', 'Auth\RegisterController@showStockistForm')->name('stockist-application');
+    Route::get('/general-application-successful', 'Auth\RegisterController@showStockistSuccessful')->name('stockist-application-successful');
+    Route::post('/general-application', 'Auth\RegisterController@handleStockistApplication')->name('handle-stockist-application');
 
     Route::get('logout', 'Auth\LoginController@logoutGet')->name('logout');
 });
@@ -129,7 +129,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
             // Transaction
             Route::get('transaction-log', 'UserController@transactions')->name('transaction.index');
 
-            Route::get('level-commission-log', 'UserController@level_com_log')->name('level.com');
+
 
             Route::get('balance-transfer-log', 'UserController@balance_tf_log')->name('balance.tf.log');
 
@@ -173,6 +173,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
     //MEMBER SPECIFIC ROUTES
     Route::middleware(['allow:member'])->group(function () {
         Route::get('referral-commission-log', 'UserController@ref_com_Log')->name('referral.com');
+        Route::get('level-commission-log', 'UserController@level_com_log')->name('level.com');
         //referral
         Route::get('/matrix/{lv_no}', 'HomeController@matrixIndex')->name('matrix.index');
 
@@ -230,6 +231,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('contact/setting/update', 'GeneralSettingController@contactUpdate')->name('contact.setting.update');
 
         Route::post('matrix', 'GeneralSettingController@matrix')->name('matrix.update');
+
+        Route::get('/general-application', '\App\Http\Controllers\UserController@applications')->name('general.application.index');
+        Route::get('/general-application/{id}/view', '\App\Http\Controllers\UserController@viewApplication')->name('general.application.view');
+        Route::get('/general-application/{id}/accept', '\App\Http\Controllers\UserController@acceptApplication')->name('general.application.accept');
+        Route::get('/general-application/{id}/decline', '\App\Http\Controllers\UserController@declineApplication')->name('general.application.decline');
 
 
         // Language Manager

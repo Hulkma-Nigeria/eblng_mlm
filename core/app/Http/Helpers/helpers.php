@@ -1,6 +1,8 @@
 <?php
 
 use App\GeneralSetting;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 
 function get_image($image, $clean = '')
 {

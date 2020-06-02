@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Cart;
-use App\Deposit;
-use App\GeneralSetting;
-use App\Http\Utils\CartService;
-use App\Lib\GoogleAuthenticator;
-use App\Rules\FileTypeValidate;
-use App\SupportTicket;
+use Auth;
 use App\Trx;
+use App\Cart;
+use App\User;
+use App\Deposit;
 use App\UserLogin;
 use App\Withdrawal;
+use App\SupportTicket;
+use App\GeneralSetting;
 use App\WithdrawMethod;
+use App\StockistApplication;
 use Illuminate\Http\Request;
+use App\Http\Utils\CartService;
+use App\Rules\FileTypeValidate;
+use App\Lib\GoogleAuthenticator;
 use Illuminate\Support\Facades\Hash;
-use App\User;
-use Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use App\Mail\GeneralApplicationMailable;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -39,12 +42,12 @@ class UserController extends Controller
         $data['total_withdraw'] = Withdrawal::whereUserId($user->id)->whereStatus(1)->sum('amount');
 
 
+        $data['total_orders'] = Trx::whereUserId($user->id)->whereType('payment')->count();
         $data['ref_com'] = Trx::whereUserId($user->id)->whereType(11)->sum('amount');
         $data['level_com'] = Trx::whereUserId($user->id)->whereType(4)->sum('amount');
         $data['total_epin_recharge'] = Trx::whereUserId($user->id)->whereType(9)->sum('amount');
         $data['total_epin_generate'] = Trx::whereUserId($user->id)->whereType(10)->sum('amount');
         $data['total_bal_transfer'] = Trx::whereUserId($user->id)->whereType(8)->sum('amount');
-
         $data['total_direct_ref'] = User::where('ref_id', $user->id)->count();
 
         $data['total_paid_width'] = User::where('position_id', $user->id)->count();
@@ -77,19 +80,15 @@ class UserController extends Controller
         if (!Hash::check($request->current, $user->password)) {
             $notify[] = ['error', 'Current password does not match'];
             return back()->withNotify($notify);
-
         }
         if ($request->current == $request->password) {
             $notify[] = ['error', 'Current password and new password should not same'];
             return back()->withNotify($notify);
-
         }
         $user->password = Hash::make($request->password);
         $user->save();
         $notify[] = ['success', 'Password update successful'];
         return back()->withNotify($notify);
-
-
     }
 
 
@@ -269,7 +268,6 @@ class UserController extends Controller
         $data['page_title'] = "Transaction Log";
         $data['table'] = Trx::where('user_id', auth()->id())->orderBy('id', 'DESC')->paginate(config('constants.table.default'));
         return view(activeTemplate() . '.user.trans_history', $data);
-
     }
 
     public function balance_tf_log()
@@ -340,7 +338,6 @@ class UserController extends Controller
         $data->save();
         Session::put('Track', $data->trx);
         return redirect()->route('user.withdraw.preview');
-
     }
 
 
@@ -365,7 +362,7 @@ class UserController extends Controller
 
         $track = Session::get('Track');
 
-       $withdraw = Withdrawal::where('user_id', auth()->id())->where('trx', $track)->orderBy('id', 'DESC')->first();
+        $withdraw = Withdrawal::where('user_id', auth()->id())->where('trx', $track)->orderBy('id', 'DESC')->first();
 
 
 
@@ -436,18 +433,72 @@ class UserController extends Controller
     function orders()
     {
         $data['page_title'] = "My orders";
-        $routeName = explode('/',request()->path());
+        $routeName = explode('/', request()->path());
         $route = $routeName[sizeof($routeName) - 1];
         $key = $this->cartService->convertRouteToCartFilterKey($route);
         $data['carts'] =  $this->cartService->getUserCarts($key);
         $data['general'] = GeneralSetting::first();
-        return view(activeTemplate().'user.orders.list', $data);
+        return view(activeTemplate() . 'user.orders.list', $data);
     }
     function order(Cart $cart)
     {
         $data['page_title'] = "Order items";
         $data['cart'] =  $cart;
         $data['cartItems'] = $cart->cartItems()->get();
-        return view(activeTemplate().'user.orders.order', $data);
+        return view(activeTemplate() . 'user.orders.order', $data);
+    }
+
+    public function applications()
+    {
+        $data['page_title'] = '"General" application';
+        $data['applications'] = StockistApplication::all();      // dd($data['applications']);
+        return view('admin.applications.index', $data);
+    }
+
+    public function viewApplication($id)
+    {
+        $application = StockistApplication::findOrFail($id);
+        $page_title = "Application details";
+        return view('admin.applications.view', compact('page_title', 'application'));
+    }
+
+    public function acceptApplication($id)
+    {
+        $application = StockistApplication::findOrFail($id);
+        $username = substr(substr($application->country, 0, 2) . md5(rand()), 0, 6);
+        $password = substr(md5(rand()), 0, 8);
+        while (User::where('username', $username)->get()->count()) {
+            $username = substr(substr($application->country, 0, 2) . md5(rand()), 0, 6);
+        }
+        $data['username'] = $username;
+        $data['password'] = $password;
+        $data['email'] = $application->email;
+        $data['access_type'] = 'general';
+        $data['firstname'] = $application->firstname;
+        $data['lastname'] = $application->lastname;
+        $data['mobile'] = $application->mobile;
+        $data['bank_ac'] = $application->bank_name;
+        $data['bank_ac_no'] = $application->account_number;
+        $data['address'] =  [
+            'address' => $application['address'] ?? '',
+            'state' => $application['state'] ?? '',
+            'zip' => $application['zip'] ?? '',
+            'country' => $application['country'] ?? '',
+            'city' => $application['city'] ?? '',
+        ];
+
+        User::create($data);
+        $application->update(['status' => 'Accepted']);
+        Mail::to($data['email'])->send(new GeneralApplicationMailable($data, 'approved'));
+        $notify[] = ['success', 'User Approved successfully'];
+        return back()->withNotify($notify);
+    }
+
+    public function declineApplication($id)
+    {
+        $application = StockistApplication::findOrFail($id);
+        Mail::to($application->email)->send(new GeneralApplicationMailable(null, 'declined'));
+        $notify[] = ['success', 'Application Declined'];
+        return back()->withNotify($notify);
     }
 }
