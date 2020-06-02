@@ -29,24 +29,28 @@
             height: 250px;
         }
     }
+
+    .swiper-wrapper:hover{
+        animation-play-state: paused;
+    }
+    .product-title {
+        font-size: .9em !important;
+        font-weight: 600;
+    }
+
+    .product-description {
+        font-size: .7em !important;
+        font-weight: 400;
+        text-align: justify !important;
+    }
+
+    .price h5 {
+        font-size: 1em !important;
+    }
 </style>
 
 @endsection
 @section('content')
-
-
-
-{{-- <div class="slide-banner swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><img src="https://via.placeholder.com/1200" alt=""></div>
-      <div class="swiper-slide"><img src="https://via.placeholder.com/1200" alt=""></div>
-    </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-    <!-- Add Arrows -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-</div> --}}
 <div id="carouselExampleIndicators" class="carousel slide w-100"  data-ride="carousel" data-interval="2000">
     <ol class="carousel-indicators">
         @foreach ($sliders as $slider)
@@ -74,33 +78,7 @@
     </a>
   </div>
 
-
-<section id="about" class="about-section padding-bottom padding-top bg_img"
-data-background="./assets/images/shape/shape01.png"
-data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical">
-<div class="container">
-    <div class="about-wrapper">
-        <div class="about-thumb">
-            <div class="c-thumb">
-                <img src="{{ get_image(config('constants.frontend.about.title.path') .'/'. $about->value->image) }}" alt="about">
-            </div>
-        </div>
-        <div class="about-content">
-            <div class="section-header left-style mw-620">
-                <div class="left-side">
-                    <h2 class="title">@lang($about->value->title)</h2>
-                </div>
-                <div class="right-side">
-                    <p>@php echo $about->value->detail; @endphp</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-</section>
-
-<section id="how-it-works" class="service-section padding-top padding-bottom bg-f8">
+  <section id="how-it-works" class="service-section padding-top padding-bottom bg-f8">
     <div class="container">
         <div class="section-header">
             <div class="left-side">
@@ -128,6 +106,112 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
         </div>
     </div>
 </section>
+
+<section id="products" class="about-section container padding-bottom padding-top bg_img"
+    data-background="./assets/images/shape/shape01.png"
+    data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical"
+    >
+
+    <div class="row">
+
+    </div>
+
+    <div class="client-slider-area-wrapper wow slideInUp">
+        <div class="client-slider-area">
+            <div class="swiper-wrapper">
+                @foreach($testimonial as $data)
+                <div class="swiper-slide">
+                    <div class="client-item">
+
+                            <div class="">
+                              <img class="card-img img-responsive" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png" alt="Vans">
+                              {{-- <div class="card-img-overlay d-flex justify-content-end">
+                                <a href="#" class="card-link text-danger like">
+                                  <i class="fas fa-heart"></i>
+                                </a>
+                              </div> --}}
+                              <div class="card-body">
+                                <h6 class="card-title product-title ">Vans Sk8-Hi MTE Shoes</h6>
+                                <div class="card-text product-description">
+                                  The Vans All-Weather MTE Collection features footwear and apparel designed to withstand the elements whilst still looking cool.
+                              </div>
+                                {{-- <div class="options d-flex flex-fill">
+                                   <select class="custom-select mr-1">
+                                      <option selected>Color</option>
+                                      <option value="1">Green</option>
+                                      <option value="2">Blue</option>
+                                      <option value="3">Red</option>
+                                  </select>
+                                  <select class="custom-select ml-1">
+                                      <option selected>Size</option>
+                                      <option value="1">41</option>
+                                      <option value="2">42</option>
+                                      <option value="3">43</option>
+                                  </select>
+                                </div> --}}
+                                <div class="buy d-flex justify-content-between align-items-center">
+                                  <div class="price text-success"><h5 class="mt-2">$125</h5></div>
+                                  <div class="price text-success"><h5 class="mt-2">PR:300</h5></div>
+                                   {{-- <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a> --}}
+                                </div>
+                              </div>
+                            </div>
+
+                        {{-- <div class="client-quote">
+                            <i class="flaticon-left-quote-sketch"></i>
+                        </div>
+                        <p>@lang($data->value->quote)</p>
+                        <div class="client">
+                            <div class="thumb">
+                                <a>
+                                    <img src="{{ get_image(config('constants.frontend.testimonial.path') .'/'. $data->value->image) }}"
+                                    alt="client">
+                                </a>
+                            </div>
+                            <div class="content">
+                                <h6 class="sub-title">
+                                    <a>@lang($data->value->author)</a>
+                                </h6>
+                                <span>@lang($data->value->designation)</span>
+                            </div>
+                        </div> --}}
+
+
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section id="about" class="about-section padding-bottom padding-top bg_img"
+data-background="./assets/images/shape/shape01.png"
+data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical">
+<div class="container">
+    <div class="about-wrapper">
+        <div class="about-thumb">
+            <div class="c-thumb">
+                <img src="{{ get_image(config('constants.frontend.about.title.path') .'/'. $about->value->image) }}" alt="about">
+            </div>
+        </div>
+        <div class="about-content">
+            <div class="section-header left-style mw-620">
+                <div class="left-side">
+                    <h2 class="title">@lang($about->value->title)</h2>
+                </div>
+                <div class="right-side">
+                    <p>@php echo $about->value->detail; @endphp</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</section>
+
+
 {{-- <section id="plan" class="pricing-section padding-bottom padding-top">
     <div class="container">
         <div class="section-header">
@@ -214,7 +298,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                 @endforeach
             </div>
         </div>
-    </section>--}}
+</section>--}}
  <section class="testimonial-section padding-bottom padding-top ">
         <div class="container">
             <div class="section-header">

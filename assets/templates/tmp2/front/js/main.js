@@ -1,3 +1,4 @@
+var currentState = '';
 (function ($) {
     "user strict";
     // Preloader Js
@@ -219,6 +220,15 @@
                 },
             },
         });
+
+        $(document).on('mouseenter','.swiper-wrapper',function(e){
+            swiper.autoplay.stop()
+        })
+
+
+        $(document).on('mouseleave','.swiper-wrapper',function(e){
+            swiper.autoplay.start()
+        })
         var swiper = new Swiper('.choose-slider', {
             loop: true,
             slidesPerView: 3,
