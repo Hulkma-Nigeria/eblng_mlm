@@ -39,6 +39,8 @@ class CreateGeneralSettingsTable extends Migration
             $table->string('contact_email')->nullable();
             $table->string('contact_address')->nullable();
             $table->string('contact_phone')->nullable();
+            $table->decimal('one_pv_to_naira')->default(0);
+            $table->integer('payment_interval')->default(false);
             $table->timestamps();
         });
     }

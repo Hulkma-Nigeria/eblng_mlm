@@ -5502,7 +5502,7 @@ footer {
 }
 
 .logo a img {
-    max-width: 100%;
+    max-width: 100px;
 }
 
 footer .logo {

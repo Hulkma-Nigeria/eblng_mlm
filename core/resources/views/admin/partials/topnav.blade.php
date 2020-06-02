@@ -15,7 +15,7 @@
     <ul class="navbar-nav ml-auto flex-row">
         <li class="nav-item dropdown">
             <a class="nav-link" href="#" id="userProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{--<img src="{{ get_image(config('constants.admin.profile.path') .'/'. auth()->user()->image) }}" alt="user-image">--}}
+                <img src="{{ get_image(config('constants.admin.profile.path') .'/'. auth()->user()->image) }}" alt="user-image">
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userProfileDropdown">
                 <a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="fa fa-user"></i> Profile</a>

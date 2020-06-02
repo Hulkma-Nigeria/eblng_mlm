@@ -50,6 +50,25 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-2">
+                                <label>1 PR in ₦</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">₦</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="one_pv_to_naira" value="{{ $general_setting->one_pv_to_naira }}">
+
+                                </div>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="payment_interval">Payment Interval</label>
+                                <select name="payment_interval" id="payment_interval" class="form-control select2">
+                                    <option value="0" @if($general_setting->payment_interval == 0) selected @endif>Disable</option>
+                                    <option value="{{$week}}" @if($general_setting->payment_interval == $week) selected @endif>Weekly</option>
+                                    <option value="{{$week * 2}}" @if($general_setting->payment_interval == $week * 2) selected @endif>Fortnightly</option>
+                                    <option value="{{$week * 3}}" @if($general_setting->payment_interval == $week * 3) selected @endif>Monthly</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
                                 <label>Alert UI</label>
                                 <select name="alert" class="form-control select2">
                                     <option value="0" @if($general_setting->alert == 0) selected @endif>No Alert</option>

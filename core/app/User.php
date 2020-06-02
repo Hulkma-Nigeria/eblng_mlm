@@ -103,4 +103,19 @@ class User extends Authenticatable
     {
         return $this->attributes['password'] = Hash::make($value);
     }
+    public function payoutHistories()
+    {
+        return $this->hasMany(PayoutHistory::class);
+    }
+    public function lastSuccessfulPayout($status = 1)
+    {
+        return $this->payoutHistories()
+            ->where('status', '=', $status)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+    public function recipients()
+    {
+        return $this->hasMany(Recipient::class);
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+
 use App\Trx;
 use App\Cart;
 use App\User;
@@ -13,12 +13,15 @@ use App\SupportTicket;
 use App\GeneralSetting;
 use App\WithdrawMethod;
 use App\StockistApplication;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Utils\CartService;
 use App\Rules\FileTypeValidate;
 use App\Lib\GoogleAuthenticator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Mail\GeneralApplicationMailable;
 use Illuminate\Support\Facades\Validator;
@@ -371,7 +374,7 @@ class UserController extends Controller
 
         if (!empty($withdraw_method->user_data)) {
             foreach ($withdraw_method->user_data as $data) {
-                $validation_rule['ud.' . \Str::slug($data)] = 'required';
+                $validation_rule['ud.' . Str::slug($data)] = 'required';
             }
             $request->validate($validation_rule, ['ud.*' => 'Please provide all information.']);
         }

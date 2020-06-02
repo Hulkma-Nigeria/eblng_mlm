@@ -149,9 +149,22 @@
                                     <h5>Bank Details</h5>
                                 </div>
                                 <div class="frm-grp form-group col-md-6">
-                                    <label>@lang('Bank name')</label>
-                                    <input type="text" name="bank_name" value="{{old('bank_name')}}"
-                                        placeholder="@lang('Bank name')">
+                                    <label for="bank">@lang('Bank name')</label>
+                                    <select id="bank" class="frm-grp" name="bank_id">
+                                        <option value="0">Select a bank</option>
+                                        @isset($banks)
+                                        @php
+                                        $old_bank = old('bank_id') ?? false
+                                        @endphp
+                                        @foreach($banks as $bank)
+                                        @if($old_bank == $bank->id)
+                                        <option value="{{$bank->id}}" selected>{{$bank->name}}</option>
+                                        @else
+                                        <option value="{{$bank->id}}">{{$bank->name}}</option>
+                                        @endif
+                                        @endforeach
+                                        @endisset
+                                    </select>
                                 </div>
                                 <div class="frm-grp form-group col-md-6">
                                     <label>@lang('Account number')</label>
@@ -159,16 +172,18 @@
                                         placeholder="@lang('Account number')">
                                 </div>
                             </div>
-                        </div>
+                            <div class="btn-area text-center">
+                                <button type="submit" id="recaptcha" class="submit-btn">@lang('Send
+                                    Application')</button>
+                            </div>
+                            <br>
+                            <div class="d-flex mt-3 justify-content-between">
+                                <a href="{{route('user.login')}}" class="forget-pass">@lang('Sign In')</a>
+                                <a href="{{route('user.register')}}" class="forget-pass">@lang('Sign Up as a
+                                    member')</a>
+                            </div>
 
-                        <div class="btn-area text-center">
-                            <button type="submit" id="recaptcha" class="submit-btn">@lang('Send Application')</button>
-                        </div>
-                        <br>
-                        <div class="d-flex mt-3 justify-content-between">
-                            <a href="{{route('user.login')}}" class="forget-pass">@lang('Sign In')</a>
-                            <a href="{{route('user.register')}}" class="forget-pass">@lang('Sign Up')</a>
-                        </div>
+
                     </form>
                 </div>
             </div>

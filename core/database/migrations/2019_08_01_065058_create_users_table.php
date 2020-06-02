@@ -36,9 +36,8 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('ev')->default(1)->comment('0: email unverified, 1: email verified');
             $table->tinyInteger('sv')->default(1)->comment('0: sms unverified, 1: sms verified');
             $table->string('ver_code')->nullable()->comment('stores verification code');
-            $table->string('bank_ac_name')->nullable()->comment('bank account name');
+            $table->unsignedBigInteger('bank_id')->nullable()->comment('bank');
             $table->string('bank_ac_no')->nullable()->comment('bank account number');
-            $table->string('bank_ac')->nullable()->comment('bank name');
             $table->string('ctm')->nullable()->comment('cancel payment');
             $table->dateTime('ver_code_send_at')->nullable()->comment('verification send time');
             $table->tinyInteger('ts')->default(0)->comment('0: 2fa off, 1: 2fa on');
@@ -46,6 +45,8 @@ class CreateUsersTable extends Migration
             $table->string('tsc')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('bank_id')->references('id')
+                ->on('banks');
         });
     }
 

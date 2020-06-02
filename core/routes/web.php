@@ -80,6 +80,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
 
     // GENERAL ROUTES FOR BOTH MEMBERS AND GENERALS
     Route::middleware(['allow:member,general'])->group(function () {
+        Route::post('update-js-price','UserProductController@updatePrice');
         Route::get('authorization', 'AuthorizationController@authorizeForm')->name('authorization');
         Route::get('resend-verify', 'AuthorizationController@sendVerifyCode')->name('send_verify_code');
         Route::post('verify-email', 'AuthorizationController@emailVerification')->name('verify_email');
@@ -280,6 +281,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('plugin/deactivate', 'PluginController@deactivate')->name('plugin.deactivate');
 
         // Users Manager
+
         Route::get('users', 'ManageUsersController@allUsers')->name('users.all');
         Route::get('users/active', 'ManageUsersController@activeUsers')->name('users.active');
         Route::get('users/banned', 'ManageUsersController@bannedUsers')->name('users.banned');
@@ -318,6 +320,12 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('subscriber/send-email', 'SubscriberController@sendEmailForm')->name('subscriber.sendEmail');
         Route::post('subscriber/remove', 'SubscriberController@remove')->name('subscriber.remove');
         Route::post('subscriber/send-email', 'SubscriberController@sendEmail')->name('subscriber.sendEmail');
+
+
+        //PAYMENT SYSTEM
+        Route::post('user/manual-payment/{user}', 'PaymentController@manualPayment')->name('users.manual-payment');
+        Route::get('users/payout-histories', 'PaymentController@payoutHistories')->name('users.payout-histories');
+
 
         // WITHDRAW SYSTEM
         //        Route::get('withdraw/pending', 'WithdrawalController@pending')->name('withdraw.pending');

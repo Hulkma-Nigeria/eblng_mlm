@@ -16,7 +16,7 @@
                     <div class="product-content">
                         <h6 class="title"><a href="#">{{$product->name}}</a></h6>
                         <div class="price">
-                            {{$general->cur_sym.$product->price}}
+                            {{$general->cur_sym.formatter_money($product->price)}}
                             <span>PR: {{$product->point_value}}</span>
                         </div>
                     </div>

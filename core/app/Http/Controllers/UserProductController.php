@@ -72,18 +72,18 @@ class UserProductController extends Controller
         $user = auth()->user();
         if ($user->balance <= 1) {
             $notify[] = ['error', 'Please deposit into your account'];
-            return $this->addToCartResponse(false, 'Please deposit into your account', true, route("user.deposit"));
+            return $this->addToCartResponse(false, 'Please deposit into your account',null);
 
             Session::put('deposit-before-add-to-cart', true);
             return redirect()->route(request()->segment(1) . '.deposit')->withNotify($notify);
         }
-        if (!$user->my_level()->first()) {
-            $notify[] = ['error', 'Please subscribe to a plan to buy products'];
-            return $this->addToCartResponse(false, 'Please subscribe to a plan to buy products', true, route("user.plan.purchase"));
+        // if (!$user->my_level()->first()) {
+        //     $notify[] = ['error', 'Please subscribe to a plan to buy products'];
+        //     return $this->addToCartResponse(false, 'Please subscribe to a plan to buy products', true, route("user.plan.purchase"));
 
-            Session::put('subscribe-before-add-to-cart', true);
-            return redirect()->route('user.plan.purchase')->withNotify($notify);
-        }
+        //     Session::put('subscribe-before-add-to-cart', true);
+        //     return redirect()->route('user.plan.purchase')->withNotify($notify);
+        // }
         $this->cartService->cartQuantityAdapter($request->product_id, $request->quantity);
         $notify[] = ['success', 'Cart updated successfully'];
 
@@ -95,18 +95,46 @@ class UserProductController extends Controller
 
     private function addToCartResponse($success, $message, $data = null, $redirect = false, $redirect_url = null)
     {
-        $code = (!$success) ? 400 : 200;
+        $code = (!$success) ? 200 : 200;
         return response([
             'success' => $success,
             'message' => $message,
             'data' => $data,
-            'redirect' => [
-                'status' => $redirect,
-                'url' => $redirect_url
-            ]
+            // 'redirect' => [
+            //     'status' => $redirect,
+            //     'url' => $redirect_url
+            // ]
         ], $code);
     }
 
+    public function updatePrice(Request $request){
+        $product = $this->productModel::find($request->product_id);
+        $newPrice = $product->price * $request->quantity;
+        if(!$product)
+        {
+            return response()->json([
+                'success'=>false,
+                'message'=>'Product Not found'
+            ]);
+        }
+
+        if(
+            $request->quantity > $product->stock ||
+            $request->quantity < 1
+          )
+        {
+            return response()->json([
+                'success'=>false,
+                'message'=>'Quantity mismatch'
+            ]);
+        }
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'',
+            'data'=>currencySymbol().formatter_money($newPrice)
+        ]);
+    }
     public function checkout(Request $request)
     {
         $request->validate([

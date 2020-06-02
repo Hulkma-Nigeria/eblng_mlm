@@ -96,6 +96,9 @@
       <path value="$PROJECT_DIR$/core/vendor/intervention/image" />
       <path value="$PROJECT_DIR$/core/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/core/vendor/laravel/ui" />
+      <path value="$PROJECT_DIR$/core/vendor/unicodeveloper/laravel-paystack" />
+      <path value="$PROJECT_DIR$/core/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/core/vendor/guzzlehttp/guzzle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

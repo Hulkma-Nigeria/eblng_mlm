@@ -32,7 +32,7 @@
             <span class="review-no">41 reviews</span>
         </div> --}}
         <p class="product-description">{{$product->description}}</p>
-        <h5 class="price"><span>{{$general->cur_sym.$product->price}}</span></h5>
+        <h5 class="price"><span id="price{{$product->id}}">{{$general->cur_sym.formatter_money($product->price)}}</span></h5>
         {{-- <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong></p> --}}
         {{-- <h5 class="sizes">sizes:
             <span class="size" data-toggle="tooltip" title="small">s</span>
@@ -45,7 +45,7 @@
             <span class="color green"></span>
             <span class="color blue"></span>
         </h5> --}}
-        @include(activeTemplate().'partials.quantity-select')
+        @include(activeTemplate().'partials.quantity-select',compact('product'))
         <div class="action">
             <br>
             <button class="add-to-cart btn btn-primary btn-sm" type="button" onclick="addToCart({{$product->id}},'input.input-text.qty')"><i class="fa fa-shopping-cart"> Add To
