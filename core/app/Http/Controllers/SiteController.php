@@ -18,6 +18,8 @@ class SiteController extends Controller
 
         $data['page_title'] = "Home";
 
+        $data['products'] = Product::where('status',1)->get();
+
         $frontend = Frontend::where('key', 'blog.title')->OrWhere('key', 'testimonial.title')
             ->orWhere('key', 'service.title')->orWhere('key', 'howWork.title')
             ->orWhere('key', 'about.title') ->orWhere('key', 'vid.post')->orWhere('key', 'plan.title')->get();

@@ -3,13 +3,13 @@
 @section('style')
 <style>
     .carousel {
-        top: 97px;
+        top: 84px;
         padding-bottom: 3px;
         margin-bottom: 18px;
 
     }
     .carousel-item>img{
-        height: 650px;
+        height: 580px;
     }
 
     @media(max-width:992px){
@@ -47,11 +47,20 @@
     .price h5 {
         font-size: 1em !important;
     }
+    .product-img {
+        width: 250px !important;
+        height: 200px !important;
+    }
+
+    .padding-bottom, .padding-top {
+        padding-bottom: 5px;
+        padding-top: 75px
+    }
 </style>
 
 @endsection
 @section('content')
-<div id="carouselExampleIndicators" class="carousel slide w-100"  data-ride="carousel" data-interval="2000">
+<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5"  data-ride="carousel" data-interval="2000">
     <ol class="carousel-indicators">
         @foreach ($sliders as $slider)
         <li data-target="#carouselExampleIndicators" data-slide-to="" class="@if($loop->index == 0)active @endif"></li>
@@ -107,14 +116,10 @@
     </div>
 </section>
 
-<section id="products" class="about-section container padding-bottom padding-top bg_img"
-    data-background="./assets/images/shape/shape01.png"
-    data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical"
+@if(isset($products))
+<section id="products" class="about-section container padding-bottom padding-top"
+
     >
-
-    <div class="row">
-
-    </div>
     <div class="container">
         <div class="section-header">
             <div class="left-side">
@@ -123,78 +128,37 @@
             <div class="right-side">
                <p>Flip through our quality Products, Prices, Product Rates to make purchase decisions</p>
             </div>
-        </div>
+    </div>
     <div class="client-slider-area-wrapper wow slideInUp">
-        <div class="client-slider-area product-slide">
+        <div class="client-slider-area  product-slide">
             <div class="swiper-wrapper">
-                @foreach($testimonial as $data)
+                @foreach($products->all() as $product)
                 <div class="swiper-slide">
-                    <div class="client-item">
-
+                        <div class="client-item">
                             <div class="">
-                              <img class="card-img img-responsive" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/vans.png" alt="Vans">
-                              {{-- <div class="card-img-overlay d-flex justify-content-end">
-                                <a href="#" class="card-link text-danger like">
-                                  <i class="fas fa-heart"></i>
-                                </a>
-                              </div> --}}
+                                <img class="product-img img-responsive" src="{{ get_image(config('constants.product_image_path') .'/'. $product->images) }}" alt="Vans">
                               <div class="card-body">
-                                <h6 class="card-title product-title ">Vans Sk8-Hi MTE Shoes</h6>
+                                <h6 class="card-title product-title ">{{$product->name}}</h6>
                                 <div class="card-text product-description">
-                                  The Vans All-Weather MTE Collection features footwear and apparel designed to withstand the elements whilst still looking cool.
-                              </div>
-                                {{-- <div class="options d-flex flex-fill">
-                                   <select class="custom-select mr-1">
-                                      <option selected>Color</option>
-                                      <option value="1">Green</option>
-                                      <option value="2">Blue</option>
-                                      <option value="3">Red</option>
-                                  </select>
-                                  <select class="custom-select ml-1">
-                                      <option selected>Size</option>
-                                      <option value="1">41</option>
-                                      <option value="2">42</option>
-                                      <option value="3">43</option>
-                                  </select>
-                                </div> --}}
+                                {{Str::limit($product->description,500)}}
+                                </div>
                                 <div class="buy d-flex justify-content-between align-items-center">
                                   <div class="price text-success"><h5 class="mt-2">$125</h5></div>
                                   <div class="price text-success"><h5 class="mt-2">PR:300</h5></div>
-                                   {{-- <a href="#" class="btn btn-danger mt-3"><i class="fas fa-shopping-cart"></i> Add to Cart</a> --}}
                                 </div>
                               </div>
                             </div>
-
-                        {{-- <div class="client-quote">
-                            <i class="flaticon-left-quote-sketch"></i>
                         </div>
-                        <p>@lang($data->value->quote)</p>
-                        <div class="client">
-                            <div class="thumb">
-                                <a>
-                                    <img src="{{ get_image(config('constants.frontend.testimonial.path') .'/'. $data->value->image) }}"
-                                    alt="client">
-                                </a>
-                            </div>
-                            <div class="content">
-                                <h6 class="sub-title">
-                                    <a>@lang($data->value->author)</a>
-                                </h6>
-                                <span>@lang($data->value->designation)</span>
-                            </div>
-                        </div> --}}
-
-
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
     </div>
 
 </section>
+@endif
 
-<section id="about" class="about-section padding-bottom padding-top bg_img"
+<section id="about" class="service-section padding-bottom padding-top bg_img"
 data-background="./assets/images/shape/shape01.png"
 data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical">
 <div class="container">

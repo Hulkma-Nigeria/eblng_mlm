@@ -221,6 +221,7 @@ var currentState = '';
             },
         });
 
+        console.log('here')
         var product_slider = new Swiper('.product-slide', {
             loop: true,
             slidesPerView: 3,
@@ -236,6 +237,7 @@ var currentState = '';
                 },
             },
         });
+        console.log('after')
 
 
         $(document).on('mouseenter','.swiper-wrapper',function(e){
