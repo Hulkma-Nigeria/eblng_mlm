@@ -60,7 +60,7 @@
 
 @endsection
 @section('content')
-<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5"  data-ride="carousel" data-interval="2000">
+<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5"  data-ride="carousel" data-interval="3000">
     <ol class="carousel-indicators">
         @foreach ($sliders as $slider)
         <li data-target="#carouselExampleIndicators" data-slide-to="" class="@if($loop->index == 0)active @endif"></li>
