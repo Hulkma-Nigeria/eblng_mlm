@@ -143,8 +143,8 @@
                                 {{Str::limit($product->description,500)}}
                                 </div>
                                 <div class="buy d-flex justify-content-between align-items-center">
-                                  <div class="price text-success"><h5 class="mt-2">$125</h5></div>
-                                  <div class="price text-success"><h5 class="mt-2">PR:300</h5></div>
+                                  <div class="price text-success"><h5 class="mt-2">{{$general->cur_sym}}{{formatter_money($product->price)}}</h5></div>
+                                  <div class="price text-success"><h5 class="mt-2">PR:{{$product->point_value}}</h5></div>
                                 </div>
                               </div>
                             </div>
