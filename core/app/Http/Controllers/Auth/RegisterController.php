@@ -188,7 +188,7 @@ class RegisterController extends Controller
         // dd($request->all());
         $validatedData = $request->validate([
             'title' => 'required|string',
-            'passport' => 'mimes:jpeg,jpg,png',
+            'passport' => 'required|mimes:jpeg,jpg,png',
             'firstname' => 'required|string|max:60',
             'lastname' => 'required|string|max:60',
             'gender'   => 'required|string',
@@ -200,6 +200,11 @@ class RegisterController extends Controller
             'address' => 'required|string|max:300',
             'bank_id' => 'required|gte:1',
             'account_number' => 'required|string|min:9|max:20',
+            'store_country' => 'required|string',
+            'store_state' => 'required|string',
+            'store_city' => 'required|string',
+            'store_address' => 'required|string',
+
         ]);
 
         if ($request->hasFile('passport')) {

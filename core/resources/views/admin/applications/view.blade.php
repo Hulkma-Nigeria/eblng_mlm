@@ -8,7 +8,7 @@
                 <div class="col-md-12 mb-3 mt-3">
                     <center class="">
                         <img src="{{asset(config('constants.stockist_passport').'/'.$application->passport)}}" alt=""
-                            class="img-circle" width="120" style="border-radius:100%">
+                            class="img-responsive" style="height:120px; width:120px; border-radius:100%">
                     </center>
                 </div>
                 <div class="form-group col-md-12">
@@ -94,7 +94,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">@lang('Bank name')</label>
-                    <input type="text" class="form-control" value="{{$application->bank_name}}" readonly disabled>
+                    <input type="text" class="form-control" value="{{$bank->name}}" readonly disabled>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="">@lang('Account number')</label>

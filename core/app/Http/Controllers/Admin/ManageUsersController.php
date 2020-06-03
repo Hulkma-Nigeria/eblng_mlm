@@ -183,7 +183,7 @@ class ManageUsersController extends Controller
             $user->balance = bcsub($user->balance, $amount, site_precision());
             $notify[] = ['success', $general->cur_sym . $amount . ' has been subtracted from ' . $user->username . ' balance'];
         }
-        $user->save();
+        // dd($user->balance);
         return back()->withNotify($notify);
     }
 

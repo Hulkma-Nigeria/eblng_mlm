@@ -32,7 +32,6 @@ class CreateStockistApplicationsTable extends Migration
             $table->string('store_city');
             $table->string('store_zip')->nullable(true);
             $table->string('store_address');
-            $table->string('bank_name');
             $table->integer('bank_id');
             $table->string('account_number');
             $table->string('status')->default('Pending');

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Bank;
 use App\Trx;
 use App\Cart;
 use App\User;
@@ -462,7 +462,9 @@ class UserController extends Controller
     {
         $application = StockistApplication::findOrFail($id);
         $page_title = "Application details";
-        return view('admin.applications.view', compact('page_title', 'application'));
+        $bank = Bank::where('id', $application->bank_id)->first();
+
+        return view('admin.applications.view', compact('page_title', 'application', 'bank'));
     }
 
     public function acceptApplication($id)
