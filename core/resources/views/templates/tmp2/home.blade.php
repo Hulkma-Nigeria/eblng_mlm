@@ -287,7 +287,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                         @foreach($testimonial as $data)
                         <div class="swiper-slide">
                             <div class="client-item">
-                                <div class="client-quote">
+                                <div class="client-quote mb-5">
                                     <i class="flaticon-left-quote-sketch"></i>
                                 </div>
                                 <p>@lang($data->value->quote)</p>
