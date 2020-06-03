@@ -168,22 +168,24 @@ class ManageUsersController extends Controller
         $request->validate(['amount' => 'required|numeric|gt:0']);
 
         $user = User::findOrFail($id);
-        $amount = formatter_money($request->amount);
+        $amount = $request->amount;
         $general = GeneralSetting::first(['cur_sym']);
 
-
+        $param = ['balance' => $user->balance];
         if ($request->act) {
-            $user->balance = bcadd($user->balance, $amount, site_precision());
+            $param['balance'] = $user->balance + $amount;
+            // $user->balance = bcadd($user->balance, $amount, site_precision());
             $notify[] = ['success', $general->cur_sym . $amount . ' has been added to ' . $user->username . ' balance'];
         } else {
             if ($amount > $user->balance) {
                 $notify[] = ['error', $user->username . ' has insufficient balance.'];
                 return back()->withNotify($notify);
             }
-            $user->balance = bcsub($user->balance, $amount, site_precision());
+            // $user->balance = bcsub($user->balance, $amount, site_precision());
+            $param['balance'] = $user->balance - $amount;
             $notify[] = ['success', $general->cur_sym . $amount . ' has been subtracted from ' . $user->username . ' balance'];
         }
-        // dd($user->balance);
+        $user->update($param);
         return back()->withNotify($notify);
     }
 
