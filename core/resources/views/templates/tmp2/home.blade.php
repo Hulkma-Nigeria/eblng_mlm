@@ -13,18 +13,27 @@
     }
 
     @media(max-width:992px){
+        .carousel {
+            top: 84px;
+        }
         .carousel-item>img {
             height: 450px;
-    }
+        }
     }
 
     @media(max-width:768px){
+        .carousel {
+            top: 106px;
+        }
         .carousel-item>img {
             height: 350px;
         }
     }
 
     @media(max-width:480px){
+        .carousel {
+            top: 106px;
+        }
         .carousel-item>img {
             height: 250px;
         }
