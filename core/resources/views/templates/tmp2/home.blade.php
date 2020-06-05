@@ -35,7 +35,7 @@
             top: 106px;
         }
         .carousel-item>img {
-            height: 250px;
+            height: 235px;
         }
     }
 
@@ -69,7 +69,7 @@
 
 @endsection
 @section('content')
-<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5"  data-ride="carousel" data-interval="3000">
+<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5"  data-ride="carousel" data-interval="3500">
     <ol class="carousel-indicators">
         @foreach ($sliders as $slider)
         <li data-target="#carouselExampleIndicators" data-slide-to="" class="@if($loop->index == 0)active @endif"></li>
