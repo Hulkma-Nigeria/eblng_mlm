@@ -393,6 +393,16 @@ class CartService
         $cartItem = $cart->cartItems()->where('product_id', $product_id)->first();
         return $cartItem->delete();
     }
+
+    public function updateMultiple($qtys)
+    {
+        $cart = $this->cart();
+        $cartItems = $cart->cartItems;
+        foreach($cartItems as $item)
+        {
+            $item->update(['quantity'=>$qtys[$item->id][0]]);
+        }
+    }
 }
 
 

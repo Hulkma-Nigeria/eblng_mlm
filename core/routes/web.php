@@ -202,11 +202,12 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
         Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 
         // Cart
-        Route::get('cart', "UserProductController@getCart")->name('cart');
-        Route::delete('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
+        Route::get('cart', "UserProductController@getCart",['exept'=>['destroy']])->name('cart');
+        Route::post('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
         Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
         Route::post('add-to-cart', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
         Route::get('cart-count', 'UserProductController@cartCount')->name('cart-count');
+        Route::post('cart-update-multiple','UserProductController@updateMultiple')->name('cart.update.multiple');
 
         // Checkout
         Route::get('checkout', 'CheckoutController@index')->name('checkout');

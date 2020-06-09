@@ -183,4 +183,12 @@ class UserProductController extends Controller
         }
         return back()->withNotify($notify);
     }
+
+    public function updateMultiple(Request $request)
+    {
+        // dd($request->quantity);
+        $this->cartService->updateMultiple($request->quantity);
+        $notify[] = ['success', 'Cart items updated'];
+        return back()->withNotify($notify);
+    }
 }
