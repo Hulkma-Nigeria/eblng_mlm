@@ -5,8 +5,8 @@
 @section('content')
 
     <div class="row">
-        <div class="col-lg-3">
-            <div class="card">
+        <div class="col-lg-4">
+            <div class="card p-0">
                 <div class="card-body text-center border-bottom">
                     <img src="{{ get_image(config('constants.user.profile.path') .'/'. Auth::user()->image) }}"
                          alt="profile-image" class="user-image">
@@ -76,7 +76,7 @@
 
         </div>
         <div class="col-lg-8 col-md-8">
-            <div class="card">
+            <div class="card p-0">
                 <div class="card-body">
                     <ul class="nav nav-tabs nav-tabs-primary top-icon nav-justified">
                         <li class="nav-item open">
@@ -237,8 +237,8 @@
 @push('style')
     <style>
         .user-image {
-            width: 200px;
-            height: 200px;
+            width: 120px;
+            height: 120px;
         }
     </style>
 
