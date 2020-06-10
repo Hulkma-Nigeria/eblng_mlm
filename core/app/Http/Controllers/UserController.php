@@ -506,13 +506,13 @@ class UserController extends Controller
             'city' => $application['city'] ?? '',
         ];
 
-        $data['stockist_address'] = json_encode([
+        $data['stockist_address'] = [
             'address' => $application->store_address ?? '',
             'state' => $application->store_state ?? '',
             'zip' => $application->store_zip ?? '',
             'country' => $application->store_country ?? '',
             'city' => $application->store_city ?? '',
-        ]);
+        ];
         // dd($data);
         User::create($data);
         $application->update(['status' => 'Accepted']);
