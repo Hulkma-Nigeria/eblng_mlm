@@ -31,6 +31,6 @@ class GeneralApplicationMailable extends Mailable
      */
     public function build()
     {
-        return $this->subject('some dummy subject')->view('partials.application-mail');
+        return $this->subject('Application to be a General')->view('partials.application-mail');
     }
 }
