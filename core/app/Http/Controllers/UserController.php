@@ -112,7 +112,13 @@ class UserController extends Controller
             'zip' => 'nullable|max:160',
             'country' => 'nullable|max:160',
             'image' => ['nullable', 'image', new FileTypeValidate(['jpeg', 'jpg', 'png'])],
+            'store_address'=>'nullable|string',
+            'store_city'=>'nullable|string',
+            'store_state'=>'nullable|string',
+            'store_zip'=>'nullable|string',
+            'store_country'=>'nullable|string',
         ]);
+        // dd($request->all());
 
         $filename = auth()->user()->image;
         if ($request->hasFile('image')) {
@@ -136,6 +142,13 @@ class UserController extends Controller
                 'state' => $request->state,
                 'zip' => $request->zip,
                 'country' => $request->country,
+            ],
+            'stockist_address' => [
+                'address' => $request->store_address,
+                'city' => $request->store_city,
+                'state' => $request->store_state,
+                'zip' => $request->store_zip,
+                'country' => $request->store_country,
             ]
         ]);
         $notify[] = ['success', 'Your profile has been updated'];
@@ -475,6 +488,7 @@ class UserController extends Controller
         while (User::where('username', $username)->get()->count()) {
             $username = substr(substr($application->country, 0, 2) . md5(rand()), 0, 6);
         }
+        // dd($application);
         $data['username'] = $username;
         $data['password'] = $password;
         $data['email'] = $application->email;
@@ -482,7 +496,7 @@ class UserController extends Controller
         $data['firstname'] = $application->firstname;
         $data['lastname'] = $application->lastname;
         $data['mobile'] = $application->mobile;
-        $data['bank_ac'] = $application->bank_name;
+        $data['bank_id'] = $application->bank_id;
         $data['bank_ac_no'] = $application->account_number;
         $data['address'] =  [
             'address' => $application['address'] ?? '',
@@ -492,6 +506,14 @@ class UserController extends Controller
             'city' => $application['city'] ?? '',
         ];
 
+        $data['stockist_address'] = json_encode([
+            'address' => $application->store_address ?? '',
+            'state' => $application->store_state ?? '',
+            'zip' => $application->store_zip ?? '',
+            'country' => $application->store_country ?? '',
+            'city' => $application->store_city ?? '',
+        ]);
+        // dd($data);
         User::create($data);
         $application->update(['status' => 'Accepted']);
         Mail::to($data['email'])->send(new GeneralApplicationMailable($data, 'approved'));

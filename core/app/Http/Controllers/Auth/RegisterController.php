@@ -204,6 +204,7 @@ class RegisterController extends Controller
             'store_state' => 'required|string',
             'store_city' => 'required|string',
             'store_address' => 'required|string',
+            'store_zip' => 'required|string',
 
         ]);
 

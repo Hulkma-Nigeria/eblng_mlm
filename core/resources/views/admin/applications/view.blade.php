@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group col-md-12">
                     <label for="">@lang('Address')</label>
-                    <textarea id="address" cols="30" rows="2" class="form-control">{{$application->address}}</textarea>
+                    <textarea id="address" cols="30" rows="2" class="form-control" readonly disabled>{{$application->address}}</textarea>
                 </div>
                 <div class="form-group col-md-12">
                     <hr>
@@ -86,7 +86,7 @@
                 <div class="form-group col-md-12">
                     <label for="">@lang('Address')</label>
                     <textarea id="address" cols="30" rows="2"
-                        class="form-control">{{$application->store_address}}</textarea>
+                        class="form-control" readonly disabled>{{$application->store_address}}</textarea>
                 </div>
                 <div class="form-group col-md-12">
                     <hr>

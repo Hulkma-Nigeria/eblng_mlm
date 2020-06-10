@@ -167,10 +167,48 @@
                                         </div>
                                         <div class="form-group col-lg-3">
                                             <small>@lang('Country')</small>
-                                            <select name="country"
+                                            <select name="country" id="country"
                                                     class="form-control"> @include('partials.country') </select>
                                         </div>
                                     </div>
+
+                                    @if (Auth::user()->access_type == 'general')
+                                    <hr>
+                                    <h6>Store Location Details</h6><br>
+                                    <div class="form-group">
+
+                                        <small>@lang('Street')</small>
+                                        <input class="form-control" type="text"
+                                               value="{{ auth()->user()->stockist_address->address }}" name="store_address"
+                                               placeholder="Street">
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-lg-3">
+                                            <small>@lang('City')</small>
+                                            <input class="form-control" type="text"
+                                                   value="{{ auth()->user()->stockist_address->city }}" name="store_city"
+                                                   placeholder="City">
+                                        </div>
+                                        <div class="form-group col-lg-3">
+                                            <small>@lang('State')</small>
+                                            <input class="form-control" type="text"
+                                                   value="{{ auth()->user()->stockist_address->state }}" name="store_state"
+                                                   placeholder="State">
+                                        </div>
+                                        <div class="form-group col-lg-3">
+                                            <small>@lang('Zip/Postal')</small>
+                                            <input class="form-control" type="text"
+                                                   value="{{ auth()->user()->stockist_address->zip }}" name="store_zip"
+                                                   placeholder="Zip/Postal">
+                                        </div>
+                                        <div class="form-group col-lg-3">
+                                            <small>@lang('Country')</small>
+                                            <select name="store_country" id="stockist_country"
+                                                    class="form-control"> @include('partials.country') </select>
+                                        </div>
+                                    </div>
+                                    @endif
 
 
                                 </div>
@@ -242,8 +280,23 @@
         }
     </style>
 
-    <script>
-        $("select[name=country]").val("{{ Auth::user()->address->country }}");
-    </script>
 
+@endpush
+@push('js')
+    <script>
+        $(function(){
+
+            getCountry('#country',"{{Auth::user()->address->country}}")
+            getCountry('#stockist_country',"{{Auth::user()->stockist_address->country??''}}")
+        // $("select[name=country]").val("{{ Auth::user()->address->country }}");
+        })
+            function getCountry(elem_id,query){
+                $(elem_id).children().each(function(index,elem){
+                    if(elem.value == query){
+                        elem.setAttribute('selected','selected')
+                        $(elem).select()
+                    }
+                })
+            }
+    </script>
 @endpush

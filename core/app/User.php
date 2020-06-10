@@ -28,6 +28,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'address' => 'object',
+        'stockist_address' => 'object',
         'ver_code_send_at' => 'datetime'
     ];
 
