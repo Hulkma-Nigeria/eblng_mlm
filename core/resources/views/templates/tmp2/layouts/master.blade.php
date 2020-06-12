@@ -83,7 +83,7 @@
                         {{-- <li><a @if(request()->path() == '/') href="#plan"
                                 @else href="{{url('/')}}#plan" @endif>@lang('Plan')</a></li> --}}
                         <li>
-                            <a href="{{route('faq')}}">@lang('Faq')</a>
+                            <a href="{{route('faq')}}">@lang('Help')</a>
                         </li>
 
                         <li>
@@ -91,7 +91,7 @@
                         </li>
 
                         <li>
-                            <a href="{{route('contact')}}">@lang('Contact')</a>
+                            <a href="{{route('contact')}}">@lang('Contact us')</a>
                         </li>
 
                         {{-- <select id="langSel" class="select-bar">

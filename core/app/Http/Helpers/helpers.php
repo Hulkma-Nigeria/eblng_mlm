@@ -98,7 +98,7 @@ function formatter_money($money, $currency = null)
 {
     if (!$currency) $currency = config('constants.currency.base');
     $money = round($money, config('constants.currency.precision.' . strtolower($currency)));
-    $money = number_format($money,0,'.',',');
+    $money = number_format($money, 0, '.', ',');
     return $money;
 }
 

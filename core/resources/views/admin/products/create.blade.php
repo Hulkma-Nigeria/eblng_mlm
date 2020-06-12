@@ -84,10 +84,13 @@
                                         <div class="card-header bg-dark d-flex justify-content-between">
                                             <h5>Description</h5>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="card-body mb-0 pb-0">
                                             <div class="form-group">
-                                                <textarea rows="8" class="form-control border-radius-5 " name="description">{{ old('description') }}</textarea>
+                                                <textarea id="description" rows="8" class="form-control border-radius-5 " name="description">{{ old('description') }}</textarea>
                                             </div>
+                                        </div>
+                                        <div id="text-count" class="card-footer text-right p-0 pr-3 pb-1 m-0 border-0">
+
                                         </div>
                                     </div>
                                 </div>
@@ -113,6 +116,32 @@
 
 @push('script')
 <script>
+    $(function() {
+
+        var old_description = ''
+        $('#text-count').html($('#description').val().length +' of 450')
+        $(document).on('input','#description', function() {
+            description = $('#description').val();
+            if(description.length <= 450){
+                $('#text-count').html(description.length + ' of 450');
+                old_description = description
+            }else
+            {
+                if(old_description.length){
+                    $('#description').val(old_description)
+                }else{
+                    $('#description').val(description.slice(0,450));
+                    $('#text-count').html($('#description').val().length +' of 450')
+
+                }
+                return false;
+            }
+
+        })
+    })
+
+
+
 $('input[name=currency]').on('input', function() {
     $('.currency_symbol').text($(this).val());
 });
@@ -132,6 +161,7 @@ $('.addUserData').on('click', function() {
 $(document).on('click', '.removeBtn', function() {
     $(this).parents('.user-data').remove();
 });
+
 @if(old('currency'))
 $('input[name=currency]').trigger('input');
 @endif

@@ -184,6 +184,14 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="nav-item {{ sidenav_active('admin.general.application.index') }}">
+                <a href="{{ route('admin.general.application.index') }}" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-user text-facebook"></i></span>
+                    <span class="menu-title">General Application</span>
+                </a>
+            </li>
+
             {{--<li class="nav-item {{ sidenav_active('admin.withdraw*') }}">--}}
                 {{--<a data-default-url="{{ route('admin.withdraw.method.methods') }}" class="nav-link">--}}
                     {{--<span class="menu-icon"><i class="fa fa-bank text-facebook"></i></span>--}}
@@ -498,6 +506,9 @@
                 </ul>
             </li>
 
+
         </ul>
+        <br>
+            <br>
     </div>
 </nav>

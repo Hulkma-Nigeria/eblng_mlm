@@ -130,7 +130,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
             // Transaction
             Route::get('transaction-log', 'UserController@transactions')->name('transaction.index');
 
-            Route::get('level-commission-log', 'UserController@level_com_log')->name('level.com');
+
 
             Route::get('balance-transfer-log', 'UserController@balance_tf_log')->name('balance.tf.log');
 
@@ -174,6 +174,7 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
     //MEMBER SPECIFIC ROUTES
     Route::middleware(['allow:member'])->group(function () {
         Route::get('referral-commission-log', 'UserController@ref_com_Log')->name('referral.com');
+        Route::get('level-commission-log', 'UserController@level_com_log')->name('level.com');
         //referral
         Route::get('/matrix/{lv_no}', 'HomeController@matrixIndex')->name('matrix.index');
 
@@ -201,11 +202,12 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
         Route::get('product/{id}', 'UserProductController@getSingleProduct')->name('get_product');
 
         // Cart
-        Route::get('cart', "UserProductController@getCart")->name('cart');
-        Route::delete('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
+        Route::get('cart', "UserProductController@getCart",['exept'=>['destroy']])->name('cart');
+        Route::post('cart/remove/{id}', 'UserProductController@deleteCartItem')->name('remove_product_from_cart');
         Route::get('delete-cart', 'UserProductController@deleteCart')->name('delete-cart');
         Route::post('add-to-cart', 'UserProductController@handleCartUpdate')->name('handle-cart-update');
         Route::get('cart-count', 'UserProductController@cartCount')->name('cart-count');
+        Route::post('cart-update-multiple','UserProductController@updateMultiple')->name('cart.update.multiple');
 
         // Checkout
         Route::get('checkout', 'CheckoutController@index')->name('checkout');
@@ -231,6 +233,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::post('contact/setting/update', 'GeneralSettingController@contactUpdate')->name('contact.setting.update');
 
         Route::post('matrix', 'GeneralSettingController@matrix')->name('matrix.update');
+
+        Route::get('/general-application', '\App\Http\Controllers\UserController@applications')->name('general.application.index');
+        Route::get('/general-application/{id}/view', '\App\Http\Controllers\UserController@viewApplication')->name('general.application.view');
+        Route::get('/general-application/{id}/accept', '\App\Http\Controllers\UserController@acceptApplication')->name('general.application.accept');
+        Route::get('/general-application/{id}/decline', '\App\Http\Controllers\UserController@declineApplication')->name('general.application.decline');
 
 
         // Language Manager

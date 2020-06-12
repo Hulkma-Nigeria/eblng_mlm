@@ -166,10 +166,10 @@ class CartService
                 break;
         }
         $user = auth()->user();
-        if (!$user->my_level()->first()) {
-            $notify[] = ['error', 'You need to purchase a plan to start buying products'];
-            return redirect()->route('user.plan.purchase')->withNotify($notify);
-        }
+        // if (!$user->my_level()->first()) {
+        //     $notify[] = ['error', 'You need to purchase a plan to start buying products'];
+        //     return redirect()->route('user.plan.purchase')->withNotify($notify);
+        // }
         $cartMetaData = $this->getCartMetaData($cart);
         if ($cartMetaData->cartTotal > $user->balance) {
             $notify[] = ['error', 'Insufficient balance'];
@@ -392,6 +392,16 @@ class CartService
         $cart = $this->cart();
         $cartItem = $cart->cartItems()->where('product_id', $product_id)->first();
         return $cartItem->delete();
+    }
+
+    public function updateMultiple($qtys)
+    {
+        $cart = $this->cart();
+        $cartItems = $cart->cartItems;
+        foreach($cartItems as $item)
+        {
+            $item->update(['quantity'=>$qtys[$item->id][0]]);
+        }
     }
 }
 

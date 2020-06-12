@@ -119,7 +119,7 @@ class RegisterController extends Controller
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
         $recipient = $this->peach->createRecipient($user);
-        if(!$recipient) {
+        if (!$recipient) {
             return redirect()->back()->withInput()
                 ->withErrors(['incorrect_account' => 'Account information incorrect']);
         }
@@ -148,7 +148,7 @@ class RegisterController extends Controller
             'firstname' => $data['firstname'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => $data['password'],
             'username' => $data['username'],
             'mobile' => $data['mobile'],
             'bank_id' => $data['bank_id'],
@@ -185,9 +185,13 @@ class RegisterController extends Controller
     }
     public function handleStockistApplication(Request $request)
     {
+        // dd($request->all());
         $validatedData = $request->validate([
+            'title' => 'required|string',
+            'passport' => 'required|mimes:jpeg,jpg,png',
             'firstname' => 'required|string|max:60',
             'lastname' => 'required|string|max:60',
+            'gender'   => 'required|string',
             'country' => 'required|string|max:80',
             'email' => 'required|string|email|max:160|unique:users',
             'mobile' => 'required|string|max:30|unique:users',
@@ -196,11 +200,21 @@ class RegisterController extends Controller
             'address' => 'required|string|max:300',
             'bank_id' => 'required|gte:1',
             'account_number' => 'required|string|min:9|max:20',
-            'zip' => 'string',
+            'store_country' => 'required|string',
+            'store_state' => 'required|string',
+            'store_city' => 'required|string',
+            'store_address' => 'required|string',
+            'store_zip' => 'required|string',
+
         ]);
+
+        if ($request->hasFile('passport')) {
+            $validatedData['passport'] = now() . '.' . $request->file('passport')->extension();
+            $request->file('passport')->move(public_path(config('constants.stockist_passport')), $validatedData['passport']);
+        }
         $stockist = StockistApplication::create($validatedData);
         $recipient = $this->peach->createRecipient($stockist);
-        if(!$recipient) {
+        if (!$recipient) {
             return redirect()->back()->withInput()
                 ->withErrors(['incorrect_account' => 'Account information incorrect']);
         }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -27,6 +28,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'address' => 'object',
+        'stockist_address' => 'object',
         'ver_code_send_at' => 'datetime'
     ];
 
@@ -83,27 +85,38 @@ class User extends Authenticatable
     }
 
 
-    public function my_level(){
-        return $this->hasOne(Plan::class,'id', 'plan_id')->withDefault();
+    public function my_level()
+    {
+        return $this->hasOne(Plan::class, 'id', 'plan_id')->withDefault();
     }
 
-    public function last_login(){
-        return $this->hasOne(UserLogin::class, 'user_id','id')->latest()->first();
+    public function last_login()
+    {
+        return $this->hasOne(UserLogin::class, 'user_id', 'id')->latest()->first();
     }
 
-    public function scopeInactive($query){
-        return $query->where('status',0)->latest();
+    public function scopeInactive($query)
+    {
+        return $query->where('status', 0)->latest();
     }
-    public function payoutHistories(){
+
+    public function setPasswordAttribute($value)
+    {
+        return $this->attributes['password'] = Hash::make($value);
+    }
+    public function payoutHistories()
+    {
         return $this->hasMany(PayoutHistory::class);
     }
-    public function lastSuccessfulPayout($status=1){
+    public function lastSuccessfulPayout($status = 1)
+    {
         return $this->payoutHistories()
             ->where('status', '=', $status)
             ->orderBy('created_at', 'desc')
             ->first();
     }
-    public function recipients() {
+    public function recipients()
+    {
         return $this->hasMany(Recipient::class);
     }
 }

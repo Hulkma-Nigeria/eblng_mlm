@@ -3,51 +3,73 @@
 @section('style')
 <style>
     .carousel {
-        top: 97px;
+        top: 84px;
         padding-bottom: 3px;
         margin-bottom: 18px;
 
     }
     .carousel-item>img{
-        height: 650px;
+        height: 580px;
     }
 
     @media(max-width:992px){
+        .carousel {
+            top: 84px;
+        }
         .carousel-item>img {
             height: 450px;
-    }
+        }
     }
 
     @media(max-width:768px){
+        .carousel {
+            top: 106px;
+        }
         .carousel-item>img {
             height: 350px;
         }
     }
 
     @media(max-width:480px){
-        .carousel-item>img {
-            height: 250px;
+        .carousel {
+            top: 106px;
         }
+        .carousel-item>img {
+            height: 235px;
+        }
+    }
+
+    .swiper-wrapper:hover{
+        animation-play-state: paused;
+    }
+    .product-title {
+        font-size: .9em !important;
+        font-weight: 600;
+    }
+
+    .product-description {
+        font-size: .7em !important;
+        font-weight: 400;
+        text-align: justify !important;
+    }
+
+    .price h5 {
+        font-size: 1em !important;
+    }
+    .product-img {
+        width: 250px !important;
+        height: 200px !important;
+    }
+
+    .padding-bottom, .padding-top {
+        padding-bottom: 5px;
+        padding-top: 75px
     }
 </style>
 
 @endsection
 @section('content')
-
-
-
-{{-- <div class="slide-banner swiper-container">
-    <div class="swiper-wrapper">
-      <div class="swiper-slide"><img src="https://via.placeholder.com/1200" alt=""></div>
-      <div class="swiper-slide"><img src="https://via.placeholder.com/1200" alt=""></div>
-    </div>
-    <!-- Add Pagination -->
-    <div class="swiper-pagination"></div>
-    <!-- Add Arrows -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-</div> --}}
-<div id="carouselExampleIndicators" class="carousel slide w-100"  data-ride="carousel" data-interval="2000">
+<div id="carouselExampleIndicators" class="carousel slide w-100 mb-5"  data-ride="carousel" data-interval="3500">
     <ol class="carousel-indicators">
         @foreach ($sliders as $slider)
         <li data-target="#carouselExampleIndicators" data-slide-to="" class="@if($loop->index == 0)active @endif"></li>
@@ -74,33 +96,7 @@
     </a>
   </div>
 
-
-<section id="about" class="about-section padding-bottom padding-top bg_img"
-data-background="./assets/images/shape/shape01.png"
-data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical">
-<div class="container">
-    <div class="about-wrapper">
-        <div class="about-thumb">
-            <div class="c-thumb">
-                <img src="{{ get_image(config('constants.frontend.about.title.path') .'/'. $about->value->image) }}" alt="about">
-            </div>
-        </div>
-        <div class="about-content">
-            <div class="section-header left-style mw-620">
-                <div class="left-side">
-                    <h2 class="title">@lang($about->value->title)</h2>
-                </div>
-                <div class="right-side">
-                    <p>@php echo $about->value->detail; @endphp</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-</section>
-
-<section id="how-it-works" class="service-section padding-top padding-bottom bg-f8">
+  <section id="how-it-works" class="service-section padding-top padding-bottom bg-f8">
     <div class="container">
         <div class="section-header">
             <div class="left-side">
@@ -128,6 +124,75 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
         </div>
     </div>
 </section>
+
+@if(isset($products))
+<section id="products" class="about-section container padding-bottom padding-top"
+
+    >
+    <div class="container">
+        <div class="section-header">
+            <div class="left-side">
+                <h2 class="title">Our Showroom</h2>
+            </div>
+            <div class="right-side">
+               <p>Flip through our quality Products, Prices, Product Rates to make purchase decisions</p>
+            </div>
+    </div>
+    <div class="client-slider-area-wrapper wow slideInUp">
+        <div class="client-slider-area  product-slide">
+            <div class="swiper-wrapper">
+                @foreach($products->all() as $product)
+                <div class="swiper-slide">
+                        <div class="client-item">
+                            <div class="">
+                                <img class="product-img img-responsive" src="{{ get_image(config('constants.product_image_path') .'/'. $product->images) }}" alt="Vans">
+                              <div class="card-body">
+                                <h6 class="card-title product-title ">{{$product->name}}</h6>
+                                <div class="card-text product-description">
+                                {{Str::limit($product->description,500)}}
+                                </div>
+                                <div class="buy d-flex justify-content-between align-items-center">
+                                  <div class="price text-success"><h5 class="mt-2">{{$general->cur_sym}}{{formatter_money($product->price)}}</h5></div>
+                                  <div class="price text-success"><h5 class="mt-2">PR:{{$product->point_value}}</h5></div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+</section>
+@endif
+
+<section id="about" class="service-section padding-bottom padding-top bg_img"
+data-background="./assets/images/shape/shape01.png"
+data-paroller-factor=".5" data-paroller-type="background" data-paroller-direction="vertical">
+<div class="container">
+    <div class="about-wrapper">
+        <div class="about-thumb">
+            <div class="c-thumb">
+                <img src="{{ get_image(config('constants.frontend.about.title.path') .'/'. $about->value->image) }}" alt="about">
+            </div>
+        </div>
+        <div class="about-content">
+            <div class="section-header left-style mw-620">
+                <div class="left-side">
+                    <h2 class="title">@lang($about->value->title)</h2>
+                </div>
+                <div class="right-side">
+                    <p>@php echo $about->value->detail; @endphp</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</section>
+
+
 {{-- <section id="plan" class="pricing-section padding-bottom padding-top">
     <div class="container">
         <div class="section-header">
@@ -214,7 +279,7 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                 @endforeach
             </div>
         </div>
-    </section>--}}
+</section>--}}
  <section class="testimonial-section padding-bottom padding-top ">
         <div class="container">
             <div class="section-header">
@@ -225,13 +290,13 @@ data-paroller-factor=".5" data-paroller-type="background" data-paroller-directio
                     <p>@lang($testimonial_title->value->subtitle) </p>
                 </div>
             </div>
-            <div class="client-slider-area-wrapper wow slideInUp">
-                <div class="client-slider-area">
+            <div class="client-slider-area-wrapper wow slideInUp ">
+                <div class="client-slider-area testimonials-slide">
                     <div class="swiper-wrapper">
                         @foreach($testimonial as $data)
                         <div class="swiper-slide">
                             <div class="client-item">
-                                <div class="client-quote">
+                                <div class="client-quote mb-5">
                                     <i class="flaticon-left-quote-sketch"></i>
                                 </div>
                                 <p>@lang($data->value->quote)</p>
