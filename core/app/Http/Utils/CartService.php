@@ -166,10 +166,10 @@ class CartService
                 break;
         }
         $user = auth()->user();
-        if (!$user->my_level()->first()) {
-            $notify[] = ['error', 'You need to purchase a plan to start buying products'];
-            return redirect()->route('user.plan.purchase')->withNotify($notify);
-        }
+        // if (!$user->my_level()->first()) {
+        //     $notify[] = ['error', 'You need to purchase a plan to start buying products'];
+        //     return redirect()->route('user.plan.purchase')->withNotify($notify);
+        // }
         $cartMetaData = $this->getCartMetaData($cart);
         if ($cartMetaData->cartTotal > $user->balance) {
             $notify[] = ['error', 'Insufficient balance'];
