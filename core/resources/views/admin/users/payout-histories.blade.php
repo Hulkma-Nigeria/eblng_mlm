@@ -25,7 +25,7 @@
                             </tr>
                         @empty
                         <tr>
-                            <td class="text-muted text-center" colspan="100%">{{ $empty_message }}</td>
+                            <td class="text-muted text-center" colspan="100%">No histories yet</td>
                         </tr>
                         @endforelse
                     </tbody>

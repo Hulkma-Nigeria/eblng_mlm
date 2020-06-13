@@ -11,5 +11,5 @@ interface PeachInterface
 {
     function createRecipient(User $user, $authorization_code=''): bool;
     function saveBanks();
-    function sendMoneyToUser(User $recipient, $amount, $reason = ''): bool;
+    function sendMoneyToUser(User $recipient, $amount, $reason = '');
 }
