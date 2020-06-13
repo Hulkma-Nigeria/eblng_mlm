@@ -83,6 +83,9 @@ class CheckoutController extends Controller
         ]);
 
         $user = User::where('username', $request->buyer_username)->first();
+        if(!$user){
+            return back()->withErrors(['notify' => ['The order does not have a buyer']]);
+        }
         if ($user->access_type == 'general') {
             return back()->withErrors(['notify' => ['User ' . $user->fullname . ' is a general and cannot buy products                       ']]);
         }
@@ -90,7 +93,7 @@ class CheckoutController extends Controller
             return back()->withErrors(['notify' => ['User ' . $user->fullname . ' deos not have an active plan to buy products']]);
         }
 
-        return $this->cartService->checkout($request);
+        return $this->cartService->checkout($request, $user);
     }
 
     /**

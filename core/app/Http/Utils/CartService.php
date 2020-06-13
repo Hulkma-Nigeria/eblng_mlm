@@ -137,7 +137,7 @@ class CartService
         //        dd($products);
         return [$products, $cartMetaData->cartTotal, $cartMetaData->pointValue, $cart];
     }
-    public function checkout(Request $request)
+    public function checkout(Request $request, $buyer)
     {
         $buyer_username = $request->buyer_username;
         $action_type = $request->action_type;
@@ -177,7 +177,7 @@ class CartService
         }
         $user->update(['balance' => $user->balance - $cartMetaData->cartTotal]);
         $this->logTransaction($user, $cartMetaData->cartTotal, 'Fresh Order payment', 'payment', $cart->reference_no ?? 'FS677D79SHS');
-        $data = ['status' => PENDING, 'address' => $address, 'other_info' => $other_info];
+        $data = ['status' => PENDING, 'address' => $address, 'other_info' => $other_info,'buyer_id'=>$buyer->id];
         $cart->update($data);
         $cart->cartItems()->each(function (CartItem $cartItem) {
             $cartItem->update(['status' => PENDING]);
@@ -243,7 +243,7 @@ class CartService
             return back()->withNotify($notify);
         }
         if ($cart->status === COMPLETED && $status === FAILED) {
-            $notify[] = ['error', 'You can only fail an in complete order'];
+            $notify[] = ['error', 'You can only fail an in-complete order'];
             return back()->withNotify($notify);
         }
         if ($cart->status !== FAILED && $status === REVIVE) {
