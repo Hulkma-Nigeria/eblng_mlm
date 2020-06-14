@@ -78,7 +78,7 @@ class Peach implements PeachInterface
         $data = array(
             'source' => 'balance',
             'reason' => $reason,
-            'amount' => $amount,
+            'amount' => $amount*100,
             'recipient' => $recipient->code
         );
         ProcessPayout::dispatchNow($this, $user, $data);
