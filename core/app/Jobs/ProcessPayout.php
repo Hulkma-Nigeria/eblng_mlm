@@ -7,7 +7,6 @@ use App\Helpers\Peach;
 use App\PayoutHistory;
 use App\Traits\Curl;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -45,7 +44,6 @@ class ProcessPayout implements ShouldQueue
      */
     public function handle()
     {
-
         $response = $this->curl(PaystackEndpoints::Transfer, $this->data);
         $payout_history = new PayoutHistory([
             'amount' => $this->data['amount'],
