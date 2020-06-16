@@ -29,7 +29,6 @@ class ProcessPayout implements ShouldQueue
      */
     public function __construct(Peach $peach, User $user, array $data)
     {
-        // dd('the construct');
         Log::info('public function __construct');
         $this->api = config('paystack.paymentUrl').'/';
         $this->user = $user;
@@ -51,6 +50,9 @@ class ProcessPayout implements ShouldQueue
             'status' => $response->status,
             'pv' => $this->user->point_value ?? 0
         ]);
+        if($response->status) {
+            $this->user->update(['point_value' => 0]);
+        }
         $this->user->payoutHistories()->save($payout_history);
     }
 }
