@@ -80,6 +80,8 @@ Route::middleware('auth')->name('user.')->prefix('user')->group(function () {
 
     // GENERAL ROUTES FOR BOTH MEMBERS AND GENERALS
     Route::middleware(['allow:member,general'])->group(function () {
+        Route::get('messages', 'MemberController@messages')->name('messages');
+        Route::get('message/{message}', 'MemberController@message')->name('message');
         Route::post('update-js-price','UserProductController@updatePrice');
         Route::get('authorization', 'AuthorizationController@authorizeForm')->name('authorization');
         Route::get('resend-verify', 'AuthorizationController@sendVerifyCode')->name('send_verify_code');
@@ -309,7 +311,8 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::resource('products', 'ProductsController');
 
 
-
+        // Message management
+        Route::resource('messages', 'MessagesController');
 
 
         // Login History
@@ -325,6 +328,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
         //PAYMENT SYSTEM
         Route::post('user/manual-payment/{user}', 'PaymentController@manualPayment')->name('users.manual-payment');
+        Route::post('all/automatic-payment', 'PaymentController@automaticPayment')->name('users.automatic-payment');
         Route::get('users/payout-histories', 'PaymentController@payoutHistories')->name('users.payout-histories');
 
 

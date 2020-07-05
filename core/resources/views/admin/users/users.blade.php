@@ -65,12 +65,27 @@
 @endsection
 
 @push('breadcrumb-plugins')
-    <form action="{{ route('admin.users.search', $scope ?? str_replace('admin.users.', '', request()->route()->getName())) }}" method="GET" class="form-inline">
-        <div class="input-group has_append">
-            <input type="text" name="search" class="form-control" placeholder="Username or email" value="{{ $search ?? '' }}">
-            <div class="input-group-append">
-                <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
-            </div>
+    <div class="d-flex">
+        <div>
+            <form action="{{ route('admin.users.search', $scope ?? str_replace('admin.users.', '', request()->route()->getName())) }}" method="GET" class="form-inline">
+                <div class="input-group has_append">
+                    <input type="text" name="search" class="form-control" placeholder="Username or email" value="{{ $search ?? '' }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="ml-3">
+            <form action="{{ route('admin.users.automatic-payment') }}" method="POST" class="form-inline">
+                @csrf
+                <div class="input-group has_append">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" type="submit"><i class="fa fa-money"></i> Automatic Pay all PVs</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
 @endpush

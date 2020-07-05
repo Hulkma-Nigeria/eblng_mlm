@@ -168,7 +168,7 @@ class ProductsController extends Controller
                 'price' =>  'required|integer',
                 'stock_alert'   =>  'integer',
                 'description'   =>  'string|min:450|max:450',
-                'image' => $rule . 'required|dimensions:width=600,height=600|image|mimes:jpeg,png,jpg|max:2048'
+                'image' => $rule . 'required|image|mimes:jpeg,png,jpg|max:2048'
             ]
         );
     }

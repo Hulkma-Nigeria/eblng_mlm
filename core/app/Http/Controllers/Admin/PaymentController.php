@@ -16,10 +16,21 @@ class PaymentController extends Controller
     {
         $this->peach = new Peach();
     }
-
     public function manualPayment(User $user) {
         return $this->peach->payUser($user);
     }
+    public function automaticPayment() {
+        $userRepo  = new User();
+        $users  = $userRepo->where(['access_type' => 'general'])->orWhere(['access_type' => 'member'])->get();
+        $users->each(function (User $user){
+            if ($user->point_value > 0) {
+                $this->peach->payUser($user);
+            }
+        });
+        $notify[] = ['success', 'Automatic payment initiated for all users with PV greater than 0'];
+        return back()->withNotify($notify);
+    }
+
     public function payoutHistories() {
         $payouts = PayoutHistory::all();
         $page_title = 'Payout Histories';
