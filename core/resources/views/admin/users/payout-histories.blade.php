@@ -13,6 +13,7 @@
                             <th scope="col">PV</th>
                             <th scope="col">Narration</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Date</th>
                         </tr>
                     </thead>
                     <tbody class="list">
@@ -22,6 +23,7 @@
                                 <td>{{$payout->pv}}</td>
                                 <td>{{$payout->narration}}</td>
                                 <td>{{$payout->status ? 'Success': 'Failed'}}</td>
+                                <td>{{$payout->created_at}}</td>
                             </tr>
                         @empty
                         <tr>

@@ -92,6 +92,12 @@
             @endif
             @if (auth()->user()->access_type == 'general')
 
+            <li class="nav-item {{ sidenav_active('user.messages') }}">
+                <a href="{{route('user.messages')}}" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-envelope text-facebook"></i></span>
+                    <span class="menu-title">@lang('Messages')</span>
+                </a>
+            </li>
             <li class="nav-item {{ sidenav_active('user.product') }}">
                 <a href="{{route('user.product')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-sitemap text-facebook"></i></span>
@@ -146,6 +152,12 @@
             @endif
 
             @if (auth()->user()->access_type == 'member')
+            <li class="nav-item {{ sidenav_active('user.messages') }}">
+                <a href="{{route('user.messages')}}" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-envelope text-facebook"></i></span>
+                    <span class="menu-title">@lang('Messages')</span>
+                </a>
+            </li>
             <li class="nav-item {{ sidenav_active('user.ref.index') }}">
                 <a href="{{route('user.ref.index')}}" class="nav-link">
                     <span class="menu-icon"><i class="fa fa-users text-facebook"></i></span>

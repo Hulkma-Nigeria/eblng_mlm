@@ -48,7 +48,8 @@ class ProcessPayout implements ShouldQueue
             'amount' => $this->data['amount'],
             'narration' => $this->data['reason'],
             'status' => $response->status,
-            'pv' => $this->user->point_value ?? 0
+            'pv' => $this->user->point_value ?? 0,
+            'meta' => json_encode($response)
         ]);
         if($response->status) {
             $this->user->update(['point_value' => 0]);

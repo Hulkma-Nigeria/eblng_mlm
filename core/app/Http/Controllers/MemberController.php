@@ -7,6 +7,7 @@ use App\Deposit;
 use App\GeneralSetting;
 use App\Http\Utils\CartService;
 use App\Lib\GoogleAuthenticator;
+use App\Message;
 use App\Rules\FileTypeValidate;
 use App\SupportTicket;
 use App\Trx;
@@ -442,5 +443,24 @@ class MemberController extends Controller
         $data['cart'] =  $cart;
         $data['cartItems'] = $cart->cartItems()->get();
         return view(activeTemplate() . 'user.orders.order', $data);
+    }
+    function messages()
+    {
+        $role = auth()->user()->access_type;
+        $messageModel = new Message();
+        $messages = $messageModel->where([['status', '!=', 0]])->where(['target' => $role])->orWhere(['target' => 'everyone'])->orderBy('created_at', 'desc')->get();
+        $empty_message = 'No messages to show!';
+        $page_title = 'Messages';
+        return view(activeTemplate() . 'user.messages.list', compact('messages', 'empty_message', 'page_title'));
+    }
+    function message(Request $request, Message $message)
+    {
+        $role = auth()->user()->access_type;
+        if ($role != 'admin' && $message->target != $role && $message->target != 'everyone' && $message->status != 0) {
+            return abort(401);
+        }
+        $empty_message = 'No message to show!';
+        $page_title = $message->title;
+        return view(activeTemplate() . 'user.messages.show', compact('message', 'empty_message', 'page_title'));
     }
 }

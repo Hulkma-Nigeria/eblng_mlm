@@ -69,6 +69,27 @@
             {{-- /PRODUCT MANAGEMENT --}}
 
 
+
+            {{-- MESAGE MANAGEMENT --}}
+            <li class="nav-item {{ sidenav_active('admin.messages.index') }}{{ sidenav_active('admin.messages.index') }}">
+                <a data-default-url="" class="nav-link">
+                    <span class="menu-icon"><i class="fa fa-gift text-facebook"></i></span>
+                    <span class="menu-title">Manage Messages</span>
+                    <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                </a>
+
+                <ul class="sub-menu">
+                    <li class="nav-item {{ sidenav_active('admin.messages.index') }}">
+                        <a class="nav-link" href="{{ route('admin.messages.index') }}">
+                            <span class="mr-2"><i class="fa fa-angle-right"></i></span>
+                            <span class="menu-title">List Message</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            {{-- /PRODUCT MANAGEMENT --}}
+
+
             {{-- ORDER MANAGEMENT --}}
             <li class="nav-item {{ sidenav_active('admin.orders*') }}">
                 <a href="#" class="nav-link">
