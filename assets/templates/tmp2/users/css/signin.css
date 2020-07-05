@@ -1,9 +1,12 @@
+label,.frm-group label, forget-pass a {
+  color:white !important;
+}
 .signin-section {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #2b343e;
+  background-color: white;
   position: relative;
 }
 .signin-section::before {
@@ -13,14 +16,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: #8E2DE2;
-  background: -webkit-linear-gradient(to left, #4A00E0, #8E2DE2);
-  background: linear-gradient(to left, #4A00E0, #8E2DE2);
+  background: white;
+  /* background: -webkit-linear-gradient(to left, #4A00E0, #8E2DE2); */
+  /* background: linear-gradient(to left, #ffffff, #dddddd); */
   opacity: 0.65;
 }
 .login-area {
   padding: 50px 50px;
-  background-color: #4618ae;
+  background-color: #32b565;
   color: #98a6ad!important;
   box-shadow: 0 2px 30px 0 rgba(0,0,0,0.2);
   border-radius: 5px;
@@ -40,25 +43,33 @@
 	margin-top: 50px;
 }
 .login-area .login-form .frm-grp input, .signin-textarea  {
-  border: 1px solid #5220c5 !important;
+  /* border: 1px solid #5220c5 !important; */
   width: 100% !important;
   padding: 12px 20px !important;
-  color: #ffffff  !important;
+  color: #262729  !important;
   z-index: 9 !important;
-  background-color: #3c139c  !important;
-  border-radius: 3px !important
+  background-color: #ddd  !important;
+  border-radius: 5px !important
 }
-.login-area .login-form .frm-grp input::-webkit-input-placeholder, .signin-textarea::-webkit-input-placeholder {
-  color: #ffffff80 !important;
+.login-area .login-form .frm-grp input::-webkit-input-placeholder,
+.login-area .login-form .frm-grp select::-webkit-input-placeholder,
+ .signin-textarea::-webkit-input-placeholder {
+  color: #262729 !important;
 }
-.login-area .login-form .frm-grp input::-moz-placeholder, .signin-textarea::-moz-placeholder {
-  color: #ffffff80 !important;
+.login-area .login-form .frm-grp input::-moz-placeholder,
+.login-area .login-form .frm-grp select::-webkit-input-placeholder,
+.signin-textarea::-moz-placeholder {
+  color: #262729 !important;
 }
-.login-area .login-form .frm-grp input:-ms-input-placeholder, .signin-textarea:-ms-input-placeholder {
-  color: #ffffff80 !important;
+.login-area .login-form .frm-grp input:-ms-input-placeholder, 
+.login-area .login-form .frm-grp select::-webkit-input-placeholder,
+.signin-textarea:-ms-input-placeholder {
+  color: #262729 !important;
 }
-.login-area .login-form .frm-grp input:-moz-placeholder, .signin-textarea:-moz-placeholder{ 
-  color: #ffffff80 !important;
+.login-area .login-form .frm-grp input:-moz-placeholder,
+.login-area .login-form .frm-grp select::-webkit-input-placeholder,
+.signin-textarea:-moz-placeholder{ 
+  color: #262729 !important;
 }
 .login-area .login-form .btn-area {
   margin: 30px -10px -8px -10px;
@@ -101,7 +112,7 @@
 .login-area .login-form .forget-pass {
   font-weight: 400;
   font-size: 14px;
-  color: #14abef;
+  color: #fff;
 }
 
 .login-area .login-form label[for="checkbox"] {
@@ -173,7 +184,8 @@
 }
 .admin-brand-text {
   position: relative;
-  background-color: #4618ae;
+  /* background-color:; */
+  color:white;
   padding: 10px 20px;
   z-index: 9;
   font-size: 16px;

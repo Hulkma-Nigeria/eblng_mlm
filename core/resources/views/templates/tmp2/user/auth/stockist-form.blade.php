@@ -202,18 +202,17 @@
     }
 
     .registration-form-area .frm-grp label {
-        color: #98a6ad !important;
+        color: white !important;
         font-weight: 400;
     }
 
     .registration-form-area select {
-        border: 1px solid #5220c5;
+        /* border: 1px solid #5220c5; */
         width: 100%;
         padding: 12px 20px;
         color: #ffffff;
-        ;
         z-index: 9;
-        background-color: #3c139c;
+        background-color: #dddd;
         border-radius: 3px;
     }
 

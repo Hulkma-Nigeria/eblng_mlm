@@ -62,7 +62,7 @@
     </a>
 
     <header class="">
-        <div class="header-section" style="background: #000036; top:0;">
+        <div class="header-section" style="background: #32b565; top:0;">
             <div class="container">
                 <div class="header-area">
                     <div class="logo">

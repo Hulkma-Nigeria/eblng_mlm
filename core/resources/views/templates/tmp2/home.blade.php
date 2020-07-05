@@ -57,8 +57,8 @@
         font-size: 1em !important;
     }
     .product-img {
-        width: 250px !important;
-        height: 200px !important;
+        width: 350px !important;
+        height: 300px !important;
     }
 
     .padding-bottom, .padding-top {
@@ -149,7 +149,7 @@
                               <div class="card-body">
                                 <h6 class="card-title product-title ">{{$product->name}}</h6>
                                 <div class="card-text product-description">
-                                {{Str::limit($product->description,500)}}
+                                {{-- {{Str::limit($product->description,500)}} --}}
                                 </div>
                                 <div class="buy d-flex justify-content-between align-items-center">
                                   <div class="price text-success"><h5 class="mt-2">{{$general->cur_sym}}{{formatter_money($product->price)}}</h5></div>
